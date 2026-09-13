@@ -1,0 +1,28 @@
+{
+  "name": "bot-tinh-diem-ff",
+  "version": "1.0.0",
+  "description": "Bot Zalo tinh diem giai dau Free Fire tu dong ket noi Garena API",
+  "type": "module",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "cli": "node src/cli.js",
+    "test-garena": "node src/cli.js check"
+  },
+  "keywords": [
+    "zalo",
+    "bot",
+    "freefire",
+    "garena",
+    "scoring"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.8",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "tesseract.js": "^7.0.0",
+    "zca-js": "^2.1.2"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+.env
+zalo_session.json
+*.log
+scratch/
+bundle.js
+page.js
+assets/output/*
+assets/qrs/*

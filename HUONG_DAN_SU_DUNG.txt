@@ -1,0 +1,145 @@
+================================================================================
+          HƯỚNG DẪN SỬ DỤNG BOT ZALO TÍNH ĐIỂM FREE FIRE & QUẢN LÝ CUSTOM
+================================================================================
+
+1. YÊU CẦU HỆ THỐNG
+--------------------------------------------------------------------------------
+- Máy tính Windows (hoặc VPS Linux/macOS) đã cài Node.js (v18 trở lên).
+- Tài khoản Zalo trên điện thoại để quét mã QR đăng nhập Bot.
+- Tài khoản Garena để lấy Cookie từ trang: https://congdong.ff.garena.vn/tinh-diem
+
+
+2. CÀI ĐẶT & CẤU HÌNH LẦN ĐẦU
+--------------------------------------------------------------------------------
+- Cài đặt thư viện:
+    npm install
+
+- Cấu hình file .env:
+    GARENA_COOKIE="_ga=...; session=...; session.sig=...;"
+    BOT_PREFIX="!"
+    ZALO_SESSION_PATH="./zalo_session.json"
+    ADMIN_ONLY_COMMANDS="true"
+    ADMIN_WHITELIST=""
+
+
+3. CÁCH LẤY LẠI COOKIE GARENA KHI HẾT HẠN (LỆNH !check BÁO NGOẠI TUYẾN)
+--------------------------------------------------------------------------------
+1. Vào Chrome/Cốc Cốc mở: https://congdong.ff.garena.vn/tinh-diem
+2. Đăng nhập nick Garena.
+3. Bấm F12 -> Chọn thẻ "Network" (Mạng) -> Bấm F5 tải lại trang.
+4. Bấm vào một request bất kỳ -> Chọn thẻ "Headers" -> Kéo xuống mục "Request Headers".
+5. Tìm dòng "Cookie:" -> Copy toàn bộ chuỗi ký tự phía sau.
+6. Mở file .env -> Dán đè vào GARENA_COOKIE="..." -> Lưu lại file.
+
+
+4. CÁCH CHẠY BOT & ĐĂNG NHẬP ZALO
+--------------------------------------------------------------------------------
+- Khởi động Bot:
+    npm start
+    (hoặc: node src/bot.js)
+
+- Quét mã QR:
+    Lần đầu chạy, mã QR (qr.png) sẽ tự động mở lên màn hình.
+    Dùng app Zalo trên điện thoại quét mã và bấm xác nhận Đăng nhập.
+    Bot sẽ tự động lưu phiên vào file "zalo_session.json" (lần sau không cần quét lại).
+
+- Đổi tài khoản Bot / Đăng xuất:
+    Dùng chính nick Bot gõ lệnh: .dangxuat (hoặc chat riêng 1-1 với Bot: .dangxuat)
+    Bot sẽ tự xóa session và tắt. Chạy lại "npm start" để quét nick mới.
+
+
+5. PHÂN QUYỀN ADMIN TRONG NHÓM
+--------------------------------------------------------------------------------
+- Để tránh thành viên phá bot, mặc định chỉ có TRƯỞNG NHÓM và PHÓ NHÓM mới gõ được lệnh.
+- Lưu ý: Thăng quyền PHÓ NHÓM cho nick Bot để Bot có thể dùng được lệnh .kickall.
+
+
+6. BẢNG TỔNG HỢP CÁC LỆNH QUẢN LÝ SLOT CUSTOM (12 SLOT, ĐA BẢNG)
+--------------------------------------------------------------------------------
+Tiền tố hỗ trợ: dấu chấm (.), chấm than (!), hoặc gạch chéo (/):
+
+- THÊM TUYỂN THỦ:
+  .tên1, tên2...             : Thêm tuyển thủ vào bảng hiện tại.
+                               Ví dụ: .Văn Thịnh 1, Văn Thịnh 2, Bi (hoặc .quy, phu)
+  .b tên1, tên2...           : Thêm trực tiếp vào Bảng B (hoặc .a, .c, .b1...)
+
+- QUẢN LÝ PHÍ & TRẠNG THÁI:
+  .phi <số_slot>             : Đánh dấu đã đóng phí (icon 💸). Ví dụ: .phi 8 hoặc .phi 1 2 3
+  .hen <số_slot>             : Đánh dấu hẹn phí (icon ⏰). Ví dụ: .hen 8
+  .xoa <số_slot>             : Hủy tuyển thủ ở slot. Ví dụ: .xoa 3 hoặc .xoa 3 5 7
+
+- CẤU HÌNH PHÒNG:
+  .taocus [giờ] [giá] [bảng] : Tạo giải custom mới. Ví dụ: .taocus 8h 6k A
+  .ctk <tên>                 : Đổi tên CTK + Bill. Ví dụ: .ctk LE DAI QUY
+  .box <tên>                 : Đổi tên Box. Ví dụ: .box BOX CUSTOM ĐQ
+  .link <url>                : Gắn link nhóm IDMK vào cuối bảng. (gõ .link xoa để bỏ)
+
+- XEM BẢNG:
+  .xemslot / .cus / .ds      : Xem lại bảng 12 slot hiện tại.
+  .all hoặc .dsall           : Xem gộp TẤT CẢ các bảng cùng lúc (Bảng A, B, C...).
+  .chon <bảng>               : Chuyển sang quản lý bảng khác (Ví dụ: .chon B).
+  .xoabang <bảng>            : Xóa một bảng không dùng (Ví dụ: .xoabang B).
+
+
+7. LỆNH TÍNH ĐIỂM GARENA (TỰ ĐỘNG VẼ ẢNH BẢNG XẾP HẠNG)
+--------------------------------------------------------------------------------
+1. TÍNH ĐIỂM THEO KHUNG GIỜ (8 Khung giờ chuẩn):
+   - Cú pháp: .td <UID>
+     Ví dụ: .td 1043310641
+     Bot sẽ hiện menu 8 khung giờ (1: 13h-15h, 2: 15h-17h, 3: 17h-19h, 4: 20h-21h30,
+     5: 21h40-23h, 6: 23h30-1h, 7: 1h-3h, 8: 10h-12h).
+     Bạn chỉ cần trả lời số từ 1 đến 8.
+   - Tính nhanh: .td <UID> <KhungGiờ> [Ngày]
+     Ví dụ: .td 1043310641 6 (khung 6 hôm nay)
+     Ví dụ: .td 1043310641 4 08/09 (khung 4 ngày 08/09)
+   - MẸO TRÊN ĐIỆN THOẠI: Trượt tin nhắn (Quote) chứa UID qua và gõ: td 1 hoặc td
+
+2. CÁC LỆNH TRA CỨU KHÁC:
+   !diem <ID_Trận>           : Xem chi tiết điểm của 1 trận.
+                               Ví dụ: !diem 2096072125441953792
+   !tongdiem <ID1> <ID2>...  : Tính tổng điểm nhiều trận và xuất ảnh BXH (hoặc gõ .bxh).
+                               Ví dụ: !tongdiem 12345 12346 12347
+   !timtran <UID> [số_ngày]  : Tìm các ID trận gần nhất của người chơi.
+                               Ví dụ: !timtran 1043310641 7
+   !check                    : Kiểm tra trạng thái Cookie Garena.
+   !help                     : Xem bảng menu hướng dẫn tóm tắt.
+
+
+8. CHỌN & XEM TRƯỚC MẪU PHÔI BẢNG XẾP HẠNG
+--------------------------------------------------------------------------------
+- .mau                       : Xem danh sách các mẫu phôi và mẫu nhóm đang dùng.
+- .mau #1 đến .mau #8        : Đổi sang mẫu tương ứng cho riêng nhóm này (lưu độc lập từng nhóm,
+                                Mẫu 1: Cus Cỏ, Mẫu 2: Ngang 2 cột, Mẫu 3: 4 Map, Mẫu 4: Vàng Đen, Mẫu 5: Xanh Lam, Mẫu 6: Naruto, Mẫu 7: Phú Quý Đồng Hồ, Mẫu 8: Custom PQ 4 Map).
+- .xemmau                    : Gửi ảnh của mẫu nhóm đang dùng ra nhóm.
+- .xemmau #4                 : Gửi ảnh xem trước của Mẫu số 4.
+- .xemmau all                : Gửi link Google Sheet kho phôi ảnh gốc.
+
+
+9. LỆNH LỌC THÀNH VIÊN (KICKALL)
+--------------------------------------------------------------------------------
+- Cú pháp: .kickall (hoặc !kickall, .locnhom)
+- Chức năng: Kick toàn bộ thành viên thường ra khỏi nhóm để chuẩn bị cho giải mới.
+- BẢO VỆ TUYỆT ĐỐI: Trưởng nhóm, các Phó nhóm, tài khoản Bot, người gõ lệnh.
+- Điều kiện: Bot phải được thăng quyền Phó nhóm trên Zalo.
+
+
+10. TỰ ĐỘNG GỬI QR NGÂN HÀNG & QUÉT BILL XẾP SLOT
+--------------------------------------------------------------------------------
+- Xin mã QR             : Nhắn "xin qr", "mã qr", "stk", "chuyển khoản", hoặc gõ .qr, .stk
+                           -> Bot tự gửi ảnh VietQR TPBank (1000 2610 909 - LE DAI QUY).
+- Quét Bill chuyển tiền : Chuyển tiền xong, chỉ cần GỬI ẢNH BILL VÀO NHÓM:
+                           + Gửi kèm "22h B" -> Xếp vào Bảng B ca 22h.
+                           + Gửi kèm "22h"   -> Xếp vào ca 22h (Bảng A đầy tự sang B).
+                           + Gửi kèm "B"     -> Xếp vào Bảng B ca gần nhất.
+                           + Không gửi chữ   -> Tự động vào bảng và ca gần nhất còn slot.
+- Tự động điền slot     : Tự lấy tên Zalo điền vào slot trống, gắn dấu ✅ và in bảng mới.
+- Chống gian lận        : Tự động từ chối nếu có người gửi lại bill cũ (trùng mã GD).
+
+
+11. CÔNG CỤ CLI (CHẠY TRÊN MÁY TÍNH KHÔNG CẦN BẬT ZALO)
+--------------------------------------------------------------------------------
+- Kiểm tra Garena      : node src/cli.js check
+- Xem điểm 1 trận      : node src/cli.js diem <ID_Trận>
+- Tính tổng điểm       : node src/cli.js tongdiem <ID1> <ID2>...
+- Tìm trận theo UID    : node src/cli.js timtran <UID> <số_ngày>
+================================================================================

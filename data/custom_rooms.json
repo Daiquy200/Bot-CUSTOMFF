@@ -1,0 +1,3444 @@
+{
+  "2542340226912335505": {
+    "activeTable": "D",
+    "tables": {
+      "B": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng B",
+        "time": "12h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Lê Đại Phú",
+            "uid": "6728079275333967495",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "Lê Đại Phú",
+            "uid": "6728079275333967495",
+            "status": "✅"
+          },
+          {
+            "id": 3,
+            "name": "quy",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789101152394
+      },
+      "C": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng C",
+        "time": "13h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "quy",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "doiqr",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789101298668
+      },
+      "N": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng N",
+        "time": "12h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Lê Đại Phú",
+            "uid": "6728079275333967495",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789101081298
+      },
+      "D": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng D",
+        "time": "6h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789101871969
+      }
+    },
+    "template": "mau_2"
+  },
+  "2812643649236577965": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789103179722
+      }
+    }
+  },
+  "9121024945636010801": {
+    "template": "mau_7",
+    "activeTable": "A1",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LEDAIQUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": "19h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789126050296
+      },
+      "A1": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LEDAIQUY",
+        "fee": "6k",
+        "table": "Bảng A1",
+        "time": "18h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789126087732
+      }
+    },
+    "bankAccount": "DAIQUY999999999",
+    "bankName": "VCB",
+    "adminCtk": "LEDAIQUY",
+    "qrImage": "D:\\CODE_DuAn\\botTinhDIem\\assets\\qrs\\qr_9121024945636010801.png",
+    "autoBill": false,
+    "botEnabled": true
+  },
+  "508667843211495850": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789103423028
+      }
+    }
+  },
+  "3789088867703463984": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": "1h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Hoàng Gia Bảo",
+            "uid": "3789088867703463984",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789105309404
+      }
+    }
+  },
+  "2890472303677551800": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789105606621
+      }
+    }
+  },
+  "test_group_123": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789107809864
+      }
+    },
+    "autoBill": true
+  },
+  "9067816248077658994": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789110267115
+      }
+    },
+    "botEnabled": false
+  },
+  "6229679648635954129": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789110668534
+      }
+    }
+  },
+  "5218937100850832584": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789112144453
+      }
+    }
+  },
+  "3681439024083248562": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789114219237
+      }
+    }
+  },
+  "5555592650350548412": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789116779826
+      }
+    }
+  },
+  "3095159700670996305": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789120558034
+      }
+    }
+  },
+  "9158733350256338111": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789120844509
+      }
+    }
+  },
+  "8193828224328025619": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789122957154
+      }
+    }
+  },
+  "7721839566357020196": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789128113938
+      }
+    }
+  },
+  "6675531202870445225": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789128119414
+      }
+    }
+  },
+  "9079204625127735026": {
+    "template": "mau_8",
+    "activeTable": "B",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": "20h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Lê Đại Phú",
+            "uid": "9079204625127735026",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "quy ne phu",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789199505505
+      },
+      "B": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng B",
+        "time": "21h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "quy ne",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "quy ne bay B",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789199493200
+      }
+    },
+    "botEnabled": true
+  },
+  "5622580309558703370": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789128147107
+      }
+    }
+  },
+  "2362760759983544007": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789128185555
+      }
+    }
+  },
+  "281778458737710820": {
+    "template": "mau_1",
+    "activeTable": "B",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": "20h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Võ Quốc Tài",
+            "uid": "7668298595805724006",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789129250055
+      },
+      "B": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng B",
+        "time": "21h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Lê Đại Quý",
+            "uid": "47900269586437799",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "Võ Quốc Tài",
+            "uid": "7668298595805724006",
+            "status": "✅"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789129261119
+      }
+    },
+    "botEnabled": true,
+    "hideCommand": true
+  },
+  "8834051699974413973": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789197865604
+      }
+    }
+  },
+  "7789252153175443477": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789197886695
+      }
+    }
+  },
+  "709919636077359063": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789199023307
+      }
+    }
+  },
+  "2404373588960936787": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789200761901
+      }
+    }
+  },
+  "8709380291578517968": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789290762582
+      }
+    }
+  },
+  "5552772705821933058": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789290821253
+      }
+    },
+    "botEnabled": true
+  },
+  "2280660561691297195": {
+    "template": "mau_3",
+    "activeTable": "B",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789291157265
+      },
+      "B": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng B",
+        "time": "19h",
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "Đông Khôi",
+            "uid": "5552772705821933058",
+            "status": "✅"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789292273820
+      }
+    },
+    "botEnabled": true
+  },
+  "4081439432423661737": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789291166925
+      }
+    }
+  },
+  "1971488477716757329": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789292230260
+      }
+    }
+  },
+  "2899261870133700657": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789297717570
+      }
+    }
+  },
+  "7440788933609937231": {
+    "template": "mau_1",
+    "activeTable": "A",
+    "tables": {
+      "A": {
+        "boxName": "BOX CUSTOM ĐQ",
+        "adminCtk": "LE DAI QUY",
+        "fee": "6k",
+        "table": "Bảng A",
+        "time": null,
+        "linkIdmk": "",
+        "slots": [
+          {
+            "id": 1,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 2,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 3,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 4,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 5,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 6,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 7,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 8,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 9,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 10,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 11,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          },
+          {
+            "id": 12,
+            "name": "",
+            "uid": "",
+            "status": "💸"
+          }
+        ],
+        "updatedAt": 1789298363127
+      }
+    }
+  }
+}

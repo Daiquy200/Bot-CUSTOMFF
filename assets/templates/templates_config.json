@@ -1,0 +1,73 @@
+{
+  "mau_8": {
+    "id": "mau_8",
+    "name": "Mẫu #8: Custom PQ (Dọc 12 hàng + 4 Map Thi Đấu)",
+    "file": "mau_8.png",
+    "type": "with_maps",
+    "rowY": [
+      356,
+      396,
+      436,
+      476,
+      516,
+      555,
+      594,
+      634,
+      673,
+      713,
+      752,
+      792
+    ],
+    "teamName": {
+      "x": 124,
+      "maxWidth": 236,
+      "align": "left",
+      "color": "#ffffff",
+      "fontSize": 17
+    },
+    "kill": {
+      "x": 420,
+      "align": "center",
+      "color": "#ffffff",
+      "fontSize": 19
+    },
+    "booyah": {
+      "x": 538,
+      "align": "center",
+      "color": "#ffd700",
+      "fontSize": 19
+    },
+    "totalPoints": {
+      "x": 655,
+      "align": "center",
+      "color": "#ffd700",
+      "fontSize": 21
+    },
+    "mapBoxes": [
+      {
+        "name": "Đảo Quân Sự",
+        "x": 118,
+        "y": 895,
+        "maxWidth": 155
+      },
+      {
+        "name": "Đảo Sa Mạc",
+        "x": 290,
+        "y": 895,
+        "maxWidth": 155
+      },
+      {
+        "name": "Đảo Thiên Đường",
+        "x": 463,
+        "y": 895,
+        "maxWidth": 155
+      },
+      {
+        "name": "Đảo Bình Minh",
+        "x": 637,
+        "y": 895,
+        "maxWidth": 155
+      }
+    ]
+  }
+}

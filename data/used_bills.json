@@ -1,0 +1,72 @@
+[
+  {
+    "id": "HASH_AA1D3B9935CD5D1A",
+    "amount": 6000,
+    "senderName": "Lê Đại Phú",
+    "senderId": "6728079275333967495",
+    "threadId": "2542340226912335505",
+    "tableKey": "B",
+    "slotIndex": 1,
+    "usedAt": 1789100680258
+  },
+  {
+    "id": "HASH_EE0DACFB5E5F3D77",
+    "amount": 6000,
+    "senderName": "Lê Đại Phú",
+    "senderId": "6728079275333967495",
+    "threadId": "2542340226912335505",
+    "tableKey": "B",
+    "slotIndex": 2,
+    "usedAt": 1789100792602
+  },
+  {
+    "id": "416V501262540039",
+    "amount": 6000,
+    "senderName": "Lê Đại Phú",
+    "senderId": "6728079275333967495",
+    "threadId": "2542340226912335505",
+    "tableKey": "N",
+    "slotIndex": 1,
+    "usedAt": 1789101081298
+  },
+  {
+    "id": "HASH_3F3E059DECAEE929",
+    "amount": 6000,
+    "senderName": "Lê Đại Quý",
+    "senderId": "9067816248077658994",
+    "threadId": "9121024945636010801",
+    "tableKey": "A",
+    "slotIndex": 1,
+    "usedAt": 1789104098179
+  },
+  {
+    "id": "HASH_F2DACA420168F060",
+    "amount": 6000,
+    "senderName": "Lê Đại Quý",
+    "senderId": "9067816248077658994",
+    "threadId": "9121024945636010801",
+    "tableKey": "A",
+    "slotIndex": 2,
+    "usedAt": 1789105087651
+  },
+  {
+    "id": "HASH_4D7B963247FC4EF5",
+    "amount": 25000,
+    "senderName": "Lê Đại Quý",
+    "senderId": "9067816248077658994",
+    "threadId": "9121024945636010801",
+    "tableKey": "A",
+    "slotIndex": 3,
+    "usedAt": 1789105301792
+  },
+  {
+    "id": "HASH_A834B1FDF9C466F8",
+    "amount": 25000,
+    "senderName": "Hoàng Gia Bảo",
+    "senderId": "3789088867703463984",
+    "threadId": "3789088867703463984",
+    "tableKey": "A",
+    "slotIndex": 1,
+    "usedAt": 1789105309405
+  }
+]
