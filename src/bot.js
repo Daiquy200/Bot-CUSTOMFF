@@ -2173,9 +2173,9 @@ class BotManager {
         if (subAction === 'huy' || subAction === 'cancel' || subAction === 'no') {
           if (pending) {
             this.pendingKickallConfirmations.delete(threadId);
-            await reply(`❌ Đã hủy bỏ yêu cầu lọc thành viên (.kickall) của nhóm!`);
+            await reply(`❌ Đã hủy yêu cầu .kickall của nhóm!`);
           } else {
-            await reply(`ℹ️ Hiện tại không có yêu cầu .kickall nào đang chờ xác nhận.`);
+            await reply(`ℹ️ Không có yêu cầu .kickall nào đang chờ.`);
           }
           return;
         }
@@ -2197,26 +2197,24 @@ class BotManager {
           });
 
           await reply(
-            `⚠️ CẢNH BÁO AN TOÀN LỆNH .kickall ⚠️\n` +
-            `👤 Người yêu cầu 1: ${senderName} (${perm.role})\n` +
-            `🛡️ Để đảm bảo an toàn tuyệt đối chống phá nhóm, lệnh này BẮT BUỘC CẦN 2 TRƯỞNG / PHÓ NHÓM KHÁC NHAU XÁC NHẬN!\n` +
-            `👉 Trưởng nhóm hoặc Phó nhóm thứ 2 vui lòng gõ:\n` +
-            `.kickall xacnhan (hoặc gõ .kickall) trong 2 phút để thực hiện.\n` +
-            `💡 Gõ ".kickall huy" để hủy bỏ yêu cầu.`
+            `⚠️ XÁC NHẬN KICKALL (1/2)\n` +
+            `👤 Yêu cầu: ${senderName} (${perm.role})\n` +
+            `👉 Trưởng/Phó nhóm 2 gõ: .kickall (trong 2p)\n` +
+            `💡 Gõ ".kickall huy" để hủy`
           );
           return;
         }
 
         // 2. Nếu chính người yêu cầu 1 gõ lại
         if (pending.firstAdminId === cleanSenderId) {
-          await reply(`⚠️ Bạn đã gửi yêu cầu trước đó rồi!\n👉 Cần một Trưởng nhóm hoặc Phó nhóm KHÁC xác nhận thì bot mới tiến hành lọc thành viên.`);
+          await reply(`⚠️ Bạn đã gửi yêu cầu. Cần Trưởng/Phó nhóm khác gõ .kickall xác nhận!`);
           return;
         }
 
         // 3. Người thứ 2 gõ xác nhận -> Kiểm tra xem người thứ 2 có phải là Trưởng/Phó nhóm không
         const secondPerm = await this.checkAdminPermission(threadId, threadType, senderId);
         if (!secondPerm.allowed) {
-          await reply(`⛔ Chỉ Trưởng nhóm hoặc Phó nhóm mới có quyền xác nhận thực hiện lệnh .kickall!`);
+          await reply(`⛔ Chỉ Trưởng nhóm hoặc Phó nhóm mới có quyền xác nhận!`);
           return;
         }
 
@@ -2226,10 +2224,10 @@ class BotManager {
         this.pendingKickallConfirmations.delete(threadId);
 
         await reply(
-          `✅ ĐÃ XÁC NHẬN ĐỦ 2 QUẢN TRỊ VIÊN:\n` +
-          `1️⃣ ${admin1Name} (${admin1Role})\n` +
-          `2️⃣ ${senderName} (${secondPerm.role})\n` +
-          `⚡ Bắt đầu tiến hành lọc toàn bộ thành viên thường khỏi nhóm...`
+          `✅ ĐÃ XÁC NHẬN (2/2)\n` +
+          `👤 QTV 1: ${admin1Name}\n` +
+          `👤 QTV 2: ${senderName}\n` +
+          `⚡ Bắt đầu lọc toàn bộ thành viên thường...`
         );
 
         try {

@@ -236,18 +236,22 @@ export function getSlotTimestamps(slotId, customDate = null) {
   return { slot, startTime, endTime, dateLabel };
 }
 
-/**
- * Định dạng menu chọn khung giờ giống mẫu (gọn 2 cột)
- */
 export function formatSlotMenu(accountId, requesterName = '') {
-  let text = `🤖 PQ BOT 🤖 - CHỌN CA (UID: ${accountId})\n`;
-  text += `1️⃣ 13h - 15h    | 2️⃣ 15h - 17h\n`;
-  text += `3️⃣ 17h - 19h    | 4️⃣ 20h - 21h30\n`;
-  text += `5️⃣ 21h40 - 23h  | 6️⃣ 23h30 - 1h\n`;
-  text += `7️⃣ 1h - 3h      | 8️⃣ 10h - 12h\n`;
-  text += `👉 Trượt tin nhắn trả lời số 1-8 (kèm xoaN nếu bỏ trận lỗi)\n`;
-  if (requesterName) text += `👤 Yêu cầu: ${requesterName}`;
-  return text;
+  let text = `📋 CHỌN KHUNG GIỜ (UID: ${accountId}):\n\n`;
+  text += `1️⃣ 13h - 15h\n`;
+  text += `2️⃣ 15h - 17h\n`;
+  text += `3️⃣ 17h - 19h\n`;
+  text += `4️⃣ 20h - 21h30\n`;
+  text += `5️⃣ 21h40 - 23h\n`;
+  text += `6️⃣ 23h30 - 1h\n`;
+  text += `7️⃣ 1h - 3h\n`;
+  text += `8️⃣ 10h - 12h\n\n`;
+  text += `👉 Hãy trượt tin nhắn này qua và trả lời số từ 1 đến 8\n`;
+  text += `💡 Mẹo bỏ trận lỗi: Trả lời kèm "xoaN" (ví dụ: "8 xoa1" để bỏ trận 1)\n`;
+  if (requesterName) {
+    text += `👤 Yêu cầu bởi: ${requesterName}`;
+  }
+  return text.trim();
 }
 
 /**
