@@ -7,3 +7,5 @@ bundle.js
 page.js
 assets/output/*
 assets/qrs/*
+qr*.png
+image.png

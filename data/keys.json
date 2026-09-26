@@ -1,0 +1,26 @@
+{
+  "ldq": {
+    "key": "ldq",
+    "ownerZaloId": "5723482788499331559",
+    "ownerName": "Lê Đại Quý",
+    "credits": 106,
+    "template": "bxhconan",
+    "totalCharged": 2000,
+    "createdAt": "2026-09-23T17:07:31.026Z",
+    "updatedAt": "2026-09-25T14:29:50.227Z",
+    "customTitle": "CUSTOM PQ",
+    "logoPath": "D:\\CODE_DuAn\\botTinhDIem - Copy\\assets\\logos\\logo_ldq.png"
+  },
+  "ldp": {
+    "key": "ldp",
+    "ownerZaloId": "3618669580951138738",
+    "ownerName": "Lê Đại Phú",
+    "credits": 78,
+    "template": "bxhconan",
+    "totalCharged": 2000,
+    "createdAt": "2026-09-23T17:09:28.412Z",
+    "updatedAt": "2026-09-25T14:33:19.572Z",
+    "customTitle": "CUSTOM PQ",
+    "logoPath": "D:\\CODE_DuAn\\botTinhDIem - Copy\\assets\\logos\\logo_ldp.png"
+  }
+}

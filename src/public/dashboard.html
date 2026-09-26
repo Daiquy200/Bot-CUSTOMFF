@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🤖 PQ BOT 🤖 - Bảng Điều Khiển Quản Trị Hệ Thống</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --bg-card: rgba(18, 24, 38, 0.75);
+      --bg-card-hover: rgba(26, 34, 54, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(0, 242, 254, 0.5);
+      --primary: #00f2fe;
+      --primary-glow: rgba(0, 242, 254, 0.25);
+      --secondary: #4facfe;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(79, 172, 254, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOPBAR */
+    header {
+      background: rgba(10, 13, 20, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #fff, #b8c8dd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--primary);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+      background: var(--bg-card);
+      color: var(--text-main);
+    }
+
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #050b14;
+      border: none;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.3);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-success .badge-dot { background: #34d399; box-shadow: 0 0 8px #34d399; }
+
+    .badge-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .badge-danger .badge-dot { background: #f87171; box-shadow: 0 0 8px #f87171; }
+
+    .badge-warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .badge-warning .badge-dot { background: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+
+    /* NAVIGATION TABS */
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 24px 0 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 13, 20, 0.5);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
+      border-radius: 8px 8px 0 0;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: rgba(0, 242, 254, 0.05);
+    }
+
+    /* CONTAINER */
+    main {
+      flex: 1;
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* GRID & CARDS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: #fff;
+      font-family: var(--font-mono);
+    }
+
+    /* FORMS */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      background: rgba(10, 13, 20, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    textarea {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* TERMINAL LOGS */
+    .terminal-box {
+      background: #06080e;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 580px;
+    }
+
+    .terminal-header {
+      background: rgba(18, 24, 38, 0.9);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .terminal-body {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .log-line {
+      margin-bottom: 4px;
+    }
+    .log-time { color: #64748b; margin-right: 8px; }
+    .log-info { color: #38bdf8; }
+    .log-warn { color: #facc15; }
+    .log-error { color: #f87171; font-weight: 600; }
+
+    /* TABLES */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5, 8, 15, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: #111726;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      padding: 28px;
+      text-align: center;
+    }
+
+    /* TOAST */
+    #toastContainer {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      animation: slideIn 0.3s ease;
+    }
+    .toast-success { background: #065f46; border: 1px solid #10b981; }
+    .toast-error { background: #7f1d1d; border: 1px solid #ef4444; }
+    .toast-info { background: #1e3a8a; border: 1px solid #3b82f6; }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* QR DISPLAY */
+    .qr-box {
+      background: #fff;
+      padding: 14px;
+      border-radius: 16px;
+      display: inline-block;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      margin: 16px 0;
+    }
+    .qr-box img {
+      max-width: 240px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🤖</div>
+      <div class="brand-text">
+        <h1>🤖 PQ BOT 🤖</h1>
+        <span>Bảng Điều Khiển VPS Quản Trị Từ Xa</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div id="vpsUptimeBadge" class="badge badge-success">
+        <span class="badge-dot"></span> VPS Online
+      </div>
+      <button class="btn btn-danger" onclick="logoutDashboard()">
+        🔒 Đăng xuất
+      </button>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('overview')">📊 Tổng Quan</button>
+    <button class="tab-btn" onclick="switchTab('cookie')">🍪 Garena & Cookie</button>
+    <button class="tab-btn" onclick="switchTab('zalo')">📱 Zalo Bot & Quét QR</button>
+    <button class="tab-btn" onclick="switchTab('boxes')">📦 Box Cho Phép</button>
+    <button class="tab-btn" onclick="switchTab('terminal')">🖥️ Terminal Logs Live</button>
+    <button class="tab-btn" onclick="switchTab('keys')">🔑 Quản Lý Key & Lượt</button>
+    <button class="tab-btn" onclick="switchTab('announcement')">📢 Thông Báo Tự Động</button>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main>
+
+    <!-- TAB 1: TỔNG QUAN -->
+    <div id="tab-overview" class="tab-content active">
+      <div class="grid-3">
+        <!-- Card 1: VPS System -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🖥️ Máy Chủ VPS</div>
+            <span id="osBadge" class="badge badge-success">Node.js</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Thời gian chạy (Uptime):</span>
+            <span class="stat-value" id="sysUptime">Đang tải...</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">RAM Tiến Trình:</span>
+            <span class="stat-value" id="sysRam">Đang tải...</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Hệ Điều Hành:</span>
+            <span class="stat-value" id="sysPlatform">Linux/Win</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="btn btn-danger" style="width: 100%; justify-content: center;" onclick="restartBot()">
+              🔄 Khởi Động Lại Bot (Restart)
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Garena Status -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🎮 Tài Khoản Garena</div>
+            <div id="garenaBadge" class="badge badge-warning">
+              <span class="badge-dot"></span> Đang kiểm tra
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Tên hiển thị:</span>
+            <span class="stat-value" id="garenaName">-</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Account ID:</span>
+            <span class="stat-value" id="garenaUid">-</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Level:</span>
+            <span class="stat-value" id="garenaLevel">-</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="switchTab('cookie')">
+              👉 Cập Nhật Cookie Ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3: Zalo Bot Status -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📱 Bot Zalo</div>
+            <div id="zaloBadge" class="badge badge-warning">
+              <span class="badge-dot"></span> Đang kiểm tra
+            </div>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Tài khoản Bot:</span>
+            <span class="stat-value" id="zaloName">-</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Zalo UID:</span>
+            <span class="stat-value" id="zaloUid">-</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Phiên đăng nhập:</span>
+            <span class="stat-value" id="zaloSessionStatus">Đang lưu</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="btn" style="width: 100%; justify-content: center;" onclick="switchTab('zalo')">
+              📷 Xem Mã QR Quét Đăng Nhập
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khung thông tin nhanh -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💡 Mẹo Quản Trị VPS Từ Xa Cực Tiện</div>
+        </div>
+        <p style="font-size: 14px; line-height: 1.7; color: var(--text-muted);">
+          • <strong>Không cần mở SSH/PuTTY:</strong> Mỗi khi Cookie Garena hết hạn, bạn chỉ cần mở tab <strong>Garena & Cookie</strong> trên trang này, dán Cookie mới vào và bấm nút Lưu.<br>
+          • <strong>Quét mã QR Zalo từ xa:</strong> Khi VPS khởi động lại hoặc phiên Zalo bị văng, mã QR sẽ tự động hiện lên màn hình tại tab <strong>Zalo Bot & Quét QR</strong>. Bạn chỉ cần giơ điện thoại quét trực tiếp!<br>
+          • <strong>Xem nhật ký (Logs) trực tiếp:</strong> Tab <strong>Terminal Logs</strong> giúp bạn quan sát từng lệnh thành viên gõ trong nhóm, kết quả tính điểm và thông báo nạp tiền theo thời gian thực.
+        </p>
+      </div>
+    </div>
+
+    <!-- TAB 2: GARENA & COOKIE -->
+    <div id="tab-cookie" class="tab-content">
+      <div class="card" style="max-width: 800px; margin: 0 auto;">
+        <div class="card-header">
+          <div class="card-title">🍪 Cập Nhật Cookie Garena Mới</div>
+          <div id="cookieTabBadge" class="badge badge-warning">Đang kiểm tra</div>
+        </div>
+        
+        <div class="form-group">
+          <label>Chuỗi Cookie Mới (Lấy từ F12 -> Network -> Request Headers -> cookie:):</label>
+          <textarea id="cookieInput" placeholder="Dán toàn bộ chuỗi cookie vào đây, ví dụ: _ga=...; session=...; session.sig=..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 20px;">
+          <button class="btn btn-primary" onclick="submitNewCookie()" style="flex: 1; justify-content: center; padding: 12px;">
+            💾 Lưu & Kích Hoạt Cookie Mới Ngay
+          </button>
+          <button class="btn btn-danger" onclick="logoutCookie()">
+            ❌ Xóa / Đăng Xuất Cookie
+          </button>
+        </div>
+
+        <div id="cookieResultBox" style="margin-top: 20px; display: none; padding: 14px; border-radius: 10px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: ZALO BOT & QR -->
+    <div id="tab-zalo" class="tab-content">
+      <div class="card" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <div class="card-header">
+          <div class="card-title" style="margin: 0 auto;">📱 Đăng Nhập & Quản Lý Phiên Zalo</div>
+        </div>
+
+        <div id="zaloConnectedView" style="display: none; padding: 20px;">
+          <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
+          <h3 style="color: #34d399; margin-bottom: 8px;">Bot Zalo Đang Hoạt Động Rất Tốt!</h3>
+          <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+            Tài khoản bot hiện đang trực tuyến và lắng nghe tin nhắn trong các nhóm Zalo.
+          </p>
+          <button class="btn btn-danger" onclick="logoutZalo()">
+            🚪 Đăng Xuất Tài Khoản Zalo Này (Tạo QR Mới)
+          </button>
+        </div>
+
+        <div id="zaloQRView" style="display: none; padding: 10px;">
+          <p style="font-size: 14px; color: var(--primary); font-weight: 600;">
+            📲 Mở App Zalo trên điện thoại -> Quét mã QR dưới đây để Đăng Nhập:
+          </p>
+          <div class="qr-box">
+            <img id="qrImageElement" src="" alt="Mã QR Zalo">
+          </div>
+          <div>
+            <button class="btn" onclick="refreshQR()">🔄 Làm Mới Mã QR</button>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 14px;">
+            💡 Ảnh QR sẽ tự động làm mới khi hết hạn. Sau khi quét thành công, Bot sẽ tự động kết nối!
+          </p>
+
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border); text-align: left;">
+            <p style="font-size: 14px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">
+              🍪 ĐĂNG NHẬP BẰNG COOKIE (Khi Zalo Chặn Quét QR):
+            </p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.6;">
+              1. Mở trang <a href="https://chat.zalo.me" target="_blank" style="color: var(--primary); text-decoration: underline;">chat.zalo.me</a> ➔ Bấm <b>F12</b> ➔ Vào tab <b>Console</b> gõ: <code style="color: #34d399; background: #1e293b; padding: 2px 6px; border-radius: 4px;">localStorage._z_imei</code> rồi Enter để lấy mã IMEI.<br>
+              2. Dùng <b>Cookie-Editor</b> trên Chrome ➔ Bấm <b>Export</b> ➔ <b>Export as JSON</b>.
+            </p>
+            <input type="text" id="cookieImeiInput" placeholder="Nhập mã IMEI từ localStorage._z_imei (bắt buộc để trùng khớp với Zalo Web)..." style="width: 100%; font-size: 12px; font-family: var(--font-mono); margin-bottom: 8px; border-radius: 6px; padding: 8px;">
+            <textarea id="cookieJsonInput" placeholder="Dán nội dung JSON từ Cookie-Editor vào đây (bắt đầu bằng [{...}])..." style="width: 100%; height: 90px; font-size: 12px; font-family: var(--font-mono); margin-bottom: 10px; border-radius: 6px; padding: 8px;"></textarea>
+            <button class="btn btn-primary" onclick="submitZaloCookie()">
+              💾 Lưu Cookie & Đăng Nhập Ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: TERMINAL LOGS LIVE -->
+    <div id="tab-terminal" class="tab-content">
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span style="font-size: 13px; font-weight: 600; color: #fff; font-family: var(--font-mono);">
+              VPS Live Console Output (Terminal)
+            </span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="toggleAutoScroll()">
+              <span id="scrollStatus">Cuộn: BẬT</span>
+            </button>
+            <button class="btn btn-danger" style="padding: 4px 10px; font-size: 11px;" onclick="clearLogs()">
+              🗑️ Xóa Log
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body" id="terminalOutput">Đang kết nối luồng logs từ VPS...</div>
+      </div>
+    </div>
+
+    <!-- TAB 5: QUẢN LÝ KEY & LƯỢT -->
+    <div id="tab-keys" class="tab-content">
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div class="card-title">🎮 Bảng Điều Khiển Lượt Dùng & Tạo Key Mới</div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <input type="text" id="newKeyName" placeholder="Tên Key (vd: ldp, ldq, vip)" style="flex: 1; min-width: 160px;">
+          <input type="number" id="newKeyCredits" placeholder="Số lượt" style="width: 120px;" value="10">
+          <button class="btn btn-primary" onclick="adjustCreditsFromForm('add')">
+            ➕ Cộng Lượt
+          </button>
+          <button class="btn" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="adjustCreditsFromForm('deduct')">
+            ➖ Trừ Lượt
+          </button>
+          <button class="btn" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);" onclick="adjustCreditsFromForm('set')">
+            🎯 Đặt Lại Số Lượt
+          </button>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+          💡 Nhập tên key và số lượt để điều khiển. Nếu key chưa có, bấm <b>Cộng Lượt</b> sẽ tự động tạo mới!
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📋 Danh Sách Tất Cả Các Key Đang Hoạt Động</div>
+          <button class="btn" onclick="loadKeys()">🔄 Làm mới</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>TÊN KEY</th>
+                <th>CHỦ SỞ HỮU</th>
+                <th>SỐ LƯỢT HIỆN CÒN</th>
+                <th>TỔNG NẠP</th>
+                <th style="text-align: center;">ĐIỀU KHIỂN LƯỢT & THAO TÁC</th>
+              </tr>
+            </thead>
+            <tbody id="keysTableBody">
+              <tr><td colspan="5" style="text-align: center;">Đang tải danh sách key...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: THÔNG BÁO TỰ ĐỘNG -->
+    <div id="tab-announcement" class="tab-content">
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div class="card-title">📢 Cấu Hình Tự Động Thông Báo Quảng Bá</div>
+          <div id="announcementStatusBadge" class="badge badge-success">
+            <span class="badge-dot"></span> ĐANG BẬT
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px;">
+          <div>
+            <div class="form-group">
+              <label>Trạng Thái Tự Động Gửi</label>
+              <select id="announcementEnabled" style="padding: 12px; font-weight: 600;">
+                <option value="true">🟢 BẬT (Tự động gửi theo chu kỳ)</option>
+                <option value="false">🔴 TẮT (Tạm ngưng thông báo)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Chu Kỳ Gửi (Số Tiếng / Lần)</label>
+              <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickInterval(3)">3 tiếng (0h, 3h, 6h...)</button>
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickInterval(5)">5 tiếng (0h, 5h, 10h...)</button>
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickInterval(24)">12h đêm (24h/lần)</button>
+              </div>
+              <input type="number" id="announcementInterval" min="1" max="24" value="3" placeholder="3">
+              <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+                💡 <b>Mỗi 3 tiếng</b> hoặc <b>5 tiếng</b> đều tự động rơi vào <b>00:00 (12h đêm)</b> theo giờ Việt Nam.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="stat-row" style="padding: 12px 0;">
+              <span class="stat-label">Số nhóm Zalo sẽ nhận thông báo:</span>
+              <span id="announcementGroupsCount" class="stat-value" style="color: var(--primary); font-size: 16px;">0 nhóm</span>
+            </div>
+            <div class="stat-row" style="padding: 12px 0;">
+              <span class="stat-label">Trạng thái phát tin:</span>
+              <span id="announcementBroadcastingStatus" class="stat-value">Sẵn sàng</span>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="saveAnnouncementSettings()">
+                💾 Lưu Cấu Hình
+              </button>
+              <button class="btn" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);" onclick="broadcastAnnouncementNow()">
+                🚀 Gửi Ngay Bây Giờ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="margin-bottom: 0;">Nội Dung Tin Nhắn Thông Báo</label>
+            <button class="btn" style="padding: 4px 10px; font-size: 12px;" onclick="resetAnnouncementText()">
+              ↺ Khôi phục mặc định
+            </button>
+          </div>
+          <textarea id="announcementContent" rows="11" style="font-family: var(--font-mono); font-size: 13px; line-height: 1.5;"></textarea>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            💡 Bạn chỉ cần nhập nội dung thông báo và cài đặt thời gian tại đây rồi bấm <b>Lưu Cấu Hình</b>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: QUẢN LÝ BOX ZALO CHO PHÉP -->
+    <div id="tab-boxes" class="tab-content">
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div class="card-title">➕ Thêm Box Zalo Cho Phép Hoạt Động</div>
+          <span class="badge badge-primary">Quản Lý Theo Ngày</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+          💡 Bot chỉ nhận lệnh tính điểm và hoạt động trong các Box được thêm tại đây. Hàng ngày lúc <b>00:05</b>, bot sẽ tự động thông báo thời gian hoạt động còn lại vào từng Box.
+        </p>
+        <form onsubmit="handleAddBox(event)">
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Chọn Nhóm Bot Đang Tham Gia Hoặc Nhập ID</label>
+              <div style="display: flex; gap: 8px;">
+                <select id="quickGroupSelect" onchange="onQuickGroupSelect(this.value)" style="flex: 1; padding: 10px;">
+                  <option value="">-- Chọn nhóm Zalo đã tham gia --</option>
+                </select>
+                <button type="button" class="btn" onclick="loadZaloGroups()" title="Làm mới danh sách nhóm">🔄</button>
+              </div>
+              <input type="text" id="newBoxId" placeholder="Nhập ID Nhóm Zalo (ví dụ: 1234567890123)" required style="margin-top: 8px;">
+            </div>
+
+            <div class="form-group">
+              <label>Tên Box / Tên Nhóm</label>
+              <input type="text" id="newBoxName" placeholder="Tên nhóm (ví dụ: Box Scrim Pro FF)" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Thời Gian Hoạt Động (Số Ngày)</label>
+              <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(7)">7 ngày</button>
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(15)">15 ngày</button>
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(30)">30 ngày (1 tháng)</button>
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(60)">60 ngày</button>
+                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(365)">365 ngày</button>
+              </div>
+              <input type="number" id="newBoxDays" min="1" value="30" placeholder="30" required>
+            </div>
+
+            <div class="form-group">
+              <label>Ghi Chú (Tùy chọn)</label>
+              <input type="text" id="newBoxNote" placeholder="Ví dụ: Khách thuê box theo tháng, liên hệ qua Zalo...">
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary" style="padding: 10px 24px;">
+              ➕ Kích Hoạt Box Zalo
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📋 Danh Sách Box Zalo Cho Phép</div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span id="boxCountBadge" class="badge badge-success">0 Box</span>
+            <button class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="loadBoxes()">🔄 Tải Lại</button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
+                <th style="padding: 10px;">Tên Box</th>
+                <th style="padding: 10px;">ID Nhóm Zalo</th>
+                <th style="padding: 10px;">Thời Hạn Còn Lại</th>
+                <th style="padding: 10px;">Hạn Dùng Đến</th>
+                <th style="padding: 10px;">Trạng Thái</th>
+                <th style="padding: 10px;">Ghi Chú</th>
+                <th style="padding: 10px; text-align: right;">Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="boxesTableBody">
+              <tr>
+                <td colspan="7" style="padding: 20px; text-align: center; color: var(--text-muted);">Đang tải danh sách box...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL ĐĂNG NHẬP -->
+  <div id="loginModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div style="font-size: 40px; margin-bottom: 12px;">🔒</div>
+      <h2 style="margin-bottom: 8px; font-size: 18px;">Xác Thực Quyền Quản Trị</h2>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+        Vui lòng nhập mật khẩu quản trị VPS Dashboard:
+      </p>
+      <form onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <input type="password" id="loginPasswordInput" placeholder="Nhập mật khẩu..." autofocus>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+          👉 Đăng Nhập
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer"></div>
+
+  <script>
+    // State management
+    let authToken = localStorage.getItem('dashboard_token') || '';
+    let lastLogId = 0;
+    let autoScroll = true;
+    let pollTimer = null;
+
+    // Toast helper
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = `toast toast-${type}`;
+      el.innerHTML = `${type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️')} <span>${message}</span>`;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+
+    // Tab switcher
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabName));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const target = document.getElementById(`tab-${tabName}`);
+      if (target) target.classList.add('active');
+
+      if (tabName === 'keys') loadKeys();
+      if (tabName === 'announcement') loadAnnouncementSettings();
+      if (tabName === 'boxes') {
+        loadBoxes();
+        loadZaloGroups();
+      }
+    }
+
+    // Toggle log auto scroll
+    function toggleAutoScroll() {
+      autoScroll = !autoScroll;
+      document.getElementById('scrollStatus').textContent = autoScroll ? 'Cuộn: BẬT' : 'Cuộn: TẮT';
+    }
+
+    // Fetch wrapper with auth
+    async function apiRequest(endpoint, options = {}) {
+      options.headers = options.headers || {};
+      if (authToken) {
+        options.headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      try {
+        const res = await fetch(endpoint, options);
+        if (res.status === 401) {
+          showLoginModal();
+          throw new Error('Chưa đăng nhập');
+        }
+        return await res.json();
+      } catch (err) {
+        throw err;
+      }
+    }
+
+    // Check login state
+    function showLoginModal() {
+      document.getElementById('loginModal').style.display = 'flex';
+      setTimeout(() => document.getElementById('loginPasswordInput').focus(), 100);
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('loginPasswordInput').value;
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwd })
+        });
+        const data = await res.json();
+        if (data.success && data.token) {
+          authToken = data.token;
+          localStorage.setItem('dashboard_token', authToken);
+          document.getElementById('loginModal').style.display = 'none';
+          showToast('Đăng nhập quản trị thành công!');
+          initDashboard();
+        } else {
+          showToast(data.message || 'Mật khẩu không chính xác!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi kết nối máy chủ!', 'error');
+      }
+    }
+
+    function logoutDashboard() {
+      authToken = '';
+      localStorage.removeItem('dashboard_token');
+      showLoginModal();
+    }
+
+    // Load Overview Status
+    async function loadStatus() {
+      try {
+        const data = await apiRequest('/api/admin/status');
+        if (!data) return;
+
+        // System
+        document.getElementById('sysUptime').textContent = data.system.uptimeStr;
+        document.getElementById('sysRam').textContent = `${data.system.memoryRss} MB / ${data.system.totalMem} MB`;
+        document.getElementById('sysPlatform').textContent = `${data.system.platform} (Node ${data.system.nodeVersion})`;
+
+        // Garena
+        const gBadge = document.getElementById('garenaBadge');
+        const cBadge = document.getElementById('cookieTabBadge');
+        if (data.garena.connected) {
+          gBadge.className = 'badge badge-success';
+          gBadge.innerHTML = '<span class="badge-dot"></span> Trực Tuyến 🟢';
+          cBadge.className = 'badge badge-success';
+          cBadge.textContent = 'Hoạt Động Tốt 🟢';
+          document.getElementById('garenaName').textContent = data.garena.nickName || '-';
+          document.getElementById('garenaUid').textContent = data.garena.accountId || '-';
+          document.getElementById('garenaLevel').textContent = data.garena.level ? `Lv ${data.garena.level}` : '-';
+        } else {
+          gBadge.className = 'badge badge-danger';
+          gBadge.innerHTML = '<span class="badge-dot"></span> Hết Hạn ⛔';
+          cBadge.className = 'badge badge-danger';
+          cBadge.textContent = 'Hết Hạn / Lỗi ⛔';
+          document.getElementById('garenaName').textContent = 'Cookie hết hạn!';
+          document.getElementById('garenaUid').textContent = '-';
+          document.getElementById('garenaLevel').textContent = '-';
+        }
+
+        // Zalo
+        const zBadge = document.getElementById('zaloBadge');
+        const zConnectedView = document.getElementById('zaloConnectedView');
+        const zQRView = document.getElementById('zaloQRView');
+
+        if (data.zalo.loggedIn) {
+          zBadge.className = 'badge badge-success';
+          zBadge.innerHTML = '<span class="badge-dot"></span> Đang Chạy 🟢';
+          document.getElementById('zaloName').textContent = data.zalo.selfName || 'Bot Zalo';
+          document.getElementById('zaloUid').textContent = data.zalo.selfId || '-';
+          document.getElementById('zaloSessionStatus').textContent = 'Đã lưu phiên';
+          zConnectedView.style.display = 'block';
+          zQRView.style.display = 'none';
+        } else {
+          zBadge.className = 'badge badge-warning';
+          zBadge.innerHTML = '<span class="badge-dot"></span> Chờ Quét QR 📱';
+          document.getElementById('zaloName').textContent = 'Chưa đăng nhập';
+          document.getElementById('zaloUid').textContent = '-';
+          document.getElementById('zaloSessionStatus').textContent = 'Chưa có phiên';
+          zConnectedView.style.display = 'none';
+          zQRView.style.display = 'block';
+
+          // Load QR image
+          if (data.zalo.qrExists) {
+            document.getElementById('qrImageElement').src = `/api/admin/qr?t=${Date.now()}`;
+          }
+        }
+
+      } catch (err) {
+        // Handled in apiRequest
+      }
+    }
+
+    // Submit new Cookie
+    async function submitNewCookie() {
+      const cookie = document.getElementById('cookieInput').value.trim();
+      if (!cookie) {
+        showToast('Vui lòng dán chuỗi cookie vào ô nhập!', 'error');
+        return;
+      }
+
+      showToast('Đang gửi cookie và kiểm tra kết nối Garena...', 'info');
+      try {
+        const res = await apiRequest('/api/admin/cookie', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cookie })
+        });
+
+        const box = document.getElementById('cookieResultBox');
+        box.style.display = 'block';
+
+        if (res.success) {
+          box.style.background = 'rgba(16, 185, 129, 0.15)';
+          box.style.border = '1px solid #10b981';
+          box.style.color = '#34d399';
+          box.innerHTML = `✅ <strong>KẾT NỐI THÀNH CÔNG!</strong><br>👤 Tên hiển thị: <strong>${res.profile?.nickName}</strong> (ID: ${res.profile?.accountId})<br>🎖️ Level: ${res.profile?.level}<br>👉 Đã tự động lưu vào file .env trên VPS!`;
+          showToast('Cập nhật Cookie mới thành công!');
+          document.getElementById('cookieInput').value = '';
+          loadStatus();
+        } else {
+          box.style.background = 'rgba(239, 68, 68, 0.15)';
+          box.style.border = '1px solid #ef4444';
+          box.style.color = '#f87171';
+          box.innerHTML = `❌ <strong>CẬP NHẬT THẤT BẠI:</strong><br>${res.error || 'Cookie không hợp lệ hoặc đã hết hạn.'}`;
+          showToast('Cookie không hợp lệ!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi khi gửi cookie lên VPS!', 'error');
+      }
+    }
+
+    // Logout Cookie
+    async function logoutCookie() {
+      if (!confirm('Bạn có chắc chắn muốn xóa Cookie Garena khỏi VPS?')) return;
+      try {
+        await apiRequest('/api/admin/cookie/logout', { method: 'POST' });
+        showToast('Đã xóa Cookie Garena.');
+        loadStatus();
+      } catch (e) {
+        showToast('Lỗi khi xóa cookie!', 'error');
+      }
+    }
+
+    // Logout Zalo
+    async function logoutZalo() {
+      if (!confirm('Đăng xuất tài khoản Bot Zalo? Bot sẽ yêu cầu quét lại mã QR mới.')) return;
+      try {
+        await apiRequest('/api/admin/zalo/logout', { method: 'POST' });
+        showToast('Đã đăng xuất Zalo. Đang tạo mã QR mới...');
+        loadStatus();
+      } catch (e) {
+        showToast('Lỗi khi đăng xuất Zalo!', 'error');
+      }
+    }
+
+    async function refreshQR() {
+      const qrImg = document.getElementById('qrImageElement');
+      showToast('Đang yêu cầu Bot tạo mã QR mới...', 'info');
+      try {
+        await apiRequest('/api/admin/zalo/refresh-qr', { method: 'POST' });
+        setTimeout(() => {
+          qrImg.src = `/api/admin/qr?t=${Date.now()}`;
+          showToast('Đã tải lại mã QR mới! Hãy quét mã ngay.', 'success');
+        }, 2000);
+      } catch (e) {
+        qrImg.src = `/api/admin/qr?t=${Date.now()}`;
+        showToast('Đã tải lại mã QR.');
+      }
+    }
+
+    // Đăng nhập Zalo bằng Cookie từ Cookie-Editor
+    async function submitZaloCookie() {
+      const imei = document.getElementById('cookieImeiInput').value.trim();
+      const raw = document.getElementById('cookieJsonInput').value.trim();
+      if (!raw) {
+        showToast('Vui lòng dán JSON cookie từ Cookie-Editor!', 'error');
+        return;
+      }
+      showToast('Đang gửi Cookie lên máy chủ VPS...', 'info');
+      try {
+        const res = await apiRequest('/api/admin/zalo/set-cookie', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: raw, imei })
+        });
+        if (res && res.success) {
+          showToast(res.message, 'success');
+          document.getElementById('cookieJsonInput').value = '';
+          setTimeout(() => loadStatus(), 3000);
+        } else {
+          showToast(res?.message || 'Lỗi khi lưu Cookie!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi khi gửi Cookie lên máy chủ!', 'error');
+      }
+    }
+
+    // Restart Bot
+    async function restartBot() {
+      if (!confirm('Khởi động lại Bot trên VPS ngay bây giờ?')) return;
+      try {
+        await apiRequest('/api/admin/restart', { method: 'POST' });
+        showToast('Đã gửi lệnh khởi động lại Bot. Vui lòng đợi 3-5 giây!', 'info');
+      } catch (e) {
+        showToast('Lỗi khi gửi lệnh restart!', 'error');
+      }
+    }
+
+    // Terminal Logs Live Stream
+    async function loadLogs() {
+      try {
+        const res = await apiRequest(`/api/admin/logs?since=${lastLogId}`);
+        if (res && res.logs && res.logs.length > 0) {
+          const terminal = document.getElementById('terminalOutput');
+          if (lastLogId === 0) terminal.innerHTML = '';
+
+          for (const item of res.logs) {
+            const line = document.createElement('div');
+            line.className = `log-line log-${item.level}`;
+            line.innerHTML = `<span class="log-time">[${item.time}]</span> ${escapeHtml(item.message)}`;
+            terminal.appendChild(line);
+            lastLogId = Math.max(lastLogId, item.id);
+          }
+
+          if (autoScroll) {
+            terminal.scrollTop = terminal.scrollHeight;
+          }
+        }
+      } catch (err) {}
+    }
+
+    async function clearLogs() {
+      try {
+        await apiRequest('/api/admin/logs/clear', { method: 'POST' });
+        document.getElementById('terminalOutput').innerHTML = '<div style="color: #64748b;">[Nhật ký đã được làm trống]</div>';
+        lastLogId = 0;
+        showToast('Đã làm trống log.');
+      } catch (e) {}
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    // Manage Keys
+    async function loadKeys() {
+      try {
+        const res = await apiRequest('/api/admin/keys');
+        const tbody = document.getElementById('keysTableBody');
+        tbody.innerHTML = '';
+
+        if (!res || !res.keys || res.keys.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Chưa có Key nào được tạo.</td></tr>';
+          return;
+        }
+
+        for (const k of res.keys) {
+          const tr = document.createElement('tr');
+          const totalChargedFormatted = Number(k.totalCharged || 0).toLocaleString('vi-VN') + ' đ';
+          tr.innerHTML = `
+            <td style="font-weight: 700; color: var(--primary); font-family: var(--font-mono); font-size: 15px;">${escapeHtml(k.key)}</td>
+            <td style="color: var(--text-main); font-weight: 500;">${escapeHtml(k.ownerName || 'Chưa gán')}</td>
+            <td><span style="font-weight: 700; color: #34d399; font-size: 15px; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">${k.credits} lượt</span></td>
+            <td style="color: var(--text-muted); font-size: 13px;">${totalChargedFormatted}</td>
+            <td style="text-align: center;">
+              <div style="display: inline-flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center;">
+                <button class="btn" style="padding: 4px 10px; font-size: 12px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);" onclick="quickAddCredits('${escapeHtml(k.key)}')">
+                  ➕ Cộng
+                </button>
+                <button class="btn" style="padding: 4px 10px; font-size: 12px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);" onclick="quickDeductCredits('${escapeHtml(k.key)}')">
+                  ➖ Trừ
+                </button>
+                <button class="btn" style="padding: 4px 10px; font-size: 12px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);" onclick="quickSetCredits('${escapeHtml(k.key)}')">
+                  🎯 Đặt lại
+                </button>
+                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteKey('${escapeHtml(k.key)}')">
+                  🗑️ Xóa
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        }
+      } catch (e) {}
+    }
+
+    async function quickAddCredits(key) {
+      const numStr = prompt(`Nhập số lượt muốn CỘNG THÊM cho key [${key.toUpperCase()}]:`, '10');
+      if (numStr === null) return;
+      const count = parseInt(numStr, 10);
+      if (isNaN(count) || count <= 0) {
+        showToast('Số lượt phải là số nguyên dương!', 'error');
+        return;
+      }
+      try {
+        const res = await apiRequest('/api/admin/keys/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, credits: count })
+        });
+        if (res && res.success) {
+          showToast(`Đã cộng +${count} lượt cho key [${key}]! Số dư mới: ${res.totalCredits} lượt.`);
+          loadKeys();
+        } else {
+          showToast(res?.message || 'Lỗi khi cộng lượt!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi gửi yêu cầu cộng lượt!', 'error');
+      }
+    }
+
+    async function quickDeductCredits(key) {
+      const numStr = prompt(`Nhập số lượt muốn TRỪ BỚT khỏi key [${key.toUpperCase()}]:`, '5');
+      if (numStr === null) return;
+      const count = parseInt(numStr, 10);
+      if (isNaN(count) || count <= 0) {
+        showToast('Số lượt phải là số nguyên dương!', 'error');
+        return;
+      }
+      try {
+        const res = await apiRequest('/api/admin/keys/deduct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, credits: count })
+        });
+        if (res && res.success) {
+          showToast(`Đã trừ -${res.deducted || count} lượt của key [${key}]! Còn lại: ${res.totalCredits} lượt.`);
+          loadKeys();
+        } else {
+          showToast(res?.message || 'Lỗi khi trừ lượt!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi gửi yêu cầu trừ lượt!', 'error');
+      }
+    }
+
+    async function quickSetCredits(key) {
+      const numStr = prompt(`Nhập số lượt muốn ĐẶT LẠI cho key [${key.toUpperCase()}]:`, '50');
+      if (numStr === null) return;
+      const count = parseInt(numStr, 10);
+      if (isNaN(count) || count < 0) {
+        showToast('Số lượt không hợp lệ!', 'error');
+        return;
+      }
+      try {
+        const res = await apiRequest('/api/admin/keys/set', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, credits: count })
+        });
+        if (res && res.success) {
+          showToast(`Đã đặt lại số dư cho key [${key}] thành ${res.totalCredits} lượt.`);
+          loadKeys();
+        } else {
+          showToast(res?.message || 'Lỗi khi đặt lại lượt!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi gửi yêu cầu đặt lại lượt!', 'error');
+      }
+    }
+
+    async function adjustCreditsFromForm(action) {
+      const key = document.getElementById('newKeyName').value.trim();
+      const credits = parseInt(document.getElementById('newKeyCredits').value, 10);
+
+      if (!key) {
+        showToast('Vui lòng nhập tên Key!', 'error');
+        return;
+      }
+      if (isNaN(credits) || (action !== 'set' && credits <= 0) || (action === 'set' && credits < 0)) {
+        showToast('Vui lòng nhập số lượt hợp lệ!', 'error');
+        return;
+      }
+
+      let endpoint = '/api/admin/keys/add';
+      if (action === 'deduct') endpoint = '/api/admin/keys/deduct';
+      if (action === 'set') endpoint = '/api/admin/keys/set';
+
+      try {
+        const res = await apiRequest(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, credits })
+        });
+        if (res && res.success) {
+          let msg = `Đã cập nhật key [${key}]! Số dư mới: ${res.totalCredits} lượt.`;
+          if (action === 'add') msg = `Đã cộng +${credits} lượt cho key [${key}]! Tổng: ${res.totalCredits} lượt.`;
+          if (action === 'deduct') msg = `Đã trừ -${res.deducted || credits} lượt của key [${key}]! Còn lại: ${res.totalCredits} lượt.`;
+          if (action === 'set') msg = `Đã đặt số dư cho key [${key}] thành ${res.totalCredits} lượt.`;
+          showToast(msg);
+          loadKeys();
+        } else {
+          showToast(res?.message || 'Thao tác không thành công!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi khi gửi yêu cầu!', 'error');
+      }
+    }
+
+    async function deleteKey(key) {
+      if (!confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn Key "${key}"?`)) return;
+      try {
+        await apiRequest('/api/admin/keys/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key })
+        });
+        showToast(`Đã xóa key [${key}].`);
+        loadKeys();
+      } catch (e) {
+        showToast('Lỗi khi xóa key!', 'error');
+      }
+    }
+
+    function setQuickInterval(hours) {
+      document.getElementById('announcementInterval').value = hours;
+    }
+
+    const DEFAULT_ANNOUNCEMENT_SAMPLE = `BOX .td free theo lượt và anti 20k 1 tháng ib.`;
+
+    async function loadAnnouncementSettings() {
+      try {
+        const data = await apiRequest('/api/admin/announcement');
+        if (!data || !data.success) return;
+        document.getElementById('announcementEnabled').value = data.enabled ? 'true' : 'false';
+        document.getElementById('announcementInterval').value = data.intervalHours || 3;
+        document.getElementById('announcementContent').value = data.customMessage || DEFAULT_ANNOUNCEMENT_SAMPLE;
+        document.getElementById('announcementGroupsCount').textContent = `${data.groupsCount || 0} nhóm`;
+        document.getElementById('announcementBroadcastingStatus').textContent = data.isBroadcasting ? '⏳ Đang phát...' : 'Sẵn sàng';
+
+        const badge = document.getElementById('announcementStatusBadge');
+        if (data.enabled) {
+          badge.className = 'badge badge-success';
+          badge.innerHTML = '<span class="badge-dot"></span> ĐANG BẬT';
+        } else {
+          badge.className = 'badge badge-danger';
+          badge.innerHTML = '<span class="badge-dot"></span> ĐANG TẮT';
+        }
+      } catch (e) {
+        showToast('Lỗi khi tải cấu hình thông báo!', 'error');
+      }
+    }
+
+    async function saveAnnouncementSettings() {
+      const enabled = document.getElementById('announcementEnabled').value === 'true';
+      const intervalHours = parseInt(document.getElementById('announcementInterval').value, 10) || 3;
+      const customMessage = document.getElementById('announcementContent').value.trim();
+
+      try {
+        const res = await apiRequest('/api/admin/announcement/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled, intervalHours, customMessage })
+        });
+        if (res && res.success) {
+          showToast('Đã lưu cấu hình thông báo thành công!');
+          loadAnnouncementSettings();
+        } else {
+          showToast(res?.message || 'Không thể lưu cấu hình!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi kết nối khi lưu cấu hình!', 'error');
+      }
+    }
+
+    function resetAnnouncementText() {
+      document.getElementById('announcementContent').value = DEFAULT_ANNOUNCEMENT_SAMPLE;
+      showToast('Đã khôi phục nội dung mẫu. Nhớ bấm "Lưu Cấu Hình"!');
+    }
+
+    async function broadcastAnnouncementNow() {
+      if (!confirm('Bạn có chắc chắn muốn phát thông báo này ngay lập tức tới TẤT CẢ các nhóm Zalo?')) return;
+      const customMessage = document.getElementById('announcementContent').value.trim();
+      showToast('Đang tiến hành phát thông báo tới các nhóm...', 'info');
+
+      try {
+        const res = await apiRequest('/api/admin/announcement/broadcast', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: customMessage })
+        });
+        if (res && res.success) {
+          showToast(`Đã phát thông báo thành công tới ${res.count}/${res.total} nhóm Zalo!`);
+          loadAnnouncementSettings();
+        } else {
+          showToast(res?.message || 'Lỗi khi phát thông báo!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi kết nối khi gửi thông báo!', 'error');
+      }
+    }
+
+    // ==========================================
+    // BOX ZALO MANAGEMENT SCRIPTS
+    // ==========================================
+    let cachedZaloGroups = [];
+
+    async function loadZaloGroups() {
+      try {
+        const res = await apiRequest('/api/admin/zalo/groups');
+        const select = document.getElementById('quickGroupSelect');
+        if (res && res.success && Array.isArray(res.groups)) {
+          cachedZaloGroups = res.groups;
+          select.innerHTML = '<option value="">-- Chọn nhóm Zalo bot đã tham gia (' + res.groups.length + ' nhóm) --</option>';
+          res.groups.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g.groupId;
+            opt.textContent = `${g.name} (${g.groupId})`;
+            select.appendChild(opt);
+          });
+        }
+      } catch (e) {
+        console.warn('Lỗi tải nhóm Zalo:', e.message);
+      }
+    }
+
+    function onQuickGroupSelect(groupId) {
+      if (!groupId) return;
+      const grp = cachedZaloGroups.find(g => g.groupId === groupId);
+      if (grp) {
+        document.getElementById('newBoxId').value = grp.groupId;
+        document.getElementById('newBoxName').value = grp.name;
+      }
+    }
+
+    function setQuickBoxDays(days) {
+      document.getElementById('newBoxDays').value = days;
+    }
+
+    async function loadBoxes() {
+      const tbody = document.getElementById('boxesTableBody');
+      try {
+        const res = await apiRequest('/api/admin/boxes');
+        if (!res || !res.success || !Array.isArray(res.boxes)) {
+          tbody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: var(--danger);">Không thể tải danh sách Box</td></tr>';
+          return;
+        }
+
+        const boxes = res.boxes;
+        document.getElementById('boxCountBadge').textContent = `${boxes.length} Box`;
+
+        if (boxes.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: var(--text-muted);">Chưa có Box Zalo nào trong danh sách. Hãy thêm box ở trên!</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = '';
+        boxes.forEach(box => {
+          const tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid var(--border)';
+
+          let badgeColor = 'badge-success';
+          let badgeText = `${box.remainingDays} ngày`;
+          if (box.isExpired) {
+            badgeColor = 'badge-danger';
+            badgeText = 'HẾT HẠN';
+          } else if (box.remainingDays <= 3) {
+            badgeColor = 'badge-warning';
+            badgeText = `Sắp hết (${box.remainingDays} ngày)`;
+          }
+
+          const statusBadge = box.enabled
+            ? '<span class="badge badge-success" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', true)">🟢 Đang Chạy</span>'
+            : '<span class="badge badge-danger" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', false)">🔴 Đã Tắt</span>';
+
+          tr.innerHTML = `
+            <td style="padding: 12px; font-weight: 600; color: var(--primary);">${escapeHtml(box.name || box.groupId)}</td>
+            <td style="padding: 12px; font-family: var(--font-mono);">${box.groupId}</td>
+            <td style="padding: 12px;"><span class="badge ${badgeColor}">${badgeText}</span></td>
+            <td style="padding: 12px; color: var(--text-muted);">${box.formattedExpiry || '-'}</td>
+            <td style="padding: 12px;">${statusBadge}</td>
+            <td style="padding: 12px; color: var(--text-muted); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(box.note || '-')}</td>
+            <td style="padding: 12px; text-align: right;">
+              <div style="display: flex; gap: 6px; justify-content: flex-end;">
+                <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 30)" title="Gia hạn thêm 30 ngày">+30 ngày</button>
+                <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 7)" title="Gia hạn thêm 7 ngày">+7 ngày</button>
+                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteBoxConfirm('${box.groupId}')" title="Xóa box">🗑️</button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="7" style="padding: 20px; text-align: center; color: var(--danger);">Lỗi: ${e.message}</td></tr>`;
+      }
+    }
+
+    async function handleAddBox(e) {
+      e.preventDefault();
+      const groupId = document.getElementById('newBoxId').value.trim();
+      const name = document.getElementById('newBoxName').value.trim();
+      const days = parseInt(document.getElementById('newBoxDays').value, 10) || 30;
+      const note = document.getElementById('newBoxNote').value.trim();
+
+      if (!groupId) {
+        showToast('Vui lòng nhập ID nhóm Zalo!', 'error');
+        return;
+      }
+
+      try {
+        const res = await apiRequest('/api/admin/boxes/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId, name, days, note, enabled: true })
+        });
+        if (res && res.success) {
+          showToast(`Đã thêm và kích hoạt Box [${name || groupId}] thành công (${days} ngày)!`);
+          document.getElementById('newBoxId').value = '';
+          document.getElementById('newBoxName').value = '';
+          document.getElementById('newBoxNote').value = '';
+          loadBoxes();
+        } else {
+          showToast(res?.message || 'Không thể thêm box!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi khi thêm box: ' + err.message, 'error');
+      }
+    }
+
+    async function extendBoxPrompt(groupId, defaultDays = 30) {
+      const input = prompt(`Nhập số ngày muốn gia hạn thêm cho Box ID ${groupId}:`, defaultDays);
+      if (input === null) return;
+      const days = parseInt(input, 10);
+      if (isNaN(days) || days <= 0) {
+        showToast('Số ngày không hợp lệ!', 'error');
+        return;
+      }
+
+      try {
+        const res = await apiRequest('/api/admin/boxes/extend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId, days })
+        });
+        if (res && res.success) {
+          showToast(`Đã gia hạn thành công +${days} ngày cho Box!`);
+          loadBoxes();
+        } else {
+          showToast(res?.message || 'Lỗi gia hạn!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối khi gia hạn: ' + err.message, 'error');
+      }
+    }
+
+    async function toggleBoxStatus(groupId, currentEnabled) {
+      try {
+        const res = await apiRequest('/api/admin/boxes/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId, enabled: !currentEnabled })
+        });
+        if (res && res.success) {
+          showToast(`Đã ${!currentEnabled ? 'BẬT' : 'TẮT'} hoạt động của Box!`);
+          loadBoxes();
+        } else {
+          showToast(res?.message || 'Lỗi cập nhật trạng thái!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối: ' + err.message, 'error');
+      }
+    }
+
+    async function deleteBoxConfirm(groupId) {
+      if (!confirm(`Bạn có chắc muốn xóa Box [${groupId}] khỏi danh sách cho phép hoạt động không?`)) {
+        return;
+      }
+
+      try {
+        const res = await apiRequest('/api/admin/boxes/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId })
+        });
+        if (res && res.success) {
+          showToast('Đã xóa Box thành công!');
+          loadBoxes();
+        } else {
+          showToast(res?.message || 'Không thể xóa box!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi khi xóa: ' + err.message, 'error');
+      }
+    }
+
+    // Init & Polling
+    function initDashboard() {
+      loadStatus();
+      loadLogs();
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(() => {
+        loadStatus();
+        loadLogs();
+      }, 4000);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!authToken) {
+        showLoginModal();
+      } else {
+        initDashboard();
+      }
+    });
+  </script>
+</body>
+</html>

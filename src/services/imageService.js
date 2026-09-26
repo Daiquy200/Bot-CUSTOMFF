@@ -30,139 +30,50 @@ for (const fontPath of SYSTEM_FONTS) {
  * =========================================================================
  * BẢNG CẤU HÌNH TỌA ĐỘ VÀ GIAO DIỆN TỪNG MẪU BẢNG XẾP HẠNG
  * =========================================================================
- * 👉 mau_1: Phôi Cus Cỏ (dọc 592x1024, nền đỏ/trắng, chữ đen)
- * 👉 mau_2: Phôi Cus ĐQ@ (dọc 592x1024, nền đỏ/đen/trắng, 12 hàng dọc)
- * 👉 mau_3: Phôi Cus ĐQ@ 2 Cột (ngang 1024x768, Top 1-6 trái & Top 7-12 phải)
- * 👉 mau_4: Phôi Map Thi Đấu (ngang 1024x718, 4 Map bên trái + 12 hàng bên phải)
- * 👉 mau_5: Phôi Mẫu 5 (dự phòng)
- * 👉 mau_6: Phôi Naruto Booyah (dọc 741x1024, 12 hàng dọc)
- * 👉 mau_7: Phôi Naruto Phú Quý (dọc 741x1024, 12 hàng dọc + ô đồng hồ ngày giờ)
- * 👉 mau_8: Phôi Custom PQ Map Thi Đấu (dọc 741x1024, 12 hàng dọc + 4 Map Thi Đấu)
+ * 👉 mau_1: Phôi Map Thi Đấu (ngang 1024x718, 4 Map bên trái + 12 hàng bên phải)
+ * 👉 mau_2: Phôi Banner Vàng Đen Chiến Binh (dọc 1024x1536, 12 hàng dọc)
+ * 👉 mau_3: Phôi Banner Xanh Lam Chiến Binh (dọc 1024x1536, 12 hàng dọc)
+ * 👉 mau_4: Phôi Custom PQ Map Thi Đấu (dọc 741x1024, 12 hàng dọc + 4 Map Thi Đấu)
+ * 👉 mau_5: Phôi Custom PQ Kimetsu (ngang 1024x576, Top 1 Champion + 2 Cột 12 Đội + 5 Map Booyah)
  */
 export const TEMPLATE_CONFIGS = {
-  // MẪU #1: CUS ĐQ@ (Dọc 592x1024, 12 hàng dọc)
-  mau_1: {
-    id: 'mau_1',
-    name: 'Mẫu #1: Cus ĐQ@ (Dọc 12 hàng)',
-    file: 'mau_1.png',
-    type: 'single_column',
-    rowY: [325, 383, 437, 491, 545, 599, 653, 707, 763, 816, 870, 923],
-    teamName: { x: 110, maxWidth: 240, align: 'left', color: '#111111', fontSize: 14 },
-    kill: { x: 385, align: 'center', color: '#1a1a1a', fontSize: 16 },
-    booyah: { x: 452, align: 'center', color: '#c47d00', fontSize: 16 },
-    totalPoints: { x: 523, align: 'center', color: '#b80000', fontSize: 17 }
-  },
-
-  // MẪU #2: CUS ĐQ@ 2 CỘT (Ngang 1024x768, Top 1-6 trái & Top 7-12 phải)
-  mau_2: {
-    id: 'mau_2',
-    name: 'Mẫu #2: Cus ĐQ@ (Ngang 2 cột)',
-    file: 'mau_2.png',
-    type: 'two_columns',
-    rowYLeft: [382, 438, 494, 550, 606, 662],
-    leftCol: {
-      teamName: { x: 205, maxWidth: 170, align: 'center', color: '#ffffff', fontSize: 14 },
-      kill: { x: 336, align: 'center', color: '#ffffff', fontSize: 15 },
-      booyah: { x: 402, align: 'center', color: '#ffd700', fontSize: 15 },
-      totalPoints: { x: 470, align: 'center', color: '#ff3b30', fontSize: 16 }
+  // MẪU BXH CONAN & KAITO KID ESPORTS (Siêu Nét 2K Ultra HD: 2048x1152)
+  bxhconan: {
+    id: 'bxhconan',
+    name: 'Mẫu BXH Conan & Kaito Kid Esports',
+    file: 'bxhconan.png',
+    type: 'conan_kaito',
+    width: 2048,
+    height: 1152,
+    // Ô parallelogram phía trên:
+    // - Bên trái màu xanh đậm: Tên CUSTOM
+    titlePos: { x: 900, y: 168, fontSize: 28, align: 'center', color: '#ffffff', noStroke: true },
+    // - Bên phải màu xanh nhạt: Thời gian
+    timeBar: { x: 1170, y: 168, fontSize: 28, align: 'center', color: '#ffffff', format: 'DD/MM HH:mm' },
+    // Ô trắng/kem bên dưới: Toàn bộ logo và tên custom căn giữa tuyệt đối
+    bottomWhiteBox: { x: 908, y: 1056, fontSize: 30, align: 'center', color: '#0b2e4f', logoSize: 38, gap: 16 },
+    // Khung logo của Top 1 bên trái (Kích thước 176x176 Siêu Nét 2K)
+    logoPos: { x: 124, y: 756, size: 176, isSquare: true, borderRadius: 12, showBorder: false },
+    // Top 1 Champion Box
+    championBox: {
+      teamName: { x: 650, y: 676, maxWidth: 350, fontSize: 36, align: 'center', color: '#ffffff' },
+      booyah: { x: 690, y: 790, fontSize: 48, color: '#ffffff', align: 'center', padZero: false },
+      kill: { x: 484, y: 936, fontSize: 48, color: '#ffffff', align: 'center' },
+      totalPoints: { x: 716, y: 936, fontSize: 48, color: '#ffffff', align: 'center' }
     },
-    rowYRight: [382, 438, 494, 550, 606, 662],
-    rightCol: {
-      teamName: { x: 675, maxWidth: 170, align: 'center', color: '#ffffff', fontSize: 14 },
-      kill: { x: 812, align: 'center', color: '#ffffff', fontSize: 15 },
-      booyah: { x: 880, align: 'center', color: '#ffd700', fontSize: 15 },
-      totalPoints: { x: 950, align: 'center', color: '#ff3b30', fontSize: 16 }
-    }
-  },
-
-  // MẪU #3: MAP THI ĐẤU (Ngang 1024x718: 4 Map trái + 12 hàng phải)
-  mau_3: {
-    id: 'mau_3',
-    name: 'Mẫu #3: Map Thi Đấu (Ngang kèm 4 Map Booyah)',
-    file: 'mau_3.png',
-    type: 'with_maps',
-    rowY: [252, 285, 318, 351, 385, 418, 452, 485, 519, 552, 586, 619],
-    teamName: { x: 565, maxWidth: 210, align: 'center', color: '#ffffff', fontSize: 14 },
-    kill: { x: 734, align: 'center', color: '#ffffff', fontSize: 15 },
-    booyah: { x: 833, align: 'center', color: '#ffd700', fontSize: 15 },
-    totalPoints: { x: 930, align: 'center', color: '#ff3b30', fontSize: 16 },
+    // Bảng 11 hàng cho Top 2 -> Top 12
+    rowY: [308, 370, 434, 498, 562, 626, 688, 752, 816, 880, 944],
+    logoCol: { x: 952, size: 40 },
+    teamName: { x: 1010, maxWidth: 280, align: 'left', color: '#ffffff', fontSize: 26 },
+    kill: { x: 1316, align: 'center', color: '#ffffff', fontSize: 26 },
+    booyah: { x: 1436, align: 'center', color: '#ffffff', fontSize: 26, padZero: false },
+    totalPoints: { x: 1544, align: 'center', color: '#ffd700', fontSize: 26 },
+    // 4 Ô Booyah Recap của Game 1, Game 2, Game 3, Game 4 bên phải
     mapBoxes: [
-      { name: 'Đảo Quân Sự',     x: 268, y: 228, maxWidth: 175 },
-      { name: 'Đảo Thiên Đường', x: 268, y: 348, maxWidth: 175 },
-      { name: 'Đảo Sa Mạc',      x: 268, y: 468, maxWidth: 175 },
-      { name: 'Đảo Bình Minh',   x: 268, y: 588, maxWidth: 175 }
-    ]
-  },
-
-  // MẪU #4: BANNER VÀNG ĐEN CHIẾN BINH (Dọc 1024x1536)
-  mau_4: {
-    id: 'mau_4',
-    name: 'Mẫu #4: Banner Vàng Đen (Dọc 12 hàng)',
-    file: 'mau_4.png',
-    type: 'single_column',
-    rowY: [534, 597, 660, 723, 786, 849, 912, 975, 1038, 1101, 1164, 1227],
-    teamName: { x: 455, maxWidth: 200, align: 'left', color: '#ffffff', fontSize: 18 },
-    kill: { x: 706, align: 'center', color: '#ffffff', fontSize: 18 },
-    booyah: { x: 812, align: 'center', color: '#ffd700', fontSize: 18 },
-    totalPoints: { x: 928, align: 'center', color: '#ffd700', fontSize: 20 }
-  },
-
-  // MẪU #5: BANNER XANH LAM CHIẾN BINH (Dọc 1024x1536)
-  mau_5: {
-    id: 'mau_5',
-    name: 'Mẫu #5: Banner Xanh Lam (Dọc 12 hàng)',
-    file: 'mau_5.png',
-    type: 'single_column',
-    rowY: [567, 629, 691, 753, 815, 877, 939, 1001, 1063, 1125, 1187, 1249],
-    teamName: { x: 455, maxWidth: 200, align: 'left', color: '#ffffff', fontSize: 18 },
-    kill: { x: 715, align: 'center', color: '#ffffff', fontSize: 18 },
-    booyah: { x: 822, align: 'center', color: '#ffd700', fontSize: 18 },
-    totalPoints: { x: 929, align: 'center', color: '#ffd700', fontSize: 20 }
-  },
-
-  // MẪU #6: NARUTO BOOYAH (Dọc 741x1024, 12 hàng dọc)
-  mau_6: {
-    id: 'mau_6',
-    name: 'Mẫu #6: Naruto Booyah (Dọc 12 hàng)',
-    file: 'mau_6.png',
-    type: 'single_column',
-    rowY: [486, 525, 560, 595, 629, 664, 699, 734, 768, 803, 838, 872],
-    teamName: { x: 165, maxWidth: 205, align: 'left', color: '#ffffff', fontSize: 14 },
-    kill: { x: 430, align: 'center', color: '#ffffff', fontSize: 15 },
-    booyah: { x: 530, align: 'center', color: '#ffd700', fontSize: 15 },
-    totalPoints: { x: 622, align: 'center', color: '#ffd700', fontSize: 16 }
-  },
-
-  // MẪU #7: NARUTO PHÚ QUÝ (Dọc 741x1024, 12 hàng dọc kèm ô đồng hồ ngày giờ)
-  mau_7: {
-    id: 'mau_7',
-    name: 'Mẫu #7: Naruto Phú Quý (Dọc 12 hàng + Đồng hồ)',
-    file: 'mau_7.png',
-    type: 'single_column',
-    timeBox: { x: 588, y: 437, fontSize: 12, color: '#ffd700', clockRadius: 5.5 },
-    rowY: [505, 542, 573, 601, 632, 662, 694, 726, 755, 783, 814, 846],
-    teamName: { x: 175, maxWidth: 165, align: 'left', color: '#ffffff', fontSize: 13 },
-    kill: { x: 400, align: 'center', color: '#ffffff', fontSize: 14 },
-    booyah: { x: 517, align: 'center', color: '#ffd700', fontSize: 14 },
-    totalPoints: { x: 621, align: 'center', color: '#ffd700', fontSize: 15 }
-  },
-
-  // MẪU #8: CUSTOM PQ MAP THI ĐẤU (Dọc 741x1024: 12 hàng dọc + 4 Map Thi Đấu)
-  mau_8: {
-    id: 'mau_8',
-    name: 'Mẫu #8: Custom PQ (Dọc 12 hàng + 4 Map Thi Đấu)',
-    file: 'mau_8.png',
-    type: 'with_maps',
-    rowY: [356, 396, 436, 476, 516, 555, 594, 634, 673, 713, 752, 792],
-    teamName: { x: 124, maxWidth: 236, align: 'left', color: '#ffffff', fontSize: 17 },
-    kill: { x: 420, align: 'center', color: '#ffffff', fontSize: 19 },
-    booyah: { x: 538, align: 'center', color: '#ffd700', fontSize: 19 },
-    totalPoints: { x: 655, align: 'center', color: '#ffd700', fontSize: 21 },
-    mapBoxes: [
-      { name: 'Đảo Quân Sự',     x: 118, y: 895, maxWidth: 155 },
-      { name: 'Đảo Sa Mạc',      x: 290, y: 895, maxWidth: 155 },
-      { name: 'Đảo Thiên Đường', x: 463, y: 895, maxWidth: 155 },
-      { name: 'Đảo Bình Minh',   x: 637, y: 895, maxWidth: 155 }
+      { name: 'Game 1', x: 1760, y: 444, logoX: 1900, logoSize: 40, maxWidth: 240 },
+      { name: 'Game 2', x: 1760, y: 564, logoX: 1900, logoSize: 40, maxWidth: 240 },
+      { name: 'Game 3', x: 1760, y: 684, logoX: 1900, logoSize: 40, maxWidth: 240 },
+      { name: 'Game 4', x: 1760, y: 804, logoX: 1900, logoSize: 40, maxWidth: 240 }
     ]
   }
 };
@@ -172,7 +83,7 @@ class ImageService {
     this.templatesDir = path.resolve(__dirname, '../../assets/templates');
     this.outputDir = path.resolve(__dirname, '../../assets/output');
     this.customConfigFile = path.join(this.templatesDir, 'templates_config.json');
-    this.defaultTemplate = 'mau_1';
+    this.defaultTemplate = 'bxhconan';
     this.configs = { ...TEMPLATE_CONFIGS };
 
     if (!fs.existsSync(this.outputDir)) {
@@ -276,23 +187,25 @@ class ImageService {
     });
   }
 
+  resolveTemplateAlias(templateId) {
+    return 'bxhconan';
+  }
+
   getTemplateName(templateId) {
     this.loadCustomConfigs();
-    if (this.configs[templateId]) {
-      return this.configs[templateId].name;
-    }
-    return templateId;
+    return this.configs['bxhconan']?.name || 'Mẫu BXH Conan & Kaito Kid Esports';
   }
 
   getTemplateConfig(templateId) {
     this.loadCustomConfigs();
-    return this.configs[templateId] || this.configs['mau_1'];
+    return this.configs['bxhconan'] || TEMPLATE_CONFIGS['bxhconan'];
   }
 
   getTemplatePath(templateId) {
+    const realId = this.resolveTemplateAlias(templateId);
     const exts = ['.png', '.jpg', '.jpeg'];
     for (const ext of exts) {
-      const p = path.join(this.templatesDir, `${templateId}${ext}`);
+      const p = path.join(this.templatesDir, `${realId}${ext}`);
       if (fs.existsSync(p)) return p;
     }
     return null;
@@ -321,7 +234,8 @@ class ImageService {
       { ranks: [{ rank: 1, teamName: '『HN』ĐộcCôCầuBại' }] },
       { ranks: [{ rank: 1, teamName: 'HPĐ☞BenLòHeo' }] },
       { ranks: [{ rank: 1, teamName: '@justmtam’' }] },
-      { ranks: [{ rank: 1, teamName: '1VienM590' }] }
+      { ranks: [{ rank: 1, teamName: '1VienM590' }] },
+      { ranks: [{ rank: 1, teamName: '『Iron』boi' }] }
     ];
 
     return this.generateLeaderboardImage(demoTeams, {
@@ -336,11 +250,12 @@ class ImageService {
    * @param {Object} options Cấu hình: template, matches, v.v.
    */
   async generateLeaderboardImage(teams, options = {}) {
-    const templateName = options.template || this.defaultTemplate;
+    const requested = options.template || options.templateId || this.defaultTemplate;
+    const templateName = this.resolveTemplateAlias(requested);
     let templatePath = path.join(this.templatesDir, `${templateName}.png`);
 
     if (!fs.existsSync(templatePath)) {
-      templatePath = path.join(this.templatesDir, 'mau_1.png');
+      templatePath = path.join(this.templatesDir, 'bxhconan.png');
     }
 
     if (!fs.existsSync(templatePath)) {
@@ -348,11 +263,14 @@ class ImageService {
     }
 
     this.loadCustomConfigs();
-    const cfg = this.configs[templateName] || this.configs['mau_1'] || TEMPLATE_CONFIGS['mau_1'];
+    const cfg = this.configs[templateName] || this.configs['bxhconan'] || TEMPLATE_CONFIGS['bxhconan'];
 
     const templateImg = await loadImage(templatePath);
     const canvas = createCanvas(templateImg.width, templateImg.height);
     const ctx = canvas.getContext('2d');
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     // 1. Vẽ phôi nền
     ctx.drawImage(templateImg, 0, 0);
@@ -397,6 +315,205 @@ class ImageService {
       ctx.textAlign = 'left';
       ctx.fillStyle = clockColor;
       ctx.fillText(timeStr, startX + clockRadius * 2 + gap, centerY);
+    }
+
+    // Vẽ thanh thời gian nếu mẫu có cấu hình timeBar
+    if (cfg.timeBar) {
+      let timeLabel = options.matchTime || options.timeStr || '';
+      if (!timeLabel) {
+        const matches = options.matches || [];
+        let matchTs = null;
+        for (const m of matches) {
+          const ts = m.startTime || m.endTime || m.createTime || m.matchTime;
+          if (ts) {
+            matchTs = typeof ts === 'number' && ts < 1e11 ? ts * 1000 : Number(ts);
+            break;
+          }
+        }
+        const dt = matchTs ? new Date(matchTs) : new Date();
+        const utc = dt.getTime() + (dt.getTimezoneOffset() * 60000);
+        const vnNow = new Date(utc + (7 * 3600000));
+        const pad = n => String(n).padStart(2, '0');
+        if (cfg.timeBar.format === 'DD/MM HH:mm' || cfg.type === 'conan_kaito') {
+          timeLabel = `${pad(vnNow.getDate())}/${pad(vnNow.getMonth() + 1)} ${pad(vnNow.getHours())}:${pad(vnNow.getMinutes())}`;
+        } else {
+          timeLabel = `${pad(vnNow.getHours())}:${pad(vnNow.getMinutes())} ${pad(vnNow.getDate())}/${pad(vnNow.getMonth() + 1)}`;
+        }
+      } else {
+        const mMatch = timeLabel.match(/(\d{1,2})[h:](\d{2}).*?(\d{1,2})\/(\d{1,2})/);
+        if (mMatch) {
+          const pad = n => String(n).padStart(2, '0');
+          if (cfg.timeBar.format === 'DD/MM HH:mm' || cfg.type === 'conan_kaito') {
+            timeLabel = `${pad(mMatch[3])}/${pad(mMatch[4])} ${pad(mMatch[1])}:${pad(mMatch[2])}`;
+          } else {
+            timeLabel = `${pad(mMatch[1])}:${pad(mMatch[2])} ${pad(mMatch[3])}/${pad(mMatch[4])}`;
+          }
+        }
+      }
+
+      ctx.save();
+      const isItalic = cfg.timeBar.italic !== false && cfg.type !== 'conan_kaito';
+      ctx.font = `${isItalic ? 'bold italic' : 'bold'} ${cfg.timeBar.fontSize || 15}px "Segoe UI", "Segoe UI Symbol", Arial, sans-serif`;
+      ctx.fillStyle = cfg.timeBar.color || '#ffffff';
+      ctx.textAlign = cfg.timeBar.align || 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+      ctx.shadowBlur = 3;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+      ctx.fillText(timeLabel, cfg.timeBar.x || 700, cfg.timeBar.y || 83);
+      ctx.restore();
+    }
+
+    // Vẽ Logo giải đấu/Key nếu có
+    if (options.logoPath && fs.existsSync(options.logoPath)) {
+      try {
+        const logoImg = await loadImage(options.logoPath);
+        const logoCfg = cfg.logoPos || { x: 40, y: 35, size: 75 };
+        const lx = logoCfg.x;
+        const ly = logoCfg.y;
+        const lSize = logoCfg.size || 75;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        if (logoCfg.isSquare) {
+          // Vẽ logo vuông bo góc nhẹ trong khung vuông (như Mẫu 6 Kaito Kid)
+          const radius = logoCfg.borderRadius || 6;
+          ctx.beginPath();
+          ctx.roundRect(lx, ly, lSize, lSize, radius);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(logoImg, lx, ly, lSize, lSize);
+          ctx.restore();
+
+          // Viền quanh logo vuông (chỉ vẽ nếu cấu hình yêu cầu, mẫu conan_kaito phôi đã có sẵn viền phát sáng)
+          if (logoCfg.showBorder !== false && cfg.type !== 'conan_kaito') {
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(lx, ly, lSize, lSize, radius);
+            ctx.strokeStyle = logoCfg.borderColor || '#00ffff';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            ctx.restore();
+          }
+        } else {
+          // Mặc định: Logo hình tròn viền vàng
+          ctx.beginPath();
+          ctx.arc(lx + lSize / 2, ly + lSize / 2, lSize / 2, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(logoImg, lx, ly, lSize, lSize);
+          ctx.restore();
+
+          // Viền vàng kim quanh logo tròn
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(lx + lSize / 2, ly + lSize / 2, (lSize / 2) + 1, 0, Math.PI * 2);
+          ctx.strokeStyle = '#ffd700';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+          ctx.restore();
+        }
+      } catch (err) {
+        console.error('⚠️ [IMAGE SERVICE] Lỗi khi vẽ logo:', err.message);
+      }
+    }
+
+    // Helper vẽ bộ 3 icon YTB, FB, TIKTOK vector cực nét
+    const drawSocialIcons = (startX, centerY, size = 16) => {
+      // 1. YouTube Icon (Nền đỏ bo góc + tam giác trắng)
+      const ytbX = startX;
+      const ytbY = centerY - size / 2;
+      ctx.save();
+      ctx.fillStyle = '#ff0000';
+      ctx.beginPath();
+      ctx.roundRect(ytbX, ytbY, size * 1.3, size, 4);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.moveTo(ytbX + size * 0.45, centerY - size * 0.28);
+      ctx.lineTo(ytbX + size * 0.95, centerY);
+      ctx.lineTo(ytbX + size * 0.45, centerY + size * 0.28);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // 2. Facebook Icon (Hình tròn xanh + chữ f trắng)
+      const fbX = startX + size * 1.3 + 6;
+      ctx.save();
+      ctx.fillStyle = '#1877f2';
+      ctx.beginPath();
+      ctx.arc(fbX + size / 2, centerY, size / 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${Math.round(size * 0.8)}px Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('f', fbX + size / 2, centerY + 1);
+      ctx.restore();
+
+      // 3. TikTok Icon (Hình tròn đen + nốt nhạc)
+      const ttX = fbX + size + 6;
+      ctx.save();
+      ctx.fillStyle = '#010101';
+      ctx.beginPath();
+      ctx.arc(ttX + size / 2, centerY, size / 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#25f4ee';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(ttX + size / 2 + 1, centerY - 2, size * 0.26, 0, Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = '#fe2c55';
+      ctx.beginPath();
+      ctx.arc(ttX + size / 2 - 1, centerY + 2, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      return ttX + size + 8; // Trả về tọa độ X tiếp theo để viết chữ
+    };
+
+    // Vẽ Tên Giải CUSTOM nếu có
+    if (options.customTitle) {
+      try {
+        const titleCfg = cfg.titlePos || { x: canvas.width / 2, y: 50, fontSize: 22, align: 'center', color: '#ffd700' };
+        ctx.save();
+        ctx.font = `900 ${titleCfg.fontSize || 22}px "Segoe UI", "Malgun Gothic", "MS Gothic", Arial, sans-serif`;
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        const titleText = String(options.customTitle).trim().toUpperCase();
+        let drawX = titleCfg.x;
+
+        if (titleCfg.withSocialIcons) {
+          // Vẽ bộ icon YTB, FB, TIKTOK phía trước rồi viết tên custom
+          drawX = drawSocialIcons(titleCfg.x, titleCfg.y, 16);
+          ctx.textAlign = 'left';
+        } else {
+          ctx.textAlign = titleCfg.align || 'center';
+        }
+
+        if (cfg.type !== 'conan_kaito' && !titleCfg.noStroke) {
+          ctx.strokeStyle = '#000000';
+          ctx.lineWidth = 3.5;
+          ctx.strokeText(titleText, drawX, titleCfg.y);
+        } else {
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+          ctx.shadowBlur = 3;
+        }
+        ctx.fillStyle = titleCfg.color || '#ffd700';
+        ctx.fillText(titleText, drawX, titleCfg.y);
+        ctx.restore();
+      } catch (err) {
+        console.error('⚠️ [IMAGE SERVICE] Lỗi khi vẽ customTitle:', err.message);
+      }
     }
 
     ctx.textBaseline = 'middle';
@@ -550,8 +667,464 @@ class ImageService {
           }
         });
       }
+    } else if (cfg.type === 'kimetsu_pq') {
+      // MẪU KIMETSU CUSTOM PQ: TOP 1 CHAMPION CARD + 2 CỘT 12 ĐỘI + 5 MAP BOOYAH
+      // A. Điền Top 1 Champion Card ở giữa trên
+      if (teams.length > 0 && cfg.championBox) {
+        const top1 = teams[0];
+        const cBox = cfg.championBox;
+
+        // Tên đội Top 1
+        if (cBox.teamName) {
+          ctx.save();
+          ctx.font = `bold ${cBox.teamName.fontSize || 20}px "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji", "Malgun Gothic", "MS Gothic", Arial, sans-serif`;
+          ctx.fillStyle = cBox.teamName.color || '#0b2e4f';
+          ctx.textAlign = cBox.teamName.align || 'center';
+          ctx.textBaseline = 'middle';
+          const top1Name = truncate(top1.teamName || 'Đội 1', cBox.teamName.maxWidth || 260);
+          ctx.fillText(top1Name, cBox.teamName.x, cBox.teamName.y);
+          ctx.restore();
+        }
+
+        // ELIMS Top 1
+        if (cBox.kill) {
+          ctx.save();
+          ctx.font = `bold ${cBox.kill.fontSize || 18}px "Segoe UI", Tahoma, Arial, sans-serif`;
+          ctx.fillStyle = cBox.kill.color || '#0b2e4f';
+          ctx.textAlign = cBox.kill.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(top1.killCount ?? 0), cBox.kill.x, cBox.kill.y);
+          ctx.restore();
+        }
+
+        // BOOYAH Top 1
+        if (cBox.booyah) {
+          ctx.save();
+          ctx.font = `bold ${cBox.booyah.fontSize || 18}px "Segoe UI", Tahoma, Arial, sans-serif`;
+          ctx.fillStyle = cBox.booyah.color || '#0b2e4f';
+          ctx.textAlign = cBox.booyah.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(top1.booyahCount ?? 0), cBox.booyah.x, cBox.booyah.y);
+          ctx.restore();
+        }
+
+        // PTS Top 1
+        if (cBox.totalPoints) {
+          ctx.save();
+          ctx.font = `bold ${cBox.totalPoints.fontSize || 20}px "Segoe UI", Tahoma, Arial, sans-serif`;
+          ctx.fillStyle = cBox.totalPoints.color || '#c00000';
+          ctx.textAlign = cBox.totalPoints.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(top1.totalPoints ?? 0), cBox.totalPoints.x, cBox.totalPoints.y);
+          ctx.restore();
+        }
+      }
+
+      // B. Điền Bảng 2 Cột (Top 1 -> 6 bên trái, Top 7 -> 12 bên phải)
+      for (let i = 0; i < 6; i++) {
+        if (i < teams.length) {
+          const y = cfg.rowYLeft[i];
+          drawRow(teams[i], cfg.leftCol, y, `Đội ${i + 1}`);
+        }
+      }
+      for (let i = 0; i < 6; i++) {
+        const teamIdx = i + 6;
+        if (teamIdx < teams.length) {
+          const y = cfg.rowYRight[i];
+          drawRow(teams[teamIdx], cfg.rightCol, y, `Đội ${teamIdx + 1}`);
+        }
+      }
+
+    } else if (cfg.type === 'champion_and_maps') {
+      // MẪU ESPORTS: TOP 1 CHAMPION BÊN TRÁI + 11 HÀNG (TOP 2-12) BÊN PHẢI + 4 MAP RECAP
+      // A. Điền Top 1 Champion bên trái
+      if (teams.length > 0 && cfg.championBox) {
+        const top1 = teams[0];
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+
+        // Top 1 Team Name
+        const cNameCfg = cfg.championBox.teamName || {};
+        ctx.font = `bold ${cNameCfg.fontSize || 20}px "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji", "Malgun Gothic", "MS Gothic", Arial, sans-serif`;
+        ctx.fillStyle = cNameCfg.color || '#ffd700';
+        ctx.textAlign = cNameCfg.align || 'left';
+        ctx.textBaseline = 'middle';
+        const top1Name = truncate(top1.teamName || 'Đội Vô Địch', cNameCfg.maxWidth || 255);
+        ctx.fillText(top1Name, cNameCfg.x || 145, cNameCfg.y || 415);
+
+        // Top 1 Stats
+        const sCfg = cfg.championBox.stats || {};
+        const statY = sCfg.y || 478;
+        ctx.font = `bold ${sCfg.fontSize || 14}px "Segoe UI", Tahoma, Arial, sans-serif`;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
+
+        ctx.fillStyle = sCfg.colorLabel || '#ffffff';
+        ctx.fillText('ELIMS: ', 145, statY);
+        ctx.fillStyle = sCfg.colorValue || '#ffd700';
+        ctx.fillText(String(top1.killCount ?? 0), 195, statY);
+
+        ctx.fillStyle = sCfg.colorLabel || '#ffffff';
+        ctx.fillText('BOOYAH: ', 230, statY);
+        ctx.fillStyle = sCfg.colorValue || '#ffd700';
+        ctx.fillText(String(top1.booyahCount ?? 0), 302, statY);
+
+        ctx.fillStyle = sCfg.colorLabel || '#ffffff';
+        ctx.fillText('PTS: ', 330, statY);
+        ctx.fillStyle = sCfg.colorPoints || '#ff3b30';
+        ctx.fillText(String(top1.totalPoints ?? 0), 368, statY);
+
+        ctx.restore();
+      }
+
+      // B. Điền 11 hàng (Top 2 -> 12) vào bảng chính
+      const maxRows = Math.min(Math.max(0, teams.length - 1), cfg.rowY.length);
+      for (let i = 0; i < maxRows; i++) {
+        const team = teams[i + 1];
+        const y = cfg.rowY[i];
+        drawRow(team, cfg, y, `Đội ${i + 2}`);
+      }
+
+      // C. Điền Booyah Recap 4 Game bên phải
+      const matches = options.matches || [];
+      if (cfg.mapBoxes && Array.isArray(cfg.mapBoxes)) {
+        cfg.mapBoxes.forEach((box, mapIdx) => {
+          let booyahTeamName = '';
+
+          if (matches[mapIdx] && Array.isArray(matches[mapIdx].ranks)) {
+            let booyahRank = matches[mapIdx].ranks.find(r => Number(r.booyah) === 1);
+            if (!booyahRank) {
+              const hasBooyahField = matches[mapIdx].ranks.some(r => r.booyah !== undefined && r.booyah !== null);
+              if (!hasBooyahField) {
+                booyahRank = matches[mapIdx].ranks.find(r => Number(r.rank) === 1);
+              }
+            }
+
+            if (booyahRank) {
+              const matchedTeam = teams.find(t => {
+                if (booyahRank.teamName && t.teamName && t.teamName.trim().toLowerCase() === booyahRank.teamName.trim().toLowerCase()) {
+                  return true;
+                }
+                const pNames = booyahRank.accountNames || [];
+                if (t.accountNames && pNames.length > 0) {
+                  let overlap = 0;
+                  for (const name of pNames) {
+                    if (name && t.accountNames.includes(name)) overlap++;
+                  }
+                  if (overlap >= 2 || (pNames.length <= 2 && overlap >= 1)) return true;
+                }
+                if (t.teamName && pNames.includes(t.teamName)) return true;
+                return false;
+              });
+
+              if (matchedTeam) {
+                booyahTeamName = matchedTeam.teamName;
+              } else {
+                booyahTeamName = ((booyahRank.accountNames && booyahRank.accountNames[0]) || booyahRank.teamName || booyahRank.name || '').trim();
+              }
+            }
+          }
+
+          if (booyahTeamName) {
+            ctx.save();
+            ctx.font = 'bold 12px "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji", "Malgun Gothic", "MS Gothic", Arial, sans-serif';
+            const textToDraw = truncate(`👑 ${booyahTeamName}`, box.maxWidth - 16);
+            const textMetrics = ctx.measureText(textToDraw);
+            const badgeW = Math.min(box.maxWidth, textMetrics.width + 16);
+            const badgeH = 22;
+            const badgeX = box.x - (badgeW / 2);
+            const badgeY = box.y - (badgeH / 2);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.82)';
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 5);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffd700';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+            ctx.shadowBlur = 3;
+            ctx.fillText(textToDraw, box.x, box.y);
+            ctx.restore();
+          }
+        });
+      }
+
+      // D. Điền thông tin thanh ngang bên dưới (Bottom Bar: Giờ & Ngày bắn)
+      if (cfg.bottomBar) {
+        ctx.save();
+        ctx.textAlign = cfg.bottomBar.align || 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `bold italic ${cfg.bottomBar.fontSize || 13}px "Segoe UI", "Segoe UI Symbol", Tahoma, Arial, sans-serif`;
+        ctx.fillStyle = cfg.bottomBar.color || '#ffd700';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 3;
+
+        // Tính giờ ngày bắn (theo giờ Việt Nam UTC+7)
+        let timeLabel = options.matchTime || options.timeStr || '';
+        if (!timeLabel) {
+          const matches = options.matches || [];
+          let matchTs = null;
+          for (const m of matches) {
+            const ts = m.startTime || m.endTime || m.createTime || m.matchTime;
+            if (ts) {
+              matchTs = typeof ts === 'number' && ts < 1e11 ? ts * 1000 : Number(ts);
+              break;
+            }
+          }
+          const dt = matchTs ? new Date(matchTs) : new Date();
+          const utc = dt.getTime() + (dt.getTimezoneOffset() * 60000);
+          const vnNow = new Date(utc + (7 * 3600000));
+          const pad = n => String(n).padStart(2, '0');
+          timeLabel = `${pad(vnNow.getHours())}h${pad(vnNow.getMinutes())} - ${pad(vnNow.getDate())}/${pad(vnNow.getMonth() + 1)}/${vnNow.getFullYear()}`;
+        }
+
+        const prefix = options.customTitle || options.roomTitle || cfg.bottomBar.prefix || 'BẢNG ĐẤU CUSTOM PQ';
+        const barText = `• ${prefix} • ${timeLabel} •`;
+        ctx.fillText(barText, cfg.bottomBar.x || 500, cfg.bottomBar.y || 532);
+        ctx.restore();
+      }
+    } else if (cfg.type === 'conan_kaito') {
+      // MẪU #6: CONAN & KAITO KID ESPORTS
+      // (Top 1 Champion Box bên trái + 11 hàng Top 2-12 có khoảng cách logo bên phải + 4 Game Recap)
+
+      // A. Điền Top 1 Champion Box bên trái
+      if (teams.length > 0 && cfg.championBox) {
+        const top1 = teams[0];
+        const cBox = cfg.championBox;
+
+        // Tên đội Top 1: Căn giữa dải banner bên phải TOP 1
+        if (cBox.teamName) {
+          ctx.save();
+          ctx.font = `bold ${cBox.teamName.fontSize || 18}px "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji", "Malgun Gothic", "MS Gothic", Arial, sans-serif`;
+          ctx.textAlign = cBox.teamName.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = cBox.teamName.color || '#ffffff';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 4;
+          const top1Name = truncate(top1.teamName || 'Đội 1', cBox.teamName.maxWidth || 175);
+          ctx.fillText(top1Name, cBox.teamName.x, cBox.teamName.y);
+          ctx.restore();
+        }
+
+        // Số Booyah Top 1 (Bên phải chữ BOOYAH! định dạng 2 chữ số 01)
+        if (cBox.booyah) {
+          ctx.save();
+          ctx.font = `900 ${cBox.booyah.fontSize || 24}px "Segoe UI", Tahoma, Arial, sans-serif`;
+          ctx.fillStyle = cBox.booyah.color || '#ffffff';
+          ctx.textAlign = cBox.booyah.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 3;
+          const byCount = cBox.booyah.padZero
+            ? String(top1.booyahCount ?? 0).padStart(2, '0')
+            : String(top1.booyahCount ?? 0);
+          ctx.fillText(byCount, cBox.booyah.x, cBox.booyah.y);
+          ctx.restore();
+        }
+
+        // ELIM Top 1
+        if (cBox.kill) {
+          ctx.save();
+          ctx.font = `900 ${cBox.kill.fontSize || 24}px "Segoe UI", Tahoma, Arial, sans-serif`;
+          ctx.fillStyle = cBox.kill.color || '#ffffff';
+          ctx.textAlign = cBox.kill.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 3;
+          ctx.fillText(String(top1.killCount ?? 0), cBox.kill.x, cBox.kill.y);
+          ctx.restore();
+        }
+
+        // PTS Top 1
+        if (cBox.totalPoints) {
+          ctx.save();
+          ctx.font = `900 ${cBox.totalPoints.fontSize || 24}px "Segoe UI", Tahoma, Arial, sans-serif`;
+          ctx.fillStyle = cBox.totalPoints.color || '#ffffff';
+          ctx.textAlign = cBox.totalPoints.align || 'center';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 3;
+          ctx.fillText(String(top1.totalPoints ?? 0), cBox.totalPoints.x, cBox.totalPoints.y);
+          ctx.restore();
+        }
+      }
+
+      // Tải logo dùng chung (nếu có)
+      let teamLogoImg = null;
+      if (options.logoPath && fs.existsSync(options.logoPath)) {
+        try {
+          teamLogoImg = await loadImage(options.logoPath);
+        } catch (e) {}
+      }
+
+      // B. Điền 11 hàng (Top 2 -> Top 12) vào bảng chính bên phải
+      const maxRows = Math.min(Math.max(0, teams.length - 1), cfg.rowY.length);
+      for (let i = 0; i < maxRows; i++) {
+        const team = teams[i + 1];
+        const y = cfg.rowY[i];
+
+        // 1. Logo vuông nhỏ bo góc cạnh số thứ tự
+        if (teamLogoImg && cfg.logoCol) {
+          const lX = cfg.logoCol.x || 952;
+          const lS = cfg.logoCol.size || 40;
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(lX, y - lS / 2, lS, lS, 4);
+          ctx.clip();
+          ctx.drawImage(teamLogoImg, lX, y - lS / 2, lS, lS);
+          ctx.restore();
+        }
+
+        // 2. Tên đội
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+        ctx.shadowBlur = 6;
+        ctx.textAlign = cfg.teamName.align || 'left';
+        ctx.fillStyle = cfg.teamName.color || '#ffffff';
+        ctx.font = `bold ${cfg.teamName.fontSize || 26}px "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji", "Malgun Gothic", "MS Gothic", Arial, sans-serif`;
+        const name = truncate(team?.teamName || `Đội ${i + 2}`, cfg.teamName.maxWidth || 280);
+        ctx.fillText(name, cfg.teamName.x, y);
+
+        // 3. Kill
+        ctx.textAlign = cfg.kill.align || 'center';
+        ctx.fillStyle = cfg.kill.color || '#ffffff';
+        ctx.font = `900 ${cfg.kill.fontSize || 26}px "Segoe UI", Tahoma, Arial, sans-serif`;
+        ctx.fillText(String(team?.killCount ?? 0), cfg.kill.x, y);
+
+        // 4. Booyah định dạng 2 chữ số (00, 01, 02)
+        ctx.textAlign = cfg.booyah.align || 'center';
+        ctx.fillStyle = cfg.booyah.color || '#ffffff';
+        ctx.font = `900 ${cfg.booyah.fontSize || 26}px "Segoe UI", Tahoma, Arial, sans-serif`;
+        const byStr = cfg.booyah.padZero
+          ? String(team?.booyahCount ?? 0).padStart(2, '0')
+          : String(team?.booyahCount ?? 0);
+        ctx.fillText(byStr, cfg.booyah.x, y);
+
+        // 5. Total Points (PTS màu vàng gold)
+        ctx.textAlign = cfg.totalPoints.align || 'center';
+        ctx.fillStyle = cfg.totalPoints.color || '#ffd700';
+        ctx.font = `900 ${cfg.totalPoints.fontSize || 26}px "Segoe UI", Tahoma, Arial, sans-serif`;
+        ctx.fillText(String(team?.totalPoints ?? 0), cfg.totalPoints.x, y);
+        ctx.restore();
+      }
+
+      // C. Điền Booyah Recap 4 Game bên phải
+      const matches = options.matches || [];
+      if (cfg.mapBoxes && Array.isArray(cfg.mapBoxes)) {
+        cfg.mapBoxes.forEach((box, mapIdx) => {
+          let booyahTeamName = '';
+
+          if (matches[mapIdx] && Array.isArray(matches[mapIdx].ranks)) {
+            let booyahRank = matches[mapIdx].ranks.find(r => Number(r.booyah) === 1);
+            if (!booyahRank) {
+              const hasBooyahField = matches[mapIdx].ranks.some(r => r.booyah !== undefined && r.booyah !== null);
+              if (!hasBooyahField) {
+                booyahRank = matches[mapIdx].ranks.find(r => Number(r.rank) === 1);
+              }
+            }
+
+            if (booyahRank) {
+              const matchedTeam = teams.find(t => {
+                if (booyahRank.teamName && t.teamName && t.teamName.trim().toLowerCase() === booyahRank.teamName.trim().toLowerCase()) {
+                  return true;
+                }
+                const pNames = booyahRank.accountNames || [];
+                if (t.accountNames && pNames.length > 0) {
+                  let overlap = 0;
+                  for (const name of pNames) {
+                    if (name && t.accountNames.includes(name)) overlap++;
+                  }
+                  if (overlap >= 2 || (pNames.length <= 2 && overlap >= 1)) return true;
+                }
+                if (t.teamName && pNames.includes(t.teamName)) return true;
+                return false;
+              });
+
+              if (matchedTeam) {
+                booyahTeamName = matchedTeam.teamName;
+              } else {
+                booyahTeamName = ((booyahRank.accountNames && booyahRank.accountNames[0]) || booyahRank.teamName || booyahRank.name || '').trim();
+              }
+            }
+          }
+
+          if (booyahTeamName) {
+            ctx.save();
+            ctx.font = `bold ${box.fontSize || 24}px "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji", "Malgun Gothic", "MS Gothic", Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+            ctx.shadowBlur = 8;
+            const textToDraw = truncate(booyahTeamName, box.maxWidth || 240);
+            ctx.fillText(textToDraw, box.x, box.y);
+
+            // Vẽ logo nhỏ bên phải banner recap nếu có (BỎ VIỀN)
+            if (teamLogoImg && box.logoX) {
+              const lS = box.logoSize || 40;
+              ctx.beginPath();
+              ctx.roundRect(box.logoX, box.y - lS / 2, lS, lS, 6);
+              ctx.clip();
+              ctx.drawImage(teamLogoImg, box.logoX, box.y - lS / 2, lS, lS);
+            }
+            ctx.restore();
+          }
+        });
+      }
+
+      // D. Điền ô trắng/kem bên dưới (Bottom White Box: Tên Custom / Logo)
+      if (cfg.bottomWhiteBox) {
+        const bw = cfg.bottomWhiteBox;
+        const cy = bw.y || 1056;
+        const cusName = (options.customTitle || options.roomTitle || 'CUSTOM FREE FIRE').trim().toUpperCase();
+
+        ctx.save();
+        ctx.font = `900 ${bw.fontSize || 30}px "Segoe UI", "Malgun Gothic", Arial, sans-serif`;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = bw.color || '#0b2e4f';
+
+        const boxCenterX = bw.x || 908;
+
+        if (teamLogoImg) {
+          const lSize = bw.logoSize || 38;
+          const gap = bw.gap || 16;
+          const textW = ctx.measureText(cusName).width;
+          const totalW = lSize + gap + textW;
+          const startX = Math.round(boxCenterX - (totalW / 2));
+
+          // Vẽ logo - BỎ VIỀN, bo tròn mềm mại không viền thừa
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(startX + lSize / 2, cy, lSize / 2, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(teamLogoImg, startX, cy - lSize / 2, lSize, lSize);
+          ctx.restore();
+
+          // Vẽ tên Custom bên cạnh logo, toàn bộ khối căn giữa tuyệt đối
+          ctx.save();
+          ctx.font = `900 ${bw.fontSize || 30}px "Segoe UI", "Malgun Gothic", Arial, sans-serif`;
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = bw.color || '#0b2e4f';
+          ctx.textAlign = 'left';
+          ctx.fillText(truncate(cusName, bw.maxWidth || 440), startX + lSize + gap, cy);
+          ctx.restore();
+        } else {
+          ctx.textAlign = 'center';
+          ctx.fillText(truncate(cusName, bw.maxWidth || 520), boxCenterX, cy);
+        }
+        ctx.restore();
+      }
+
     } else {
-      // MẪU 1 CỘT CHUẨN (Mẫu 1, Mẫu 2, Mẫu 5)
+      // MẪU 1 CỘT CHUẨN (Mẫu 1, Mẫu 2, Mẫu 3)
       const maxRows = Math.min(teams.length, cfg.rowY.length);
       for (let i = 0; i < maxRows; i++) {
         const y = cfg.rowY[i];

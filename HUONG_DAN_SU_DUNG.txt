@@ -1,5 +1,5 @@
 ================================================================================
-          HƯỚNG DẪN SỬ DỤNG BOT ZALO TÍNH ĐIỂM FREE FIRE & QUẢN LÝ CUSTOM
+          HƯỚNG DẪN SỬ DỤNG BOT ZALO TÍNH ĐIỂM FREE FIRE (GARENA API)
 ================================================================================
 
 1. YÊU CẦU HỆ THỐNG
@@ -48,92 +48,63 @@
     Bot sẽ tự xóa session và tắt. Chạy lại "npm start" để quét nick mới.
 
 
-5. PHÂN QUYỀN ADMIN TRONG NHÓM
+5. BẢO MẬT & PHÂN QUYỀN NHÓM (FILE nhom_cho_phep.txt)
 --------------------------------------------------------------------------------
-- Để tránh thành viên phá bot, mặc định chỉ có TRƯỞNG NHÓM và PHÓ NHÓM mới gõ được lệnh.
+- Bot CHỈ HOẠT ĐỘNG trong các nhóm có tên/ID trong file nhom_cho_phep.txt.
+- Cách cấp quyền cho nhóm Zalo:
+  1. Gõ lệnh: .idnhom (hoặc .id) trong nhóm Zalo để lấy ID nhóm.
+  2. Mở file nhom_cho_phep.txt, dán Link nhóm (hoặc ID nhóm) vào đó và bấm Lưu (Ctrl + S).
+  3. Bot tự động cập nhật ngay lập tức mà không cần khởi động lại.
+- Để tránh thành viên phá bot, chỉ có TRƯỞNG NHÓM và PHÓ NHÓM mới gõ được lệnh.
 - Lưu ý: Thăng quyền PHÓ NHÓM cho nick Bot để Bot có thể dùng được lệnh .kickall.
 
 
-6. BẢNG TỔNG HỢP CÁC LỆNH QUẢN LÝ SLOT CUSTOM (12 SLOT, ĐA BẢNG)
+6. LỆNH TÍNH ĐIỂM THEO KHUNG GIỜ (.td) - TÍNH NĂNG CỐT LÕI
 --------------------------------------------------------------------------------
-Tiền tố hỗ trợ: dấu chấm (.), chấm than (!), hoặc gạch chéo (/):
+- Cú pháp: .td <UID>
+  Ví dụ: .td 1043310641
+  Bot sẽ hiện menu 8 khung giờ:
+    1: 13h-15h       2: 15h-17h       3: 17h-19h       4: 20h-21h30
+    5: 21h40-23h     6: 23h30-1h      7: 1h-3h         8: 10h-12h
+  Bạn chỉ cần trả lời số từ 1 đến 8.
 
-- THÊM TUYỂN THỦ:
-  .tên1, tên2...             : Thêm tuyển thủ vào bảng hiện tại.
-                               Ví dụ: .Văn Thịnh 1, Văn Thịnh 2, Bi (hoặc .quy, phu)
-  .b tên1, tên2...           : Thêm trực tiếp vào Bảng B (hoặc .a, .c, .b1...)
+- Tính nhanh 1 dòng:
+  .td <UID> <KhungGiờ> [Ngày]
+  Ví dụ: .td 1043310641 6 (khung 6 hôm nay)
+  Ví dụ: .td 1043310641 4 08/09 (khung 4 ngày 08/09)
 
-- QUẢN LÝ PHÍ & TRẠNG THÁI:
-  .phi <số_slot>             : Đánh dấu đã đóng phí (icon 💸). Ví dụ: .phi 8 hoặc .phi 1 2 3
-  .hen <số_slot>             : Đánh dấu hẹn phí (icon ⏰). Ví dụ: .hen 8
-  .xoa <số_slot>             : Hủy tuyển thủ ở slot. Ví dụ: .xoa 3 hoặc .xoa 3 5 7
-
-- CẤU HÌNH PHÒNG:
-  .taocus [giờ] [giá] [bảng] : Tạo giải custom mới. Ví dụ: .taocus 8h 6k A
-  .ctk <tên>                 : Đổi tên CTK + Bill. Ví dụ: .ctk LE DAI QUY
-  .box <tên>                 : Đổi tên Box. Ví dụ: .box BOX CUSTOM ĐQ
-  .link <url>                : Gắn link nhóm IDMK vào cuối bảng. (gõ .link xoa để bỏ)
-
-- XEM BẢNG:
-  .xemslot / .cus / .ds      : Xem lại bảng 12 slot hiện tại.
-  .all hoặc .dsall           : Xem gộp TẤT CẢ các bảng cùng lúc (Bảng A, B, C...).
-  .chon <bảng>               : Chuyển sang quản lý bảng khác (Ví dụ: .chon B).
-  .xoabang <bảng>            : Xóa một bảng không dùng (Ví dụ: .xoabang B).
+- MẸO CỰC TIỆN TRÊN ĐIỆN THOẠI:
+  Trượt tin nhắn (Quote Reply) chứa UID qua và gõ: td 1 hoặc td
 
 
-7. LỆNH TÍNH ĐIỂM GARENA (TỰ ĐỘNG VẼ ẢNH BẢNG XẾP HẠNG)
+7. CÁC LỆNH TRA CỨU ĐIỂM & TIỆN ÍCH KHÁC
 --------------------------------------------------------------------------------
-1. TÍNH ĐIỂM THEO KHUNG GIỜ (8 Khung giờ chuẩn):
-   - Cú pháp: .td <UID>
-     Ví dụ: .td 1043310641
-     Bot sẽ hiện menu 8 khung giờ (1: 13h-15h, 2: 15h-17h, 3: 17h-19h, 4: 20h-21h30,
-     5: 21h40-23h, 6: 23h30-1h, 7: 1h-3h, 8: 10h-12h).
-     Bạn chỉ cần trả lời số từ 1 đến 8.
-   - Tính nhanh: .td <UID> <KhungGiờ> [Ngày]
-     Ví dụ: .td 1043310641 6 (khung 6 hôm nay)
-     Ví dụ: .td 1043310641 4 08/09 (khung 4 ngày 08/09)
-   - MẸO TRÊN ĐIỆN THOẠI: Trượt tin nhắn (Quote) chứa UID qua và gõ: td 1 hoặc td
-
-2. CÁC LỆNH TRA CỨU KHÁC:
-   !diem <ID_Trận>           : Xem chi tiết điểm của 1 trận.
-                               Ví dụ: !diem 2096072125441953792
-   !tongdiem <ID1> <ID2>...  : Tính tổng điểm nhiều trận và xuất ảnh BXH (hoặc gõ .bxh).
-                               Ví dụ: !tongdiem 12345 12346 12347
-   !timtran <UID> [số_ngày]  : Tìm các ID trận gần nhất của người chơi.
-                               Ví dụ: !timtran 1043310641 7
-   !check                    : Kiểm tra trạng thái Cookie Garena.
-   !help                     : Xem bảng menu hướng dẫn tóm tắt.
+!check                    : Kiểm tra trạng thái Cookie Garena (Chỉ Trưởng/Phó nhóm).
+!help / .help             : Xem bảng menu hướng dẫn tóm tắt.
+.qr / .stk / .bank        : Xem mã QR & thông tin chuyển khoản nhóm.
+.doiqr / .setqr           : Đổi ảnh mã QR riêng cho nhóm (Chỉ Trưởng/Phó nhóm).
+.setstk <STK> <NgânHàng>  : Đổi STK & ngân hàng nhóm (Chỉ Trưởng/Phó nhóm).
+.ctk <Tên_CTK>            : Đổi tên Chủ tài khoản nhận tiền (Chỉ Trưởng/Phó nhóm).
+.xoaqr                    : Xóa QR riêng, quay về mã QR mặc định (Chỉ Trưởng/Phó nhóm).
+.anti / .baove            : Mở menu cài đặt Bảo Vệ Nhóm (Chỉ Trưởng/Phó nhóm).
 
 
-8. CHỌN & XEM TRƯỚC MẪU PHÔI BẢNG XẾP HẠNG
---------------------------------------------------------------------------------
-- .mau                       : Xem danh sách các mẫu phôi và mẫu nhóm đang dùng.
-- .mau #1 đến .mau #8        : Đổi sang mẫu tương ứng cho riêng nhóm này (lưu độc lập từng nhóm,
-                                Mẫu 1: Cus Cỏ, Mẫu 2: Ngang 2 cột, Mẫu 3: 4 Map, Mẫu 4: Vàng Đen, Mẫu 5: Xanh Lam, Mẫu 6: Naruto, Mẫu 7: Phú Quý Đồng Hồ, Mẫu 8: Custom PQ 4 Map).
-- .xemmau                    : Gửi ảnh của mẫu nhóm đang dùng ra nhóm.
-- .xemmau #4                 : Gửi ảnh xem trước của Mẫu số 4.
-- .xemmau all                : Gửi link Google Sheet kho phôi ảnh gốc.
-
-
-9. LỆNH LỌC THÀNH VIÊN (KICKALL)
---------------------------------------------------------------------------------
-- Cú pháp: .kickall (hoặc !kickall, .locnhom)
-- Chức năng: Kick toàn bộ thành viên thường ra khỏi nhóm để chuẩn bị cho giải mới.
-- BẢO VỆ TUYỆT ĐỐI: Trưởng nhóm, các Phó nhóm, tài khoản Bot, người gõ lệnh.
-- Điều kiện: Bot phải được thăng quyền Phó nhóm trên Zalo.
-
-
-10. TỰ ĐỘNG GỬI QR NGÂN HÀNG & QUÉT BILL XẾP SLOT
+9. TỰ ĐỘNG GỬI QR NGÂN HÀNG & CẤU HÌNH TÀI KHOẢN
 --------------------------------------------------------------------------------
 - Xin mã QR             : Nhắn "xin qr", "mã qr", "stk", "chuyển khoản", hoặc gõ .qr, .stk
                            -> Bot tự gửi ảnh VietQR TPBank (1000 2610 909 - LE DAI QUY).
-- Quét Bill chuyển tiền : Chuyển tiền xong, chỉ cần GỬI ẢNH BILL VÀO NHÓM:
-                           + Gửi kèm "22h B" -> Xếp vào Bảng B ca 22h.
-                           + Gửi kèm "22h"   -> Xếp vào ca 22h (Bảng A đầy tự sang B).
-                           + Gửi kèm "B"     -> Xếp vào Bảng B ca gần nhất.
-                           + Không gửi chữ   -> Tự động vào bảng và ca gần nhất còn slot.
-- Tự động điền slot     : Tự lấy tên Zalo điền vào slot trống, gắn dấu ✅ và in bảng mới.
-- Chống gian lận        : Tự động từ chối nếu có người gửi lại bill cũ (trùng mã GD).
+- Đổi ảnh QR nhóm       : Gửi ảnh lên nhóm kèm caption .doiqr (hoặc reply ảnh gõ .doiqr).
+- Đổi STK & Ngân hàng   : .setstk <STK> <Tên_Ngân_Hàng> [Tên_CTK]
+- Đổi tên Chủ tài khoản : .ctk <Tên_Chủ_Tài_Khoản>
+- Hủy QR riêng          : .xoaqr (quay về mã QR TPBank mặc định).
+
+
+10. LỆNH LỌC THÀNH VIÊN (KICKALL)
+--------------------------------------------------------------------------------
+- Cú pháp: .kickall (hoặc !kickall, .locnhom, .clearall)
+- Chức năng: Kick toàn bộ thành viên thường ra khỏi nhóm để chuẩn bị cho giải mới.
+- BẢO VỆ TUYỆT ĐỐI: Trưởng nhóm, các Phó nhóm, tài khoản Bot, người gõ lệnh.
+- Điều kiện: Bot phải được thăng quyền Phó nhóm trên Zalo.
 
 
 11. CÔNG CỤ CLI (CHẠY TRÊN MÁY TÍNH KHÔNG CẦN BẬT ZALO)

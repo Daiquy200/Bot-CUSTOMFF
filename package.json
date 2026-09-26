@@ -22,7 +22,11 @@
     "@napi-rs/canvas": "^1.0.8",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
+    "https-proxy-agent": "^9.1.0",
+    "jsqr": "^1.4.0",
+    "node-fetch": "^3.3.2",
     "tesseract.js": "^7.0.0",
+    "undici": "^8.11.2",
     "zca-js": "^2.1.2"
   }
 }

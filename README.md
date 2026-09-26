@@ -48,22 +48,14 @@ npm start
 | Lệnh | Mô tả & Ví dụ |
 | :--- | :--- |
 | `!help` / `.help` | Xem hướng dẫn sử dụng bot |
-| `.tên1, tên2...` | **Thêm tuyển thủ vào slot Custom** (Ví dụ: `.Văn Thịnh 1, Văn Thịnh 2, Bi`) |
-| `.taocus [giờ] [giá] [bảng]` | Tạo giải Custom mới (Ví dụ: `.taocus 8h 6k A` hoặc `.taocus`) |
-| `.xemslot` / `.cus` / `.ds` | Xem lại bảng danh sách 12 slot hiện tại |
-| `.xoa <số_slot>` | Hủy tuyển thủ ở slot (Ví dụ: `.xoa 3` hoặc `.xoa 3 5`) |
-| `.phi <số_slot>` | Đánh dấu đã đóng phí 💸 (Ví dụ: `.phi 8`) |
-| `.hen <số_slot>` | Đánh dấu hẹn phí ⏰ (Ví dụ: `.hen 8`) |
-| `.ctk <tên>` | Đổi tên CTK + Bill (Mặc định: LE DAI QUY) |
-| `.box <tên>` | Đổi tên Box (Mặc định: BOX CUSTOM ĐQ) |
-| `.link <url>` | Gắn link nhóm IDMK ở cuối bảng danh sách |
-| `.td <UID>` / `!td <UID>` | Tính điểm theo khung giờ (hiện menu 1-8 hoặc kèm số khung giờ) |
-| `.mau [số_mẫu]` | Xem danh sách mẫu & chọn mẫu phôi BXH 1-8 (Ví dụ: `.mau 8`) |
-| `.xemmau [số_mẫu]` | Xem ảnh mẫu phôi BXH (Ví dụ: `.xemmau 4` hoặc `.xemmau all`) |
-| `!diem <ID_Trận>` | Xem điểm chi tiết 1 trận (Ví dụ: `!diem 12345678`) |
-| `!timtran <UID> [số_ngày]` | Tìm các ID trận gần nhất của một UID (Ví dụ: `!timtran 1043310641 7`) |
+| `.td <UID>` / `!td <UID>` | **Tính điểm theo khung giờ** (hiện menu 1-8 hoặc kèm số khung giờ và ngày, tự động xuất ảnh BXH) |
+| `xin qr` / `stk` / `.qr` | Tự động gửi ảnh QR và thông tin tài khoản ngân hàng của nhóm |
+| `.doiqr` / `.setqr` | Đổi mã QR nhóm (gõ kèm ảnh hoặc trượt tin nhắn ảnh) |
+| `.setstk <STK> [Ngân Hàng]` | Cập nhật số tài khoản & tên ngân hàng của nhóm |
+| `.ctk <Tên_Chủ_TK>` | Cập nhật tên chủ tài khoản ngân hàng |
+| `.xoaqr` / `.resetqr` | Xóa mã QR riêng, quay về dùng mã QR mặc định |
+| `.anti` / `.baove` | Menu cài đặt hệ thống Bảo Vệ Nhóm (Chống cướp box, Spam, Link, QR) |
 | `!kickall` / `.kickall` | Kick toàn bộ thành viên thường khỏi nhóm (bảo lưu Trưởng nhóm & Phó nhóm) |
-| `.dangxuat` / `!dangxuat` | Đăng xuất Bot và xóa phiên đăng nhập để đổi tài khoản mới (Chỉ tài khoản Bot mới có quyền) |
 | `!check` | Kiểm tra trạng thái kết nối tài khoản Garena |
 
 ---

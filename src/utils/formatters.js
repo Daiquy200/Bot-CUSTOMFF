@@ -14,8 +14,8 @@ export function formatMatchDetail(match) {
   const startTime = match.startTime ? new Date(match.startTime * 1000).toLocaleString('vi-VN') : '';
   const ranks = match.ranks || match.teams || [];
 
-  let text = `🏆 ═══ KẾT QUẢ TRẬN ĐẤU #${matchId} ═══ 🏆\n`;
-  if (startTime) text += `⏰ Thời gian: ${startTime}\n`;
+  let text = `🤖 PQ BOT 🤖 - TRẬN #${matchId}\n`;
+  if (startTime) text += `⏰ ${startTime}\n`;
   text += `──────────────────────\n`;
 
   if (ranks.length === 0) {
@@ -23,7 +23,6 @@ export function formatMatchDetail(match) {
     return text;
   }
 
-  // Sắp xếp theo rank tăng dần (Top 1 -> Top 12)
   const sorted = [...ranks].sort((a, b) => (a.rank || 0) - (b.rank || 0));
 
   sorted.forEach((team, index) => {
@@ -34,14 +33,13 @@ export function formatMatchDetail(match) {
       : (team.teamName || team.name || team.playerName || `Team ${rank}`);
     const kills = team.killCount ?? team.kills ?? team.kill ?? 0;
     const points = team.totalPoints ?? team.points ?? team.point ?? 0;
-    const isBooyah = rank === 1 ? ' 👑 Booyah!' : '';
+    const isBooyah = rank === 1 ? ' 👑' : '';
 
-    text += `${medal} ${name}${isBooyah}\n`;
-    text += `   └ Hạ gục: ${kills} kill | Điểm: ${points}đ\n`;
+    text += `${medal} ${name}${isBooyah} • ${kills}k • ${points}đ\n`;
   });
 
   text += `──────────────────────\n`;
-  text += `💡 Dùng !tongdiem <ID1> <ID2>... để cộng dồn các trận.`;
+  text += `💡 Lệnh gộp điểm: .bxh <ID1> <ID2>...`;
 
   return text;
 }
@@ -54,13 +52,12 @@ export function formatAggregatedScores(aggregatedRanks, matchIds = []) {
     return '⚠️ Không có dữ liệu tính điểm cho các trận này.';
   }
 
-  let text = `📊 ═══ BẢNG XẾP HẠNG TỔNG KẾT ═══ 📊\n`;
+  let text = `🤖 PQ BOT 🤖 - BẢNG XẾP HẠNG TỔNG KẾT\n`;
   if (matchIds.length > 0) {
-    text += `🎮 Các trận đã tính (${matchIds.length}): ${matchIds.join(', ')}\n`;
+    text += `🎮 Trận (${matchIds.length}): ${matchIds.join(', ')}\n`;
   }
   text += `──────────────────────\n`;
 
-  // Sắp xếp theo thứ hạng
   const sorted = [...aggregatedRanks].sort((a, b) => (a.rank || 0) - (b.rank || 0));
 
   sorted.forEach((team, index) => {
@@ -69,16 +66,13 @@ export function formatAggregatedScores(aggregatedRanks, matchIds = []) {
     const name = team.teamName || team.name || `Đội ${rank}`;
     const booyah = team.booyahCount ?? team.booyah ?? 0;
     const kills = team.killCount ?? team.kills ?? team.kill ?? 0;
-    const rankPoints = team.rankPoints ?? team.rankPoint ?? 0;
     const totalPoints = team.totalPoints ?? team.points ?? team.point ?? 0;
 
-    text += `${medal} ${name}\n`;
-    text += `   ├ Booyah: ${booyah} 👑 | Hạ gục: ${kills} kill\n`;
-    text += `   └ Điểm hạng: ${rankPoints}đ | TỔNG ĐIỂM: ${totalPoints}đ\n`;
+    text += `${medal} ${name}${booyah > 0 ? ` (${booyah}👑)` : ''} • ${kills}k • ${totalPoints}đ\n`;
   });
 
   text += `──────────────────────\n`;
-  text += `📌 Dữ liệu chính thức từ Garena Community`;
+  text += `📌 Dữ liệu chính thức Garena`;
 
   return text;
 }
@@ -243,19 +237,16 @@ export function getSlotTimestamps(slotId, customDate = null) {
 }
 
 /**
- * Định dạng menu chọn khung giờ giống mẫu
+ * Định dạng menu chọn khung giờ giống mẫu (gọn 2 cột)
  */
 export function formatSlotMenu(accountId, requesterName = '') {
-  let text = `📋 CHỌN KHUNG GIỜ (UID: ${accountId}):\n\n`;
-  TIME_SLOTS.forEach((slot, index) => {
-    const emoji = SLOT_EMOJIS[index] || `[${slot.id}]`;
-    text += `${emoji} ${slot.label}\n`;
-  });
-
-  text += `\n👉 Trả lời số từ 1-8 (hoặc trượt tin nhắn này qua để trả lời số khung giờ)\n`;
-  if (requesterName) {
-    text += `👤 Yêu cầu bởi: ${requesterName}`;
-  }
+  let text = `🤖 PQ BOT 🤖 - CHỌN CA (UID: ${accountId})\n`;
+  text += `1️⃣ 13h - 15h    | 2️⃣ 15h - 17h\n`;
+  text += `3️⃣ 17h - 19h    | 4️⃣ 20h - 21h30\n`;
+  text += `5️⃣ 21h40 - 23h  | 6️⃣ 23h30 - 1h\n`;
+  text += `7️⃣ 1h - 3h      | 8️⃣ 10h - 12h\n`;
+  text += `👉 Trượt tin nhắn trả lời số 1-8 (kèm xoaN nếu bỏ trận lỗi)\n`;
+  if (requesterName) text += `👤 Yêu cầu: ${requesterName}`;
   return text;
 }
 
@@ -267,10 +258,9 @@ export function formatSlotLeaderboard(slotLabel, dateLabel, accountId, matchIds,
     return `⚠️ Không có dữ liệu tính điểm trong khung giờ [${slotLabel}] ngày ${dateLabel || ''}.`;
   }
 
-  let text = `📊 ═══ BẢNG XẾP HẠNG KHUNG GIỜ [${slotLabel}] ═══ 📊\n`;
-  if (dateLabel) text += `📅 Ngày: ${dateLabel}\n`;
-  text += `👤 UID: ${accountId}\n`;
-  text += `🎮 Tổng số trận: ${matchIds.length} (ID: ${matchIds.join(', ')})\n`;
+  let text = `🤖 PQ BOT 🤖 - BẢNG XẾP HẠNG [${slotLabel}]\n`;
+  if (dateLabel) text += `📅 ${dateLabel} | UID: ${accountId}\n`;
+  text += `🎮 Trận (${matchIds.length}): ${matchIds.join(', ')}\n`;
   text += `──────────────────────\n`;
 
   const sorted = [...aggregatedTeamRanks].sort((a, b) => (a.rank || 0) - (b.rank || 0));
@@ -281,94 +271,58 @@ export function formatSlotLeaderboard(slotLabel, dateLabel, accountId, matchIds,
     const name = team.teamName || team.name || `Đội ${rank}`;
     const booyah = team.booyahCount ?? team.booyah ?? 0;
     const kills = team.killCount ?? team.kills ?? team.kill ?? 0;
-    const rankPoints = team.rankPoints ?? team.rankPoint ?? 0;
     const totalPoints = team.totalPoints ?? team.points ?? team.point ?? 0;
 
-    text += `${medal} ${name}\n`;
-    text += `   ├ Booyah: ${booyah} 👑 | Hạ gục: ${kills} kill\n`;
-    text += `   └ Điểm hạng: ${rankPoints}đ | TỔNG ĐIỂM: ${totalPoints}đ\n`;
+    text += `${medal} ${name}${booyah > 0 ? ` (${booyah}👑)` : ''} • ${kills}k • ${totalPoints}đ\n`;
   });
 
   text += `──────────────────────\n`;
-  text += `📌 Dữ liệu chính thức từ Garena Community`;
+  text += `📌 Dữ liệu chính thức Garena`;
 
   return text;
 }
 
 /**
- * Hướng dẫn sử dụng Bot
+ * Hướng dẫn sử dụng Bot gọn gàng, súc tích
  */
 export function formatHelp(prefix = '!') {
-  return `📋 ════ MENU HƯỚNG DẪN LỆNH ════ 📋
-----------bot tạo bởi Lê Đại Quý-----------
+  return `🤖 PQ BOT 🤖 - MENU HƯỚNG DẪN
+━━━━━━━━━━━━━━━━━━━━━━
+📊 1. TÍNH ĐIỂM & BXH
+🔹 .td <UID> [ca] [key] : Tính điểm theo ca (1-8)
+   • Bỏ trận: .td <UID> [ca] xoa1 [key]
+🔹 .bxh <ID1> <ID2>... [key] : BXH từ ID các trận (trận bắt đầu sớm)
 
-📊 1. TÍNH ĐIỂM & BẢNG XẾP HẠNG
-🔹 .td <UID> [Khung] [Ngày]
-   👉 Tính điểm theo ca (chọn 1-8)
-   • Ví dụ: .td 511156251
-   • Chọn luôn ca: .td 511156251 5
-   💡 Mẹo: Trượt tin nhắn chứa UID để gõ .td
+🎫 2. KEY CÁ NHÂN & THUÊ BOT
+🔹 .key tao <tên_key> : Tạo key mới (Tặng 5 lượt)
+🔹 .napluot <tên_key> [tiền] : Nạp lượt QR (250đ/lượt)
+🔹 .key <tên_key> : Xem số dư lượt
+🔹 .key edit <tên_key> : Đổi tên giải & logo BXH
 
-🔹 .bxh <ID1> <ID2>... (hoặc .tongdiem)
-   👉 Tính tổng điểm các trận & xuất ảnh BXH
+💳 3. QR & STK NHÓM (Admin)
+🔹 .setstk <STK> <NgânHàng> [CTK] | .doiqr (gửi kèm ảnh)
+🔹 .ctk <Tên> | .xoaqr
+💡 Thành viên gõ "qr", "stk", "mã" để lấy thông tin
 
-🔹 .diem <ID_Trận>
-   👉 Xem chi tiết điểm của 1 trận
+⚙️ 4. QUẢN TRỊ (Admin)
+🔹 .kickall : Lọc thành viên (Cần 2 Admin xác nhận)
+🔹 .anti : Bật/tắt bảo vệ chống cướp box, spam, link
+🔹 .check : Kiểm tra kết nối Cookie Garena
+━━━━━━━━━━━━━━━━━━━━━━
+🤖 PQ BOT 🤖 • Chúc các bạn leo top vui vẻ!`;
+}
 
-🔹 .timtran <UID> [số_ngày]
-   👉 Tìm các trận gần đây của người chơi
-
-───────────────────────
-🎮 2. QUẢN LÝ PHÒNG & SLOT CUSTOM
-🔹 .tên1, tên2...
-   👉 Thêm nhanh tuyển thủ (vd: .hào, quý, phú)
-
-🔹 .taocus [giờ] [giá] [bảng]
-   👉 Tạo phòng/bảng mới (vd: .taocus 18h 6k A). Tự động đặt A1, A2... nếu trùng tên
-
-🔹 .all (hoặc .xemslot)
-   👉 Xem bảng danh sách slot các bảng
-
-🔹 .xoa <số>        : Hủy người ở slot (vd: .xoa 3)
-🔹 .phi <số>        : Đánh dấu đã đóng phí 💸
-🔹 .hen <số>        : Đánh dấu hẹn phí ⏰
-🔹 .xoabang <tên|all>: Xóa 1 bảng (.xoabang B) hoặc xóa TẤT CẢ các bảng cũ (.xoabang all)
-🔹 .chon <bảng>     : Đổi sang quản lý Bảng A/B/C
-
-───────────────────────
-💳 3. THANH TOÁN & QUÉT BILL
-🔹 Nhắn "xin qr", "xin mã", "mã", "stk", "xin stk"... (hoặc .qr / .stk)
-   👉 Nhận ảnh VietQR & thông tin chuyển khoản nhóm
-🔹 .autobill [on/off] (hoặc .batbill / .tatbill)
-   👉 Bật / Tắt chế độ tự động duyệt bill (Mặc định: TẮT ⛔)
-   👉 Khi tắt: Admin kiểm tra app ngân hàng rồi trượt tin nhắn ảnh bill gõ: @Tên [Bảng] để duyệt tay
-   👉 Khi bật: Bot tự đọc bill (OCR), chống fake bill và xếp slot ngay lập tức
-🔹 .doiqr (hoặc .setqr)
-   👉 Đổi mã QR riêng cho nhóm (gửi ảnh kèm .doiqr hoặc trượt ảnh gõ .doiqr)
-🔹 .setstk <STK> [NgânHàng]
-   👉 Đổi số tài khoản & ngân hàng nhóm (vd: .setstk 0987654321 MBBank)
-🔹 .ctk <Tên_CTK>
-   👉 Đổi tên Chủ tài khoản nhận tiền (vd: .ctk NGUYEN VAN A)
-🔹 .xoaqr
-   👉 Xóa QR riêng, quay về mã QR TPBank mặc định
-
-───────────────────────
-🎨 4. ĐỔI MẪU ẢNH BẢNG XẾP HẠNG
-🔹 .xemmau           : Gửi link Google Sheet xem toàn bộ ảnh phôi
-🔹 .xemmau [số_mẫu]  : Xuất ảnh mẫu ra chat (vd: .xemmau 6)
-🔹 .mau [số_mẫu]     : Đổi mẫu BXH cho riêng nhóm (vd: .mau 6)
-
-───────────────────────
-⚙️ 5. QUẢN TRỊ & TIỆN ÍCH
-🔹 .batbot / .tatbot : Bật hoặc Tắt hoạt động của Bot trong nhóm (Mặc định: TẮT 🔴)
-   👉 Cần gõ .batbot để kích hoạt Bot phục vụ cho nhóm
-🔹 .batan / .tatan   : Bật hoặc Tắt tự động ẩn/xóa tin nhắn lệnh của Admin (Mặc định: BẬT 🙈)
-   👉 Khi bật, Bot sẽ xóa ngay tin nhắn lệnh để làm sạch khung chat
-🔹 .kickall          : Lọc thành viên chuẩn bị giải mới
-🔹 .check            : Kiểm tra kết nối Cookie Garena
-
-═══════════════════════
-----------bot tạo bởi Lê Đại Quý-----------
-💡 Mọi thắc mắc vui lòng liên hệ Admin!`;
+/**
+ * Menu cấu hình hệ thống Anti Bảo Vệ Nhóm gọn gàng
+ */
+export function formatAntiMenu(anti = {}) {
+  const status = (enabled) => (enabled ? '🟢 BẬT' : '⛔ TẮT');
+  return `🤖 PQ BOT 🤖 - BẢO VỆ NHÓM (ANTI)
+[1] Cướp Box: ${status(anti.control)} | [2] Spam: ${status(anti.spam)}
+[3] Link Web: ${status(anti.link)} | [4] Link/QR Zalo: ${status(anti.zalo)}
+[5] QR Ngân Hàng: ${status(anti.bankQr)}
+─────────────────────────
+[6] 🟢 Bật TẤT CẢ | [7] ⛔ Tắt TẤT CẢ
+👉 Trượt tin nhắn gõ SỐ (vd: 1 2 4) để Bật/Tắt.`;
 }
 
