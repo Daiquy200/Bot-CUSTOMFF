@@ -726,6 +726,138 @@ class WebhookServer {
         return;
       }
 
+      // API tra cứu Link Box Zalo (zalo.me/g/...) hoặc ID để tự động lấy tên và ID nhóm
+      if (req.method === 'POST' && url === '/api/admin/boxes/resolve-link') {
+        if (!this.isAuthorized(req)) {
+          res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: 'Chưa đăng nhập' }));
+          return;
+        }
+
+        const payload = await readJsonBody();
+        const input = String(payload.link || payload.input || '').trim();
+        if (!input) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: 'Vui lòng nhập Link Box hoặc ID nhóm Zalo!' }));
+          return;
+        }
+
+        if (!this.bot?.api) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: 'Bot Zalo chưa kết nối, không thể tra cứu link!' }));
+          return;
+        }
+
+        try {
+          // 1. Nếu là Link Zalo (dạng https://zalo.me/g/... hoặc zalo.me/g/...)
+          if (input.includes('zalo.me/g/') || (/^[a-zA-Z0-9_-]{5,}$/.test(input) && !/^\d+$/.test(input))) {
+            let fullLink = input;
+            if (!fullLink.startsWith('http')) {
+              if (fullLink.startsWith('zalo.me/g/')) fullLink = `https://${fullLink}`;
+              else if (!fullLink.includes('/')) fullLink = `https://zalo.me/g/${fullLink}`;
+            }
+
+            if (typeof this.bot.api.getGroupLinkInfo === 'function') {
+              try {
+                const linkInfo = await this.bot.api.getGroupLinkInfo({ link: fullLink });
+                if (linkInfo && (linkInfo.groupId || linkInfo.grid)) {
+                  const groupId = String(linkInfo.groupId || linkInfo.grid);
+                  const name = linkInfo.name || linkInfo.groupName || `Box ${groupId}`;
+                  res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                  res.end(JSON.stringify({
+                    success: true,
+                    groupId,
+                    name,
+                    totalMember: linkInfo.totalMember || linkInfo.currentMems?.length || 0
+                  }));
+                  return;
+                }
+              } catch (linkErr) {
+                console.warn('Lỗi getGroupLinkInfo:', linkErr?.message || linkErr);
+              }
+            }
+          }
+
+          // 2. Nếu là ID số hoặc tra cứu theo getGroupInfo
+          const cleanNum = input.replace(/\D/g, '');
+          if (cleanNum && typeof this.bot.api.getGroupInfo === 'function') {
+            try {
+              const gInfoRes = await this.bot.api.getGroupInfo(cleanNum);
+              const info = gInfoRes?.gridInfoMap?.[cleanNum] || (gInfoRes?.gridInfoMap ? Object.values(gInfoRes.gridInfoMap)[0] : null);
+              if (info) {
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({
+                  success: true,
+                  groupId: cleanNum,
+                  name: info.name || `Box ${cleanNum}`,
+                  totalMember: info.totalMember || info.memVerList?.length || 0
+                }));
+                return;
+              }
+            } catch (gErr) {}
+          }
+
+          // 3. Tìm trong danh sách nhóm bot đã tham gia
+          if (typeof this.bot.api.getAllGroups === 'function') {
+            const all = await this.bot.api.getAllGroups();
+            const gridMap = all?.gridInfoMap || {};
+            for (const [id, grp] of Object.entries(gridMap)) {
+              if (id === input || (grp.name && grp.name.toLowerCase().includes(input.toLowerCase()))) {
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({
+                  success: true,
+                  groupId: id,
+                  name: grp.name || `Box ${id}`,
+                  totalMember: grp.totalMember || 0
+                }));
+                return;
+              }
+            }
+          }
+
+          res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: 'Không thể tìm thấy thông tin nhóm từ link/ID vừa nhập!' }));
+        } catch (err) {
+          console.error('Lỗi khi resolve link Zalo:', err);
+          res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: 'Lỗi tra cứu link: ' + (err.message || 'Lỗi không xác định') }));
+        }
+        return;
+      }
+
+      // API gửi thông báo ngay tới 1 Box hoặc tất cả Box
+      if (req.method === 'POST' && url === '/api/admin/boxes/notify') {
+        if (!this.isAuthorized(req)) {
+          res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: 'Chưa đăng nhập' }));
+          return;
+        }
+
+        if (!this.bot?.api) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: 'Bot Zalo chưa kết nối!' }));
+          return;
+        }
+
+        const payload = await readJsonBody();
+        const groupId = payload.groupId;
+        try {
+          if (groupId) {
+            const result = await boxService.notifySingleBox(this.bot, groupId);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify(result));
+          } else {
+            await boxService.notifyAllBoxes(this.bot);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ success: true, message: 'Đã gửi thông báo tới tất cả các Box!' }));
+          }
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: err.message }));
+        }
+        return;
+      }
+
       // ==========================================
       // 9. API KHỞI ĐỘNG LẠI BOT (RESTART)
       // ==========================================

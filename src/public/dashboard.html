@@ -865,21 +865,36 @@
           💡 Bot chỉ nhận lệnh tính điểm và hoạt động trong các Box được thêm tại đây. Hàng ngày lúc <b>00:05</b>, bot sẽ tự động thông báo thời gian hoạt động còn lại vào từng Box.
         </p>
         <form onsubmit="handleAddBox(event)">
+          <!-- KHỐI TRA CỨU LINK ZALO TỰ ĐỘNG -->
+          <div style="background: rgba(0, 242, 254, 0.06); border: 1px dashed var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 18px;">
+            <label style="font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; font-size: 14px;">
+              <span>🔗</span> Dán Link Box Zalo (Tự Động Tải Tên & ID Box)
+            </label>
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <input type="text" id="boxLinkInput" placeholder="Dán link nhóm Zalo vào đây (ví dụ: https://zalo.me/g/abcdef...)" style="flex: 1;" onpaste="setTimeout(resolveBoxLink, 100)" onkeydown="if(event.key==='Enter'){event.preventDefault();resolveBoxLink();}">
+              <button type="button" class="btn btn-primary" onclick="resolveBoxLink()" id="btnResolveLink" style="padding: 10px 18px; white-space: nowrap;">
+                ⚡ Tải Tên & ID Box
+              </button>
+            </div>
+            <div id="resolveLinkStatus" style="font-size: 12px; margin-top: 8px; color: var(--text-muted); display: none;"></div>
+          </div>
+
           <div class="grid-2">
             <div class="form-group">
-              <label>Chọn Nhóm Bot Đang Tham Gia Hoặc Nhập ID</label>
-              <div style="display: flex; gap: 8px;">
-                <select id="quickGroupSelect" onchange="onQuickGroupSelect(this.value)" style="flex: 1; padding: 10px;">
+              <label>ID Nhóm Zalo (Tự điền khi dán link)</label>
+              <input type="text" id="newBoxId" placeholder="ID nhóm (Tự động điền sau khi quét link)" required style="font-family: var(--font-mono);">
+              <div style="display: flex; gap: 6px; align-items: center; margin-top: 6px;">
+                <span style="font-size: 11px; color: var(--text-muted);">Hoặc chọn nhóm bot đã vào:</span>
+                <select id="quickGroupSelect" onchange="onQuickGroupSelect(this.value)" style="flex: 1; padding: 6px 10px; font-size: 12px;">
                   <option value="">-- Chọn nhóm Zalo đã tham gia --</option>
                 </select>
-                <button type="button" class="btn" onclick="loadZaloGroups()" title="Làm mới danh sách nhóm">🔄</button>
+                <button type="button" class="btn" style="padding: 6px 10px; font-size: 12px;" onclick="loadZaloGroups()" title="Làm mới danh sách nhóm">🔄</button>
               </div>
-              <input type="text" id="newBoxId" placeholder="Nhập ID Nhóm Zalo (ví dụ: 1234567890123)" required style="margin-top: 8px;">
             </div>
 
             <div class="form-group">
-              <label>Tên Box / Tên Nhóm</label>
-              <input type="text" id="newBoxName" placeholder="Tên nhóm (ví dụ: Box Scrim Pro FF)" required>
+              <label>Tên Box / Tên Nhóm (Tự điền khi dán link)</label>
+              <input type="text" id="newBoxName" placeholder="Tên nhóm Zalo" required>
             </div>
           </div>
 
@@ -1612,6 +1627,7 @@
             <td style="padding: 12px; color: var(--text-muted); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(box.note || '-')}</td>
             <td style="padding: 12px; text-align: right;">
               <div style="display: flex; gap: 6px; justify-content: flex-end;">
+                <button class="btn" style="padding: 4px 8px; font-size: 11px; background: rgba(0, 242, 254, 0.15); color: var(--primary);" onclick="notifyBoxNow('${box.groupId}')" title="Gửi thông báo thời hạn hoạt động vào Box này">🔔 Bắn Thông Báo</button>
                 <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 30)" title="Gia hạn thêm 30 ngày">+30 ngày</button>
                 <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 7)" title="Gia hạn thêm 7 ngày">+7 ngày</button>
                 <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteBoxConfirm('${box.groupId}')" title="Xóa box">🗑️</button>
@@ -1720,6 +1736,67 @@
         }
       } catch (err) {
         showToast('Lỗi khi xóa: ' + err.message, 'error');
+      }
+    }
+
+    async function resolveBoxLink() {
+      const input = document.getElementById('boxLinkInput').value.trim();
+      const statusDiv = document.getElementById('resolveLinkStatus');
+      const btn = document.getElementById('btnResolveLink');
+      if (!input) {
+        showToast('Vui lòng dán link nhóm Zalo vào ô!', 'error');
+        return;
+      }
+
+      statusDiv.style.display = 'block';
+      statusDiv.style.color = 'var(--primary)';
+      statusDiv.textContent = '⏳ Đang tra cứu thông tin nhóm từ Zalo...';
+      btn.disabled = true;
+
+      try {
+        const res = await apiRequest('/api/admin/boxes/resolve-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ link: input })
+        });
+
+        if (res && res.success) {
+          document.getElementById('newBoxId').value = res.groupId;
+          document.getElementById('newBoxName').value = res.name;
+          statusDiv.style.color = 'var(--success)';
+          statusDiv.innerHTML = `✅ <b>Đã tìm thấy:</b> [${escapeHtml(res.name)}] • ID: <code>${res.groupId}</code> (${res.totalMember || 0} thành viên)`;
+          showToast(`Đã tự động điền: ${res.name}`);
+        } else {
+          statusDiv.style.color = 'var(--danger)';
+          statusDiv.textContent = `❌ ${res?.message || 'Không tìm thấy nhóm!'}`;
+          showToast(res?.message || 'Không thể lấy thông tin link nhóm!', 'error');
+        }
+      } catch (err) {
+        statusDiv.style.color = 'var(--danger)';
+        statusDiv.textContent = `❌ Lỗi: ${err.message}`;
+        showToast('Lỗi tra cứu: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function notifyBoxNow(groupId) {
+      if (!confirm(`Bạn có muốn gửi ngay thông báo thời hạn hoạt động vào Box [ID: ${groupId}] không?`)) {
+        return;
+      }
+      try {
+        const res = await apiRequest('/api/admin/boxes/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId })
+        });
+        if (res && res.success) {
+          showToast(res.message || 'Đã gửi thông báo vào Box thành công!');
+        } else {
+          showToast(res?.message || 'Lỗi gửi thông báo!', 'error');
+        }
+      } catch (e) {
+        showToast('Lỗi kết nối khi gửi thông báo: ' + e.message, 'error');
       }
     }
 

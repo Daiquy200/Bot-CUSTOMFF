@@ -261,7 +261,7 @@ class BoxService {
   }
 
   /**
-   * Gửi thông báo thời hạn tới từng box
+   * Gửi thông báo thời hạn tới từng box (hiển thị đầy đủ ID Box, Tên Box và Thời gian còn lại)
    */
   async notifyAllBoxes(bot) {
     if (!bot?.api) return;
@@ -275,20 +275,64 @@ class BoxService {
 
       let msg = '';
       if (remainingDays > 0) {
-        msg = `🤖 PQ BOT 🤖\n⏰ THÔNG BÁO THỜI HẠN HOẠT ĐỘNG:\n📌 Nhóm: ${box.name || box.groupId}\n⏳ Thời gian còn lại: ${remainingDays} ngày (Hạn dùng đến: ${formattedDate})\n✨ Chúc các bạn chơi game & tính điểm vui vẻ!`;
+        msg = `🤖 PQ BOT 🤖\n` +
+              `⏰ THÔNG BÁO THỜI HẠN HOẠT ĐỘNG\n` +
+              `📌 Tên Box: ${box.name || 'N/A'}\n` +
+              `🆔 ID Box: ${box.groupId}\n` +
+              `⏳ Thời gian còn lại: ${remainingDays} ngày (Hạn dùng đến: ${formattedDate})\n` +
+              `✨ Chúc các bạn chơi game & tính điểm vui vẻ!`;
       } else {
-        msg = `🤖 PQ BOT 🤖\n⚠️ THÔNG BÁO: Thời hạn hoạt động của Bot trong nhóm đã HẾT (Hết hạn ngày: ${formattedDate})!\n👉 Vui lòng liên hệ Admin để gia hạn thêm thời gian sử dụng bot.`;
+        msg = `🤖 PQ BOT 🤖\n` +
+              `⚠️ THÔNG BÁO: THỜI HẠN HOẠT ĐỘNG ĐÃ HẾT!\n` +
+              `📌 Tên Box: ${box.name || 'N/A'}\n` +
+              `🆔 ID Box: ${box.groupId}\n` +
+              `⏳ Hết hạn từ ngày: ${formattedDate}\n` +
+              `👉 Vui lòng liên hệ Admin để gia hạn thêm thời gian sử dụng bot.`;
       }
 
       try {
         await bot.api.sendMessage({ msg }, box.groupId, ThreadType.Group);
-        console.log(`✅ [00:05 NOTIFIER] Đã gửi thông báo tới nhóm [${box.name}] (${box.groupId}): còn ${remainingDays} ngày.`);
+        console.log(`✅ [00:05 NOTIFIER] Đã gửi thông báo tới nhóm [${box.name}] (ID: ${box.groupId}): còn ${remainingDays} ngày.`);
         // Nghỉ 1.5 giây giữa các nhóm để tránh spam rate limit
         await new Promise(r => setTimeout(r, 1500));
       } catch (err) {
         console.warn(`⚠️ [00:05 NOTIFIER] Lỗi khi gửi thông báo tới nhóm ${box.groupId}:`, err.message);
       }
     }
+  }
+
+  /**
+   * Gửi thông báo thử nghiệm tới 1 box cụ thể từ Dashboard
+   */
+  async notifySingleBox(bot, groupId) {
+    if (!bot?.api) return { success: false, message: 'Bot chưa kết nối Zalo!' };
+    const cleanId = String(groupId || '').trim();
+    const box = this.boxes.get(cleanId);
+    if (!box) return { success: false, message: 'Không tìm thấy Box trong danh sách!' };
+
+    const remainingDays = this.getRemainingDays(box);
+    const formattedDate = this.formatDate(box.expiryDate);
+
+    let msg = '';
+    if (remainingDays > 0) {
+      msg = `🤖 PQ BOT 🤖\n` +
+            `⏰ THÔNG BÁO THỜI HẠN HOẠT ĐỘNG\n` +
+            `📌 Tên Box: ${box.name || 'N/A'}\n` +
+            `🆔 ID Box: ${box.groupId}\n` +
+            `⏳ Thời gian còn lại: ${remainingDays} ngày (Hạn dùng đến: ${formattedDate})\n` +
+            `✨ Chúc các bạn chơi game & tính điểm vui vẻ!`;
+    } else {
+      msg = `🤖 PQ BOT 🤖\n` +
+            `⚠️ THÔNG BÁO: THỜI HẠN HOẠT ĐỘNG ĐÃ HẾT!\n` +
+            `📌 Tên Box: ${box.name || 'N/A'}\n` +
+            `🆔 ID Box: ${box.groupId}\n` +
+            `⏳ Hết hạn từ ngày: ${formattedDate}\n` +
+            `👉 Vui lòng liên hệ Admin để gia hạn thêm thời gian sử dụng bot.`;
+    }
+
+    const { ThreadType } = await import('zca-js');
+    await bot.api.sendMessage({ msg }, box.groupId, ThreadType.Group);
+    return { success: true, message: `Đã gửi thông báo tới [${box.name}] (ID: ${box.groupId}) thành công!` };
   }
 }
 
