@@ -6,9 +6,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const KEYS_FILE = path.resolve(__dirname, '../../data/keys.json');
 
-console.log('🔍 [KHÔI PHỤC KEY & CHỦ SỞ HỮU] Đang quét toàn bộ file log để trích xuất tên chính xác và số lượt...');
+console.log('🔍 [KHÔI PHỤC KEY & SỐ LƯỢT CHUẨN XÁC] Đang quét toàn bộ file log để trích xuất tên chính xác và tính toán số lượt thực tế...');
 
-// 1. Đọc keys.json hiện tại
+// 1. Đọc keys.json hiện tại (bảo lưu key mẫu ldq, ldp)
 let existingKeys = {};
 try {
   if (fs.existsSync(KEYS_FILE)) {
@@ -41,7 +41,7 @@ if (fs.existsSync(lostFoundDir)) {
 }
 
 const recovered = { ...existingKeys };
-let foundCount = 0;
+const tdUsageCounts = {}; // Đếm số lần mỗi key đã dùng .td để tính điểm
 
 for (const p of logPaths) {
   if (!fs.existsSync(p)) continue;
@@ -62,7 +62,6 @@ for (const p of logPaths) {
                 ...v,
                 key: kClean
               };
-              foundCount++;
               console.log(`✨ Khôi phục từ snapshot JSON: Key [${kClean.toUpperCase()}] - Chủ: ${v.ownerName} (${v.credits} lượt)`);
             }
           }
@@ -77,20 +76,14 @@ for (const p of logPaths) {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
-      // Bắt người gửi từ: 📩 [TIN NHẮN] Từ [Tên] (UID) tại ...
+      // 1. Bắt người gửi từ tin nhắn thường: 📩 [TIN NHẮN] Từ [Tên] (UID) tại ...
       const msgFromMatch = line.match(/📩\s*\[TIN NHẮN\]\s*Từ\s*\[(.*?)\]\s*\((\d+)\)/i);
       if (msgFromMatch) {
         lastSenderName = msgFromMatch[1].trim();
         lastSenderId = msgFromMatch[2].trim();
       }
 
-      // Bắt người gửi từ: 📩 [Tên] Nhận lệnh ...
-      const cmdSenderMatch = line.match(/📩\s*\[(.*?)\]\s*Nhận lệnh/i);
-      if (cmdSenderMatch) {
-        lastSenderName = cmdSenderMatch[1].trim();
-      }
-
-      // Bắt lệnh tạo key: 📩 [Tên] Nhận lệnh [key] với tham số: [ 'tao', 'tenkey' ]
+      // 2. Bắt lệnh tạo key: 📩 [Tên Thật] Nhận lệnh [key] với tham số: [ 'tao', 'tenkey' ]
       const createFullMatch = line.match(/📩\s*\[(.*?)\]\s*Nhận lệnh \[key\] với tham số:\s*\[\s*'(?:tao|create)',\s*'([^']+)'/i);
       const createSimpleMatch = line.match(/Nhận lệnh \[key\] với tham số:\s*\[\s*'(?:tao|create)',\s*'([^']+)'/i);
       const createSuccessMatch = line.match(/Đã tạo key \[([^\]]+)\] thành công/i);
@@ -113,7 +106,7 @@ for (const p of logPaths) {
             key: keyToCreate,
             ownerZaloId: lastSenderId || null,
             ownerName: (ownerToSet && ownerToSet !== 'Thành viên') ? ownerToSet : 'Thành viên',
-            credits: 5,
+            credits: 5, // Mặc định tặng 5 lượt
             template: 'bxhconan',
             totalCharged: 0,
             createdAt: new Date().toISOString(),
@@ -121,10 +114,9 @@ for (const p of logPaths) {
             customTitle: 'CUSTOM PQ',
             logoPath: null
           };
-          foundCount++;
           console.log(`➕ Tìm thấy Key: [${keyToCreate.toUpperCase()}] - Chủ: ${recovered[keyToCreate].ownerName}`);
         } else {
-          // Cập nhật tên thật nếu trước đó đang để "Thành viên"
+          // Cập nhật lại tên thật nếu trước đó đang để "Thành viên"
           if (ownerToSet && ownerToSet !== 'Thành viên' && (!recovered[keyToCreate].ownerName || recovered[keyToCreate].ownerName === 'Thành viên')) {
             recovered[keyToCreate].ownerName = ownerToSet;
             if (lastSenderId) recovered[keyToCreate].ownerZaloId = lastSenderId;
@@ -133,50 +125,65 @@ for (const p of logPaths) {
         }
       }
 
-      // Bắt lệnh tính điểm .td dùng key để suy ra người sở hữu nếu chưa có tên
-      const tdMatch = line.match(/📩\s*\[(.*?)\]\s*Nhận lệnh \[td\] với tham số:.*'([^']+)'/i);
+      // 3. Bắt lệnh tính điểm .td: 📩 [Tên] Nhận lệnh [td] với tham số: [ 'uid', 'ca', 'tenkey' ]
+      const tdMatch = line.match(/📩\s*\[(.*?)\]\s*Nhận lệnh \[(?:td|tinhdiem)\] với tham số:\s*\[(.*?)\]/i);
       if (tdMatch) {
         const callerName = tdMatch[1].trim();
-        const calledKey = tdMatch[2].toLowerCase().trim();
-        if (recovered[calledKey] && (!recovered[calledKey].ownerName || recovered[calledKey].ownerName === 'Thành viên')) {
-          if (callerName && callerName !== 'Thành viên') {
-            recovered[calledKey].ownerName = callerName;
-            console.log(`👤 Nhận diện chủ Key [${calledKey.toUpperCase()}] từ người gọi .td: ${callerName}`);
+        const argsStr = tdMatch[2].toLowerCase();
+
+        // Tìm xem có tên key nào trong tham số gọi .td không
+        let foundKeyInTd = null;
+        for (const k of Object.keys(recovered)) {
+          if (k === 'ldq' || k === 'ldp') continue; // Không trừ key admin mẫu
+          if (argsStr.includes(`'${k}'`) || argsStr.includes(`"${k}"`)) {
+            foundKeyInTd = k;
+            break;
+          }
+        }
+
+        // Nếu không truyền tên key nhưng người gọi có tên trùng với chủ sở hữu key
+        if (!foundKeyInTd) {
+          for (const [k, v] of Object.entries(recovered)) {
+            if (k === 'ldq' || k === 'ldp') continue;
+            if (v.ownerName && v.ownerName !== 'Thành viên' && v.ownerName === callerName) {
+              foundKeyInTd = k;
+              break;
+            }
+          }
+        }
+
+        if (foundKeyInTd) {
+          tdUsageCounts[foundKeyInTd] = (tdUsageCounts[foundKeyInTd] || 0) + 1;
+          // Nếu key chưa có tên chủ mà người này gọi .td thì gán tên luôn
+          if (recovered[foundKeyInTd] && (!recovered[foundKeyInTd].ownerName || recovered[foundKeyInTd].ownerName === 'Thành viên')) {
+            if (callerName && callerName !== 'Thành viên') {
+              recovered[foundKeyInTd].ownerName = callerName;
+              console.log(`👤 Nhận diện chủ Key [${foundKeyInTd.toUpperCase()}] từ lệnh .td: ${callerName}`);
+            }
           }
         }
       }
 
-      // Bắt số lượt còn lại khi tính điểm: Key [XXX]: -1 lượt (Còn lại: YY lượt)
-      const creditMatch = line.match(/Key \[([^\]]+)\]:\s*-1\s*lượt\s*\(Còn lại:\s*(\d+)\s*lượt\)/i) ||
-                          line.match(/Key\s*\[([^\]]+)\]\s*còn\s*lại\s*(\d+)\s*lượt/i) ||
-                          line.match(/Số dư mới:\s*(\d+)\s*lượt.*key\s*\[([^\]]+)\]/i) ||
-                          line.match(/Bạn còn lại:\s*(\d+)\s*lượt/i);
-      if (creditMatch) {
-        let kName = '';
-        let credits = 0;
-        if (/Số dư mới/i.test(creditMatch[0])) {
-          credits = parseInt(creditMatch[1], 10);
-          kName = creditMatch[2].toLowerCase().trim();
-        } else if (/Bạn còn lại/i.test(creditMatch[0])) {
-          credits = parseInt(creditMatch[1], 10);
-        } else {
-          kName = creditMatch[1].toLowerCase().trim();
-          credits = parseInt(creditMatch[2], 10);
-        }
-
-        if (kName && recovered[kName]) {
-          recovered[kName].credits = credits;
-          recovered[kName].updatedAt = new Date().toISOString();
+      // 4. Bắt thông báo HẾT LƯỢT dùng: Key "xxx" đã HẾT LƯỢT dùng
+      const outOfCreditsMatch = line.match(/(?:Key|key)\s*["'\[]([^"'\]]+)["'\]]\s*đã\s*HẾT\s*LƯỢT/i) ||
+                               line.match(/không đủ lượt.*key\s*["'\[]([^"'\]]+)["'\]]/i);
+      if (outOfCreditsMatch) {
+        const outKey = outOfCreditsMatch[1].toLowerCase().trim();
+        if (recovered[outKey]) {
+          recovered[outKey].credits = 0;
+          console.log(`⚠️ Key [${outKey.toUpperCase()}] đã dùng hết toàn bộ lượt -> Đặt về 0 lượt`);
         }
       }
 
-      // Bắt nạp tiền tự động: Cộng X lượt cho key [YYY]
+      // 5. Bắt nạp tiền tự động: Cộng X lượt cho key [YYY]
       const napMatch = line.match(/Cộng (\d+) lượt cho key \[([^\]]+)\]/i);
       if (napMatch) {
         const addCount = parseInt(napMatch[1], 10);
         const kName = napMatch[2].toLowerCase().trim();
         if (recovered[kName]) {
+          recovered[kName].credits = (recovered[kName].credits || 5) + addCount;
           recovered[kName].totalCharged = (recovered[kName].totalCharged || 0) + (addCount * 250);
+          console.log(`💰 Key [${kName.toUpperCase()}] được nạp +${addCount} lượt`);
         }
       }
     }
@@ -185,12 +192,22 @@ for (const p of logPaths) {
   }
 }
 
+// 6. Trừ số lượt tương ứng với số lần từng key đã gọi .td
+for (const [kName, useCount] of Object.entries(tdUsageCounts)) {
+  if (recovered[kName] && kName !== 'ldq' && kName !== 'ldp') {
+    const originalCredits = recovered[kName].credits !== undefined ? recovered[kName].credits : 5;
+    const remaining = Math.max(0, originalCredits - useCount);
+    recovered[kName].credits = remaining;
+    console.log(`📉 Key [${kName.toUpperCase()}]: Đã dùng ${useCount} lần tính điểm -> Còn lại: ${remaining} lượt.`);
+  }
+}
+
 // Lưu lại vào data/keys.json
 try {
   const dataDir = path.dirname(KEYS_FILE);
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(KEYS_FILE, JSON.stringify(recovered, null, 2), 'utf8');
-  console.log(`\n🎉 [HOÀN TẤT] Đã cập nhật ${Object.keys(recovered).length} Key vào data/keys.json!`);
+  console.log(`\n🎉 [HOÀN TẤT] Đã cập nhật ${Object.keys(recovered).length} Key và số lượt chính xác vào data/keys.json!`);
 } catch (e) {
   console.error('Lỗi khi ghi keys.json:', e.message);
 }
