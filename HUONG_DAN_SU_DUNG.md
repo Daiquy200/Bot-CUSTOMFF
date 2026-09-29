@@ -183,6 +183,8 @@ Hệ thống Key cá nhân giúp người thuê bot tự quản lý lượt dùn
 | `.ctk` | `.ctk <Tên_CTK>` | *(Chỉ Trưởng/Phó nhóm)* Đổi tên Chủ tài khoản nhận tiền. |
 | `.xoaqr` | `.xoaqr` | *(Chỉ Trưởng/Phó nhóm)* Xóa QR riêng, quay về mã QR mặc định. |
 | `.anti` / `.baove` | `.anti` | *(Chỉ Trưởng/Phó nhóm)* Mở menu cài đặt Bảo Vệ Nhóm. |
+| `.bxh` / `.tongdiem` | `.bxh <ID1> <ID2>... [key]` | Tính điểm tổng kết chính xác theo danh sách ID các trận đấu bạn nhập. |
+| `.kick` | `.kick @tên` / reply `.kick` | *(Chỉ Trưởng/Phó nhóm)* Kick thành viên vi phạm khỏi nhóm. |
 | `.kickall` | `.kickall` | *(Chỉ Trưởng/Phó nhóm)* Kick thành viên thường dọn box chuẩn bị giải mới. |
 | `.check` | `.check` | *(Chỉ Trưởng/Phó nhóm)* Kiểm tra kết nối Cookie Garena. |
 
@@ -278,16 +280,26 @@ Hệ thống Anti bảo vệ nhóm tự động giúp Admin giữ an toàn tuy�
 
 ---
 
-## 11. LỆNH LỌC THÀNH VIÊN NHÓM (KICKALL)
+## 11. LỆNH KICK THÀNH VIÊN (.kick & .kickall)
 
-### Cú pháp:
-```text
-.kickall
-# hoặc: !kickall, .locnhom, .clearall
-```
+### A. Lệnh Kick thành viên chỉ định (`.kick`)
+- **Cú pháp:**
+  - `.kick @tên` : Tag trực tiếp 1 hoặc nhiều người trong nhóm để kick.
+  - Trượt tin nhắn (Quote reply) tin nhắn của người cần kick và gõ: `.kick`
+  - `.kick <UID>` : Kick trực tiếp theo UID tài khoản Zalo.
+- **Ví dụ:**
+  - `.kick @Nguyễn Văn A`
+  - `.kick @A @B @C` (kick nhiều người cùng lúc)
+  - `.kick 36775776416498471`
+- **🛡️ CƠ CHẾ BẢO VỆ AN TOÀN:**
+  - Tuyệt đối **KHÔNG** kick Trưởng nhóm, Phó nhóm, tài khoản Bot, chính người gõ lệnh và Admin trong danh sách Whitelist.
+  - Nếu đối tượng được tag là Quản trị viên, Bot sẽ cảnh báo và từ chối kick.
+- **⚠️ Điều kiện:** Tài khoản Bot phải là **Trưởng nhóm** hoặc **Phó nhóm**.
 
-### Chức năng:
-- Tự động quét và kick **toàn bộ thành viên thường** ra khỏi nhóm chat sau khi giải đấu kết thúc để làm sạch box cho giải sau.
+### B. Lệnh Lọc toàn bộ thành viên thường (`.kickall`)
+- **Cú pháp:** `.kickall` (hoặc `!kickall`, `.locnhom`, `.clearall`)
+- **Chức năng:** Tự động quét và kick **toàn bộ thành viên thường** ra khỏi nhóm chat sau khi giải đấu kết thúc để làm sạch box cho giải sau.
+- **Yêu cầu an toàn cao cấp:** Cần **2 Trưởng/Phó nhóm khác nhau** lần lượt gõ `.kickall` xác nhận trong vòng 2 phút để tránh lỡ tay làm sạch nhóm.
 - **🛡️ CƠ CHẾ BẢO VỆ TUYỆT ĐỐI:**
   - **KHÔNG BAO GIỜ KICK:** Trưởng nhóm Zalo.
   - **KHÔNG BAO GIỜ KICK:** Tất cả các Phó nhóm Zalo.
@@ -351,21 +363,13 @@ Hệ thống cho phép bạn kinh doanh cho thuê Bot với cơ chế tính đi�
   - Ví dụ: `.td 18154023211 ldp`
   - Chọn luôn ca: `.td 18154023211 8 ldp`
 - `.td [id] [xoaN] [tenkey]`: Tính điểm và xóa bỏ trận lỗi số N (Ví dụ: `.td 18154023211 xoa1 ldp` bỏ qua trận 1, chỉ tính các trận còn lại).
-- `.bxh <ID1> <ID2> [ID3]... [tenkey]`: Tính điểm và xuất ảnh BXH tổng hợp từ các ID trận đấu riêng lẻ (Rất hữu ích khi các trận đấu bắt đầu sớm trước khung giờ quy định hoặc đánh ngoài giờ).
-  - Ví dụ: `.bxh 12345678 12345679 12345680 ldp`
-
-- `.kickall`: Lọc toàn bộ thành viên thường khỏi nhóm.
-  - **Cơ chế an toàn 2 Admin**: Lệnh này bắt buộc phải có sự xác nhận từ **2 Trưởng nhóm hoặc Phó nhóm KHÁC NHAU** trong vòng 2 phút để tránh tình trạng phá nhóm. Phó nhóm thứ 2 chỉ cần gõ `.kickall xacnhan` (hoặc `.kickall`) để bot thực hiện. Gõ `.kickall huy` để hủy.
 
 - `.key tao <tên_key>`: Thành viên tự tạo key (Tự động tặng ngay **+5 lượt** dùng thử miễn phí).
 
-### C. Quản Lý Box Zalo Cho Phép & Quản Trị Hệ Thống (Admin)
-- **Quản lý Box Zalo theo ngày**: Thêm và quản lý trực tiếp trên **Web Dashboard** (`http://<IP_VPS>:3000` ➔ Mục **📦 Box Cho Phép**).
-  - Chỉ các Box Zalo được thêm và còn hạn mới được phép sử dụng Bot.
-  - Quản lý thời hạn hoạt động theo ngày (7 ngày, 30 ngày, 365 ngày...).
-  - Vào lúc **00:05 mỗi ngày**, Bot tự động gửi thông báo thời hạn hoạt động còn lại vào từng Box Zalo.
-- **Quản Lý Key & Lượt**: Thêm lượt, trừ lượt, tạo key và xóa key trên Dashboard mục **🔑 Quản Lý Key & Lượt**.
-
+### C. Quản Lý Key & Điều Khiển Lượt Dành Cho Admin (Bạn)
+- Mọi thao tác quản trị key (Tạo key, **Cộng lượt**, **Trừ lượt**, **Đặt lại số lượt** hoặc **Xóa key**) được thực hiện trực quan và nhanh chóng tại **Web Dashboard Quản Trị**:
+  👉 Truy cập: `http://<IP_VPS_CỦA_BẠN>:3000` (Mục **🔑 Quản Lý Key & Lượt**). Không cần gõ lệnh thủ công trong Zalo.
+![alt text](image.png)
 ### D. Cấu Hình Webhook SePay (Khi đưa lên VPS)
 - Trên tài khoản SePay (sepay.vn) ➔ Mục **Tích hợp Webhook** ➔ Thêm Webhook:
   - **URL:** `http://<IP_VPS_CỦA_BẠN>:3000/webhook/sepay`
@@ -423,23 +427,6 @@ Hệ thống tích hợp sẵn Bảng Điều Khiển Web quản trị chuyên n
 ### C. Lệnh đổi Cookie Garena trực tiếp qua Zalo (Dành riêng cho Admin):
 * **Cú pháp:** `.setcookie <chuỗi_cookie>` (hoặc `.cookie <chuỗi_cookie>`)
 * **Lưu ý bảo mật:** Lệnh này **chỉ được phép thực hiện khi bạn chat riêng 1-1 với Bot** (không nhận trong nhóm chat). Bot sẽ tự động lưu vào `.env` và kiểm tra kết nối ngay lập tức!
-
----
-
-## 16. HỆ THỐNG TỰ ĐỘNG THÔNG BÁO QUẢNG BÁ (BROADCAST ANNOUNCEMENT)
-
-Tính năng thông báo quảng bá tự động được quản lý **100% trên Web Dashboard** của bạn, không cần gõ lệnh rườm rà trong Zalo:
-
-* **Cách sử dụng:**
-  1. Mở Web Dashboard: `http://<IP_VPS>:3000` (Ví dụ: `http://180.93.122.168:3000`).
-  2. Bấm vào tab **📢 Thông Báo Tự Động**.
-  3. Tại đây bạn có thể:
-     - **Bật / Tắt** tính năng tự động thông báo.
-     - **Tùy chỉnh nội dung thông báo**: Nhập bất kỳ nội dung nào bạn muốn (Ví dụ: `BOX .td free theo lượt và anti 20k 1 tháng ib.`).
-     - **Cài đặt thời gian gửi**: Chọn chu kỳ (Ví dụ: 3 tiếng một lần, 5 tiếng một lần, hoặc 24h/lần lúc 12h đêm 00:00).
-     - **Gửi ngay lập tức**: Bấm nút **"🚀 Gửi Ngay Bây Giờ"** để phát tin nhắn ngay tới tất cả các nhóm Zalo mà Bot đang tham gia.
-     - Sau khi chỉnh sửa, bấm **"💾 Lưu Cấu Hình"**.
-* **Cơ chế an toàn:** Bot tự động giãn cách 2 giây giữa mỗi nhóm để chống bị Zalo hạn chế tốc độ gửi.
 
 ---
 

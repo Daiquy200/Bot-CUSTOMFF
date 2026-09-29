@@ -102,33 +102,24 @@ class AnnouncementService {
   }
 
   /**
-   * Thu thập tất cả các nhóm mà Bot đang tham gia
+   * Thu thập các nhóm được cấp phép từ boxService để gửi thông báo
    */
   async getAllTargetGroups(bot) {
-    const groupSet = new Set(this.knownGroups);
+    const groupSet = new Set();
 
-    // 1. Thêm từ custom_rooms.json
     try {
-      const customRoomsFile = path.resolve(__dirname, '../../data/custom_rooms.json');
-      if (fs.existsSync(customRoomsFile)) {
-        const rooms = JSON.parse(fs.readFileSync(customRoomsFile, 'utf8'));
-        Object.keys(rooms).forEach(id => {
-          if (id && id !== '123' && id !== '0') groupSet.add(id);
-        });
-      }
-    } catch (e) {}
-
-    // 2. Thêm từ Zalo API nếu có
-    if (bot?.api && typeof bot.api.getAllGroups === 'function') {
-      try {
-        const res = await bot.api.getAllGroups();
-        const gridMap = res?.gridInfoMap;
-        if (gridMap && typeof gridMap === 'object') {
-          Object.keys(gridMap).forEach(id => {
-            if (id && id !== '0') groupSet.add(id);
-          });
+      const { boxService } = await import('./boxService.js');
+      const boxes = boxService.getAllBoxes();
+      for (const box of boxes) {
+        if (box && box.groupId && box.enabled) {
+          const status = boxService.isGroupActive(box.groupId);
+          if (status.allowed) {
+            groupSet.add(String(box.groupId));
+          }
         }
-      } catch (e) {}
+      }
+    } catch (e) {
+      console.error('Lỗi lấy danh sách nhóm cho phép từ boxService:', e.message);
     }
 
     return Array.from(groupSet);

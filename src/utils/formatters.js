@@ -295,7 +295,7 @@ export function formatHelp(prefix = '!') {
 📊 1. TÍNH ĐIỂM & BXH
 🔹 .td <UID> [ca] [key] : Tính điểm theo ca (1-8)
    • Bỏ trận: .td <UID> [ca] xoa1 [key]
-🔹 .bxh <ID1> <ID2>... [key] : BXH từ ID các trận (trận bắt đầu sớm)
+🔹 .bxh <ID1> <ID2>... [key] : BXH tính theo danh sách ID trận
 
 🎫 2. KEY CÁ NHÂN & THUÊ BOT
 🔹 .key tao <tên_key> : Tạo key mới (Tặng 5 lượt)
@@ -309,24 +309,39 @@ export function formatHelp(prefix = '!') {
 💡 Thành viên gõ "qr", "stk", "mã" để lấy thông tin
 
 ⚙️ 4. QUẢN TRỊ (Admin)
+🔹 .kick @tên : Kick thành viên được tag / trượt tin nhắn
 🔹 .kickall : Lọc thành viên (Cần 2 Admin xác nhận)
-🔹 .anti : Bật/tắt bảo vệ chống cướp box, spam, link
+🔹 .anti : Menu bảo vệ nhóm (spam, thu hồi, nudo, voice, avt, link, QR...)
 🔹 .check : Kiểm tra kết nối Cookie Garena
 ━━━━━━━━━━━━━━━━━━━━━━
 🤖 PQ BOT 🤖 • Chúc các bạn leo top vui vẻ!`;
 }
 
 /**
- * Menu cấu hình hệ thống Anti Bảo Vệ Nhóm gọn gàng
+ * Menu cấu hình hệ thống Anti Bảo Vệ Nhóm đầy đủ và chi tiết
  */
 export function formatAntiMenu(anti = {}) {
   const status = (enabled) => (enabled ? '🟢 BẬT' : '⛔ TẮT');
-  return `🤖 PQ BOT 🤖 - BẢO VỆ NHÓM (ANTI)
-[1] Cướp Box: ${status(anti.control)} | [2] Spam: ${status(anti.spam)}
-[3] Link Web: ${status(anti.link)} | [4] Link/QR Zalo: ${status(anti.zalo)}
-[5] QR Ngân Hàng: ${status(anti.bankQr)}
-─────────────────────────
-[6] 🟢 Bật TẤT CẢ | [7] ⛔ Tắt TẤT CẢ
-👉 Trượt tin nhắn gõ SỐ (vd: 1 2 4) để Bật/Tắt.`;
+  return `🤖 PQ BOT 🤖 - HỆ THỐNG BẢO VỆ NHÓM (ANTI)
+━━━━━━━━━━━━━━━━━━━━━━
+[1]  Spam: ${status(anti.spam)}
+[2]  Tag All: ${status(anti.tagAll)}
+[3]  Link Web: ${status(anti.link)}
+[4]  Link Zalo: ${status(anti.linkZalo)}
+[5]  QR Zalo: ${status(anti.qrZalo)}
+[6]  QR Mess: ${status(anti.qrMess)}
+[7]  QR Bank: ${status(anti.bankQr)}
+[8]  Tất Cả QR: ${status(anti.allQr)}
+[9]  Thu Hồi Tin: ${status(anti.antiUndo)}
+[10] Đổi Tên Box: ${status(anti.changeName)}
+[11] Thay Avt Box: ${status(anti.changeAvatar)}
+[12] Avt Sexy: ${status(anti.sexyAvatar)}
+[13] Nudo / 18+: ${status(anti.nsfw)}
+[14] Tin Thoại (Voice): ${status(anti.voice)}
+[15] Danh Thiếp (Card): ${status(anti.card)}
+[16] Gửi Hình Ảnh: ${status(anti.image)}
+━━━━━━━━━━━━━━━━━━━━━━
+[all] 🟢 Bật Hết | [tat] ⛔ Tắt Hết
+👉 Trượt tin nhắn gõ SỐ (vd: 1 3 9 12 16) để Bật/Tắt từng mục!`;
 }
 

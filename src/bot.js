@@ -23,6 +23,7 @@ import {
   TIME_SLOTS
 } from './utils/formatters.js';
 import { announcementService } from './services/announcementService.js';
+import { menuRenderService } from './services/menuRenderService.js';
 import { boxService } from './services/boxService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,11 +33,13 @@ const __dirname = path.dirname(__filename);
 const KNOWN_COMMANDS = [
   'td', 'tinhdiem', 'bxh', 'bangxephang', 'tongdiem',
   'help', 'huongdan', 'menu', 'check', 'status',
-  'kickall', 'kick-all', 'kicktatca', 'locnhom', 'clearall',
-  'qr', 'stk', 'bank', 'ma', 'doiqr', 'setqr', 'xoaqr', 'resetqr', 'setstk', 'ctk',
+  'kick', 'kickall', 'kick-all', 'kicktatca', 'locnhom', 'clearall',
+  'doiqr', 'setqr', 'xoaqr', 'resetqr', 'setstk', 'ctk',
   'anti', 'baove',
   'setcookie', 'cookie',
-  'napluot', 'nap', 'luot', 'checkkey', 'key'
+  'napluot', 'nap', 'luot', 'checkkey', 'key',
+  'luotdung', 'vohanbox',
+  'id', 'boxid', 'idbox'
 ];
 
 class BotManager {
@@ -77,6 +80,10 @@ class BotManager {
     this.groupInfoCache = new Map(); // Cache thông tin Trưởng / Phó nhóm
     this.spamTracker = new Map(); // Theo dõi spam tin nhắn: Map<`${threadId}_${senderId}`, number[]>
     this.pendingKickallConfirmations = new Map(); // Lưu phiên chờ xác nhận kickall: threadId -> { firstAdminId, firstAdminName, firstAdminRole, expiresAt }
+    this.pendingFreeBoxRequests = new Map(); // Quản lý phiên chọn phạm vi kích hoạt box miễn phí
+    this.recentMessages = new Map(); // Lưu cache tin nhắn nhóm phục vụ Anti Thu Hồi (Undo)
+    this.userAvatarCache = new Map(); // Lưu cache avatar thành viên
+    this.userQrCooldown = new Map(); // Giãn cách xin QR theo từng người (User Cooldown: 45s)
   }
 
   /**
@@ -158,26 +165,57 @@ class BotManager {
   }
 
   /**
-   * Quét và giải mã QR code từ URL ảnh
+   * Quét và giải mã QR code từ URL ảnh (Hỗ trợ ảnh độ phân giải cao & cả QR sáng/tối)
    */
   async scanQrFromUrl(imageUrl) {
     try {
       if (!imageUrl) return null;
-      const response = await axios.get(imageUrl, {
+      let url = String(imageUrl).trim();
+      if (url.startsWith('//')) url = 'https:' + url;
+
+      const response = await axios.get(url, {
         responseType: 'arraybuffer',
-        timeout: 8000,
+        timeout: 10000,
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
       });
       const img = await loadImage(Buffer.from(response.data));
-      const canvas = createCanvas(img.width, img.height);
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      const imageData = ctx.getImageData(0, 0, img.width, img.height);
-      const code = jsQR(imageData.data, imageData.width, imageData.height);
-      return code ? code.data : null;
+
+      const tryScanCanvas = (w, h) => {
+        try {
+          const canvas = createCanvas(w, h);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const imageData = ctx.getImageData(0, 0, w, h);
+          const code = jsQR(imageData.data, w, h, { inversionAttempts: 'attemptBoth' });
+          return code ? code.data : null;
+        } catch (e) {
+          return null;
+        }
+      };
+
+      // 1. Thử quét ở kích thước gốc
+      let qrText = tryScanCanvas(img.width, img.height);
+      if (qrText) return qrText;
+
+      // 2. Thử scale ảnh nếu ảnh chụp màn hình điện thoại hoặc ảnh máy ảnh độ phân giải lớn
+      const maxDim = Math.max(img.width, img.height);
+      if (maxDim > 800) {
+        const scale1 = 800 / maxDim;
+        qrText = tryScanCanvas(Math.round(img.width * scale1), Math.round(img.height * scale1));
+        if (qrText) return qrText;
+      }
+
+      if (maxDim > 1200) {
+        const scale2 = 500 / maxDim;
+        qrText = tryScanCanvas(Math.round(img.width * scale2), Math.round(img.height * scale2));
+        if (qrText) return qrText;
+      }
+
+      return null;
     } catch (err) {
+      console.error('❌ [Anti QR] Lỗi scan QR từ ảnh:', err?.message || err);
       return null;
     }
   }
@@ -472,13 +510,15 @@ class BotManager {
     // Khởi động lịch thông báo thời hạn hoạt động Box Zalo lúc 00:05 mỗi ngày
     boxService.startDailyNotifier(this);
 
-    // LẮNG NGHE SỰ KIỆN NHÓM (GROUP_EVENT) ĐỂ THỰC HIỆN ANTI CONTROL (CHỐNG CƯỚP BOX)
+    // LẮNG NGHE SỰ KIỆN NHÓM (GROUP_EVENT) ĐỂ THỰC HIỆN ANTI CONTROL, ANTI ĐỔI TÊN, ANTI THAY AVATAR
     this.api.listener.on('group_event', async (event) => {
       try {
         if (!event || !event.threadId) return;
         const threadId = String(event.threadId);
+        const boxStatus = boxService.isGroupActive(threadId);
+        if (!boxStatus.allowed) return; // Bỏ qua nếu nhóm chưa được kích hoạt
         const anti = customService.getGroupAnti(threadId);
-        if (!anti || !anti.control) return;
+        if (!anti) return;
 
         const actorId = String(event.data?.creatorId || event.data?.sourceId || event.data?.actorId || '').replace(/^0+/, '');
         if (!actorId || actorId === '0') return;
@@ -487,21 +527,72 @@ class BotManager {
         const perm = await this.checkAdminPermission(threadId, ThreadType.Group, actorId);
         if (perm.allowed) return;
 
-        // Kiểm tra các sự kiện nguy hiểm do thành viên thường thực hiện
-        const dangerousTypes = [
-          'update', 'update_setting', 'update_avatar', 'add_admin', 'remove_admin', 'remove_member', 'block_member'
-        ];
         const eventTypeStr = String(event.type || '').toLowerCase();
-        if (dangerousTypes.includes(eventTypeStr)) {
+
+        // 1. Chống đổi tên / cài đặt nhóm trái phép
+        if (anti.changeName && (eventTypeStr === 'update' || eventTypeStr === 'update_setting')) {
           await this.kickMember(threadId, actorId);
           await this.api.sendMessage(
-            { msg: `🛡️ [ANTI CONTROL] Đã kick thành viên (${actorId}) do tự ý thay đổi thông tin/cài đặt nhóm trái phép!` },
+            { msg: `🛡️ [ANTI ĐỔI TÊN] Đã kick thành viên (${actorId}) do tự ý đổi tên/thông tin nhóm trái phép!` },
+            threadId,
+            ThreadType.Group
+          );
+          return;
+        }
+
+        // 2. Chống thay đổi ảnh đại diện nhóm trái phép
+        if (anti.changeAvatar && eventTypeStr === 'update_avatar') {
+          await this.kickMember(threadId, actorId);
+          await this.api.sendMessage(
+            { msg: `🛡️ [ANTI THAY AVATAR] Đã kick thành viên (${actorId}) do tự ý đổi ảnh đại diện nhóm trái phép!` },
+            threadId,
+            ThreadType.Group
+          );
+          return;
+        }
+      } catch (err) {
+        console.error('❌ Lỗi xử lý group_event anti:', err);
+      }
+    });
+
+    // LẮNG NGHE SỰ KIỆN THU HỒI TIN NHẮN (UNDO) ĐỂ THỰC HIỆN ANTI THU HỒI
+    this.api.listener.on('undo', async (undo) => {
+      try {
+        if (!undo) return;
+        const threadId = String(undo.threadId || undo.data?.idTo || '');
+        if (!threadId || threadId === '0') return;
+        const boxStatus = boxService.isGroupActive(threadId);
+        if (!boxStatus.allowed) return; // Bỏ qua nếu nhóm chưa được kích hoạt
+
+        const anti = customService.getGroupAnti(threadId);
+        if (!anti || !anti.antiUndo) return;
+
+        const delContent = undo.data?.content?.deleteMsg || {};
+        const delMsgId = String(delContent.msgId || undo.data?.msgId || '');
+        const delCliId = String(delContent.clientMsgId || delContent.cliMsgId || undo.data?.cliMsgId || '');
+
+        const cached = (delMsgId && this.recentMessages.get(`${threadId}_${delMsgId}`)) ||
+                       (delCliId && this.recentMessages.get(`${threadId}_${delCliId}`));
+
+        if (cached) {
+          let notify = `🕵️‍♂️ [ANTI THU HỒI] Phát hiện tin nhắn vừa bị thu hồi!\n` +
+                       `👤 Người gửi: [${cached.senderName}]\n` +
+                       `💬 Nội dung: "${cached.content || '(Tệp tin / Hình ảnh)'}"`;
+          const payload = { msg: notify };
+          if (cached.photoUrl) {
+            payload.attachments = [cached.photoUrl];
+          }
+          await this.api.sendMessage(payload, threadId, ThreadType.Group);
+        } else {
+          const sender = undo.data?.dName || undo.data?.displayName || 'Thành viên';
+          await this.api.sendMessage(
+            { msg: `🕵️‍♂️ [ANTI THU HỒI] Thành viên [${sender}] vừa thu hồi 1 tin nhắn!` },
             threadId,
             ThreadType.Group
           );
         }
       } catch (err) {
-        console.error('❌ Lỗi xử lý group_event anti:', err);
+        console.error('❌ Lỗi xử lý anti thu hồi (undo):', err);
       }
     });
 
@@ -526,6 +617,37 @@ class BotManager {
         const isRecommendedMsgType = msgTypeStr.includes('recommended') || msgTypeStr.includes('invite') || msgTypeStr.includes('share') || msgTypeStr.includes('card');
 
         // Trích xuất nội dung chữ, liên kết và ảnh từ tin nhắn Zalo
+        const extractPhotoFromData = (data) => {
+          if (!data) return null;
+          if (typeof data === 'string') {
+            try {
+              const p = JSON.parse(data);
+              return extractPhotoFromData(p);
+            } catch (e) {
+              if (/\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(data) || /zadn\.vn|zaloapp\.com/i.test(data)) {
+                return data;
+              }
+              return null;
+            }
+          }
+          if (typeof data === 'object' && data !== null) {
+            const photo = data.hdUrl || data.normalUrl || data.rawUrl || data.url || data.mediaUrl || data.fileUrl || data.thumbUrl || data.thumb;
+            if (photo && typeof photo === 'string') return photo;
+            if (data.href && (/\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(data.href) || /zadn\.vn|zaloapp\.com/i.test(data.href))) {
+              return data.href;
+            }
+            if (data.params) {
+              const pPhoto = extractPhotoFromData(data.params);
+              if (pPhoto) return pPhoto;
+            }
+            if (data.data) {
+              const dPhoto = extractPhotoFromData(data.data);
+              if (dPhoto) return dPhoto;
+            }
+          }
+          return null;
+        };
+
         const rawContent = message.data?.content;
         if (typeof rawContent === 'string') {
           try {
@@ -539,19 +661,9 @@ class BotManager {
               }
               content = textParts.filter(Boolean).join(' ').trim();
 
-              // Chỉ nhận diện làm photoUrl nếu là ảnh thật sự, không nhầm lẫn với link web
-              const candidatePhoto = parsed.hdUrl || parsed.normalUrl || parsed.rawUrl || parsed.thumbUrl || parsed.thumb;
-              if (candidatePhoto) {
-                directPhotoUrl = candidatePhoto;
-              } else if (parsed.href && (/\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(parsed.href) || /zadn\.vn|zaloapp\.com/i.test(parsed.href))) {
-                directPhotoUrl = parsed.href;
-              }
-
               if (parsed.params) {
                 try {
                   const p = typeof parsed.params === 'string' ? JSON.parse(parsed.params) : parsed.params;
-                  const pPhoto = p.hdUrl || p.normalUrl || p.rawUrl || p.thumbUrl;
-                  if (pPhoto) directPhotoUrl = directPhotoUrl || pPhoto;
                   const pUrl = p.href || p.url || p.link || p.targetUrl;
                   if (pUrl && !isInternalZaloMediaUrl(pUrl)) {
                     linkUrl = linkUrl || pUrl;
@@ -579,18 +691,9 @@ class BotManager {
           }
           content = textParts.filter(Boolean).join(' ').trim();
 
-          const candidatePhoto = rawContent.hdUrl || rawContent.normalUrl || rawContent.rawUrl || rawContent.thumbUrl || rawContent.thumb;
-          if (candidatePhoto) {
-            directPhotoUrl = candidatePhoto;
-          } else if (rawContent.href && (/\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(rawContent.href) || /zadn\.vn|zaloapp\.com/i.test(rawContent.href))) {
-            directPhotoUrl = rawContent.href;
-          }
-
           if (rawContent.params) {
             try {
               const p = typeof rawContent.params === 'string' ? JSON.parse(rawContent.params) : rawContent.params;
-              const pPhoto = p.hdUrl || p.normalUrl || p.rawUrl || p.thumbUrl;
-              if (pPhoto) directPhotoUrl = directPhotoUrl || pPhoto;
               const pUrl = p.href || p.url || p.link || p.targetUrl;
               if (pUrl && !isInternalZaloMediaUrl(pUrl)) {
                 linkUrl = linkUrl || pUrl;
@@ -603,6 +706,15 @@ class BotManager {
             const dUrl = rawContent.data.href || rawContent.data.url || rawContent.data.link;
             if (dUrl && !isInternalZaloMediaUrl(dUrl)) linkUrl = linkUrl || dUrl;
           }
+        }
+
+        // Trích xuất ảnh trực tiếp (directPhotoUrl) do người này gửi
+        directPhotoUrl = extractPhotoFromData(rawContent);
+        if (!directPhotoUrl && message.data?.attach) {
+          directPhotoUrl = extractPhotoFromData(message.data.attach);
+        }
+        if (!directPhotoUrl && message.data) {
+          directPhotoUrl = extractPhotoFromData(message.data);
         }
 
         // Bổ sung các trường dữ liệu link khác từ Zalo API (CHỈ lấy chữ do người gửi gõ, KHÔNG lấy raw JSON chứa link media Zalo)
@@ -622,23 +734,7 @@ class BotManager {
 
         // Kiểm tra ảnh trong tin nhắn quote (khi người dùng reply vào 1 ảnh trước đó)
         if (message.data?.quote) {
-          const qAttach = message.data.quote.attach;
-          if (typeof qAttach === 'string') {
-            try {
-              const parsed = JSON.parse(qAttach);
-              quotedPhotoUrl = parsed.hdUrl || parsed.normalUrl || parsed.rawUrl || parsed.thumbUrl || parsed.thumb;
-              if (!quotedPhotoUrl && parsed.href && /\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(parsed.href)) {
-                quotedPhotoUrl = parsed.href;
-              }
-            } catch (e) {
-              if (/\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(qAttach)) quotedPhotoUrl = qAttach;
-            }
-          } else if (typeof qAttach === 'object' && qAttach !== null) {
-            quotedPhotoUrl = qAttach.hdUrl || qAttach.normalUrl || qAttach.rawUrl || qAttach.thumbUrl || qAttach.thumb;
-            if (!quotedPhotoUrl && qAttach.href && /\.(jpe?g|png|webp|gif)(\?.*)?$/i.test(qAttach.href)) {
-              quotedPhotoUrl = qAttach.href;
-            }
-          }
+          quotedPhotoUrl = extractPhotoFromData(message.data.quote.attach) || extractPhotoFromData(message.data.quote);
         }
 
         photoUrl = directPhotoUrl || quotedPhotoUrl;
@@ -658,17 +754,46 @@ class BotManager {
         const threadType = message.type;
         const senderId = message.data?.uidFrom || 'unknown';
         const senderName = message.data?.dName || message.data?.displayName || 'Thành viên';
-        const lowerContent = (content || '').toLowerCase().trim();
+        const lowerContent = (content || message.data?.msg || '').toLowerCase().trim();
+        console.log(`📩 [TIN NHẮN] Từ [${senderName}] (${senderId}) tại [${threadId}]: "${lowerContent}"`);
 
-        // Tự động lưu nhóm Zalo vào danh sách thông báo
+        // Tự động lưu nhóm Zalo vào danh sách thông báo nếu nhóm đã được kích hoạt
         if (threadType !== ThreadType.User && threadId) {
-          announcementService.registerGroup(threadId);
+          const boxStatus = boxService.isGroupActive(threadId);
+          if (boxStatus.allowed) {
+            announcementService.registerGroup(threadId);
+          }
+        }
+
+        // Lưu tin nhắn nhóm vào bộ nhớ đệm phục vụ Anti Thu Hồi
+        if (threadType !== ThreadType.User && !message.isSelf) {
+          const msgId = String(message.data?.msgId || '');
+          const cliMsgId = String(message.data?.cliMsgId || '');
+          const msgRecord = {
+            senderId,
+            senderName,
+            content: userMessageText || content || '',
+            photoUrl: directPhotoUrl || null,
+            timestamp: Date.now()
+          };
+          if (msgId) this.recentMessages.set(`${threadId}_${msgId}`, msgRecord);
+          if (cliMsgId) this.recentMessages.set(`${threadId}_${cliMsgId}`, msgRecord);
+
+          if (this.recentMessages.size > 2000) {
+            const firstKey = this.recentMessages.keys().next().value;
+            this.recentMessages.delete(firstKey);
+          }
         }
 
         // ─── KIỂM TRA HỆ THỐNG BẢO VỆ NHÓM (ANTI) CHO THÀNH VIÊN THƯỜNG ───
         if (threadType !== ThreadType.User && !message.isSelf) {
-          const anti = customService.getGroupAnti(threadId);
-          const hasAnyAnti = anti.spam || anti.link || anti.zalo || anti.bankQr;
+          const boxStatus = boxService.isGroupActive(threadId);
+          if (boxStatus.allowed) {
+            const anti = customService.getGroupAnti(threadId);
+          const hasAnyAnti = anti.spam || anti.tagAll || anti.link || anti.linkZalo ||
+                             anti.qrZalo || anti.qrMess || anti.bankQr || anti.allQr ||
+                             anti.sexyAvatar ||
+                             anti.nsfw || anti.voice || anti.card || anti.image;
           if (hasAnyAnti) {
             const perm = await this.checkAdminPermission(threadId, threadType, senderId);
             if (!perm.allowed) {
@@ -692,37 +817,114 @@ class BotManager {
                 }
               }
 
-              // 2. Chống Link & Thẻ Nhóm Zalo / Messenger (Chỉ kiểm tra tin nhắn của người này, KHÔNG phạt vì quote tin nhắn cũ)
-              const SOCIAL_LINK_REGEX = /(?:https?:\/\/)?(?:chat\.)?zalo\.me(?:\/[a-zA-Z0-9_.-]*|\b)|zalo:\/\/|(?:https?:\/\/)?(?:m\.me|messenger\.com|facebook\.com\/messages)(?:\/[a-zA-Z0-9_.-]*|\b)/i;
-              const rawStr = typeof rawContent === 'string' ? rawContent : JSON.stringify(rawContent || '');
-              
-              // Nhận diện thẻ mời / thẻ chia sẻ nhóm Zalo hoặc Messenger Card
-              const isSocialShareCard = isRecommendedMsgType && (
-                /join_group|invite|recommend_group/i.test(rawStr) ||
-                message.data?.content?.type === 2 ||
-                !!(message.data?.content?.groupId || message.data?.content?.group_id || message.data?.groupId)
-              );
+              // 2. Chống Tag All / Tab All (@all, @tất cả, @mọi người)
+              if (anti.tagAll) {
+                const hasTagAllMention = Array.isArray(message.data?.mentions) && message.data.mentions.some(m => {
+                  return String(m.uid) === '-1' || m.type === 1 || (String(m.uid) === '0' && m.len >= 3);
+                });
+                const isTagAllText = /(?:^|\s)@(all|tất cả|tat ca|mọi người|moi nguoi)(?:$|[\s!?,.:])/i.test(userMessageText);
+                if (hasTagAllMention || isTagAllText) {
+                  await this.deleteMessage(message);
+                  await this.kickMember(threadId, senderId);
+                  await this.api.sendMessage(
+                    { msg: `🛡️ [ANTI TAG ALL] Đã kick [${senderName}] do tự ý Tag All / Nhắc tên tất cả thành viên trái phép!` },
+                    threadId,
+                    threadType
+                  );
+                  return;
+                }
+              }
 
-              const isSocialLink = isSocialShareCard ||
-                                   SOCIAL_LINK_REGEX.test(userMessageText) ||
-                                   (linkUrl && !isInternalZaloMediaUrl(linkUrl) && SOCIAL_LINK_REGEX.test(linkUrl));
-
-              if (anti.zalo && isSocialLink) {
+              // 3. Chống Tin Nhắn Thoại (Voice)
+              const isVoiceMsg = msgTypeStr.includes('voice') ||
+                                 message.data?.msgType === 'chat.voice' ||
+                                 !!message.data?.voiceUrl ||
+                                 !!rawContent?.voiceUrl;
+              if (anti.voice && isVoiceMsg) {
                 await this.deleteMessage(message);
                 await this.kickMember(threadId, senderId);
                 await this.api.sendMessage(
-                  { msg: `🛡️ [ANTI ZALO & MESS] Đã kick [${senderName}] do gửi Link / Thẻ Nhóm Zalo hoặc Messenger vào nhóm!` },
+                  { msg: `🛡️ [ANTI VOICE] Đã kick [${senderName}] do gửi tin nhắn thoại (nhóm đang cấm voice)!` },
                   threadId,
                   threadType
                 );
                 return;
               }
 
-              // 3. Chống Link Website ngoài (Chỉ kiểm tra text người dùng gõ hoặc link card thật, KHÔNG phạt ảnh media)
+              // 4. Chống Chia Sẻ Danh Thiếp / Card
+              const rawStr = typeof rawContent === 'string' ? rawContent : JSON.stringify(rawContent || '');
+              const isCardMsg = isRecommendedMsgType && (
+                /recommend_user|share_contact|contact_card/i.test(rawStr) ||
+                message.data?.content?.type === 1 ||
+                msgTypeStr.includes('card') ||
+                msgTypeStr.includes('contact')
+              );
+              if (anti.card && isCardMsg) {
+                await this.deleteMessage(message);
+                await this.kickMember(threadId, senderId);
+                await this.api.sendMessage(
+                  { msg: `🛡️ [ANTI CARD] Đã kick [${senderName}] do chia sẻ danh thiếp/liên hệ cá nhân trái phép!` },
+                  threadId,
+                  threadType
+                );
+                return;
+              }
+
+              // 5. Chống Gửi Hình Ảnh
+              if (anti.image && directPhotoUrl) {
+                await this.deleteMessage(message);
+                await this.kickMember(threadId, senderId);
+                await this.api.sendMessage(
+                  { msg: `🛡️ [ANTI ẢNH] Đã kick [${senderName}] do gửi hình ảnh vào nhóm (nhóm đang cấm gửi ảnh)!` },
+                  threadId,
+                  threadType
+                );
+                return;
+              }
+
+              // 6. Chống Nudo / 18+ / Đồi Trụy
+              const NSFW_REGEX = /(?:^|[\s,.:;!?])(nudo|nudes?|clip nóng|lộ clip|clip sex|phim sex|jav|hentai|porn|xvideos|xxnx|gạ chịch|show hàng|bán quạt|onlyfans|link 18\+|link sex|gái gọi|thác loạn)(?:$|[\s,.:;!?])/i;
+              if (anti.nsfw && userMessageText && NSFW_REGEX.test(userMessageText)) {
+                await this.deleteMessage(message);
+                await this.kickMember(threadId, senderId);
+                await this.api.sendMessage(
+                  { msg: `🛡️ [ANTI NUDO / 18+] Đã kick [${senderName}] do gửi nội dung 18+ / khiêu dâm trái phép!` },
+                  threadId,
+                  threadType
+                );
+                return;
+              }
+
+              // 7. Chống Link & Thẻ Nhóm Zalo (Chỉ kiểm tra tin nhắn của người này, KHÔNG phạt vì quote tin nhắn cũ)
+              const ZALO_LINK_REGEX = /(?:https?:\/\/)?(?:chat\.)?zalo\.me(?:\/[a-zA-Z0-9_.-]*|\b)|zalo:\/\/[^\s]*/i;
+              
+              // Nhận diện thẻ mời / thẻ chia sẻ nhóm Zalo
+              const isZaloShareCard = isRecommendedMsgType && (
+                /join_group|invite|recommend_group/i.test(rawStr) ||
+                message.data?.content?.type === 2 ||
+                !!(message.data?.content?.groupId || message.data?.content?.group_id || message.data?.groupId)
+              );
+
+              const isZaloLink = isZaloShareCard ||
+                                 ZALO_LINK_REGEX.test(userMessageText) ||
+                                 (linkUrl && !isInternalZaloMediaUrl(linkUrl) && ZALO_LINK_REGEX.test(linkUrl));
+
+              if (anti.linkZalo && isZaloLink) {
+                await this.deleteMessage(message);
+                await this.kickMember(threadId, senderId);
+                await this.api.sendMessage(
+                  { msg: `🛡️ [ANTI LINK ZALO] Đã kick [${senderName}] do gửi Link / Thẻ Nhóm Zalo vào nhóm!` },
+                  threadId,
+                  threadType
+                );
+                return;
+              }
+
+              // 10. Chống Link Website ngoài (Chỉ kiểm tra text người dùng gõ hoặc link card thật, KHÔNG phạt ảnh media)
               const URL_REGEX = /(?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*|[a-zA-Z0-9-]+\.(?:com|vn|net|org|xyz|top|site|vip|pro|online|info|me|cc|io|gg|link|app|live|club|fun|asia|mobi|tech|shop|store|cloud|dev|tv|edu|gov|biz|co)\b/i;
               
               let hasWebLink = false;
-              if (!isSocialLink) {
+              if (!isZaloLink) {
                 if (isLinkMsgType && linkUrl && !isInternalZaloMediaUrl(linkUrl)) {
                   hasWebLink = true;
                 } else if (userMessageText && URL_REGEX.test(userMessageText)) {
@@ -748,20 +950,40 @@ class BotManager {
                 return;
               }
 
-              // 4. Chống ảnh mã QR Zalo, QR Messenger & mã QR Ngân Hàng
-              // ⚠️ QUAN TRỌNG: CHỈ quét ảnh do người này TRỰC TIẾP gửi lên (directPhotoUrl)
-              // TUYỆT ĐỐI KHÔNG quét quotedPhotoUrl (vì nếu người này trượt tin nhắn QR của Bot để gửi bill hoặc chat thì quotedPhotoUrl chính là QR của Bot)
-              if ((anti.zalo || anti.bankQr) && directPhotoUrl) {
+              // 11. Chống Avatar Sexy / Nhạy cảm
+              if (anti.sexyAvatar) {
+                let userAvatar = message.data?.avatar || message.data?.avt || message.data?.thumb || this.userAvatarCache.get(senderId);
+                if (userAvatar === undefined) {
+                  try {
+                    if (typeof this.api?.getAvatarUrlProfile === 'function') {
+                      const profile = await this.api.getAvatarUrlProfile(senderId);
+                      userAvatar = profile?.avatar || profile?.data?.avatar || profile?.[senderId] || profile?.[0]?.avatar || '';
+                    } else {
+                      userAvatar = '';
+                    }
+                  } catch (e) {
+                    userAvatar = '';
+                  }
+                  if (userAvatar) this.userAvatarCache.set(senderId, userAvatar);
+                }
+
+                if (userAvatar && /sexy|nude|18plus|nsfw|sex|jav|hentai/i.test(userAvatar)) {
+                  await this.deleteMessage(message);
+                  await this.kickMember(threadId, senderId);
+                  await this.api.sendMessage(
+                    { msg: `🛡️ [ANTI AVT SEXY] Đã kick [${senderName}] do ảnh đại diện nhạy cảm / vi phạm tiêu chuẩn cộng đồng!` },
+                    threadId,
+                    threadType
+                  );
+                  return;
+                }
+              }
+
+              // 12. Chống ảnh mã QR Zalo, QR Messenger, QR Ngân Hàng & Tất Cả QR
+              if ((anti.qrZalo || anti.qrMess || anti.bankQr || anti.allQr) && directPhotoUrl) {
                 const qrText = await this.scanQrFromUrl(directPhotoUrl);
                 if (qrText) {
-                  // Quét mã QR dẫn tới Zalo hoặc Messenger
-                  const isZaloOrMessQr = anti.zalo && /(?:zalo\.me|m\.me|messenger\.com)/i.test(qrText);
-                  
-                  // Nhận diện mã VietQR nhận tiền chuyển khoản (bắt buộc có chuẩn thanh toán Napas/VietQR)
-                  const isBankQr = anti.bankQr && (
-                    (qrText.startsWith('000201') && (/QRIBFTTA|A000000727|9704/i.test(qrText))) ||
-                    /^https?:\/\/(?:www\.)?(?:api\.)?vietqr\.(?:net|io)/i.test(qrText)
-                  );
+                  console.log(`🔍 [Anti QR] Đã quét được mã QR từ ảnh của [${senderName}]: ${qrText}`);
 
                   // Kiểm tra xem QR này có phải là QR chính thức của Bot hoặc của Nhóm không (Nếu đúng thì KHÔNG được kick)
                   const defaultBankAcc = String(PAYMENT_CONFIG.accountNo || '').trim();
@@ -770,11 +992,45 @@ class BotManager {
                   const isOfficialGroupQr = (defaultBankAcc && qrText.includes(defaultBankAcc)) ||
                                             (groupBankAcc && qrText.includes(groupBankAcc));
 
-                  if (isZaloOrMessQr) {
+                  // Quét mã QR dẫn tới Zalo (Nhóm Zalo, Trang cá nhân Zalo, OA Zalo...)
+                  const isZaloQr = anti.qrZalo && /(?:zalo\.me|zalo:\/\/|qr\.zalo|id\.zalo)/i.test(qrText);
+
+                  // Quét mã QR dẫn tới Messenger / Facebook
+                  const isMessQr = anti.qrMess && /(?:m\.me|messenger\.com|facebook\.com\/messages|facebook\.com\/qr|fb\.me|fb\.com)/i.test(qrText);
+                  
+                  // Nhận diện mã VietQR nhận tiền chuyển khoản (bắt buộc có chuẩn thanh toán Napas/VietQR)
+                  const isBankQr = anti.bankQr && (
+                    (qrText.startsWith('000201') && (/QRIBFTTA|A000000727|9704/i.test(qrText))) ||
+                    /^https?:\/\/(?:www\.)?(?:api\.)?vietqr\.(?:net|io)/i.test(qrText)
+                  );
+
+                  if (anti.allQr && !isOfficialGroupQr) {
                     await this.deleteMessage(message);
                     await this.kickMember(threadId, senderId);
                     await this.api.sendMessage(
-                      { msg: `🛡️ [ANTI QR] Đã kick [${senderName}] do gửi ảnh mã QR Zalo / Messenger vào nhóm!` },
+                      { msg: `🛡️ [ANTI TẤT CẢ QR] Đã kick [${senderName}] do gửi hình ảnh chứa mã QR vào nhóm!` },
+                      threadId,
+                      threadType
+                    );
+                    return;
+                  }
+
+                  if (isZaloQr) {
+                    await this.deleteMessage(message);
+                    await this.kickMember(threadId, senderId);
+                    await this.api.sendMessage(
+                      { msg: `🛡️ [ANTI QR ZALO] Đã kick [${senderName}] do gửi ảnh mã QR Zalo vào nhóm!` },
+                      threadId,
+                      threadType
+                    );
+                    return;
+                  }
+
+                  if (isMessQr) {
+                    await this.deleteMessage(message);
+                    await this.kickMember(threadId, senderId);
+                    await this.api.sendMessage(
+                      { msg: `🛡️ [ANTI QR MESS] Đã kick [${senderName}] do gửi ảnh mã QR Messenger vào nhóm!` },
                       threadId,
                       threadType
                     );
@@ -796,19 +1052,13 @@ class BotManager {
             }
           }
         }
+      }
 
-        // TỰ ĐỘNG BẮT TỪ KHÓA XIN QR / STK / MÃ CHUYỂN KHOẢN
+        // TỰ ĐỘNG BẮT TỪ KHÓA XIN QR / STK / MÃ CHUYỂN KHOẢN (CHỈ LẮNG NGHE TỰ DO, KHÔNG DÙNG LỆNH CÓ TIỀN TỐ . ! /)
         let isAskingQr = false;
-        if (!message.isSelf) {
-          if (/^[!\.\/]/.test(lowerContent)) {
-            // Lệnh có tiền tố (. ! /): chỉ nhận diện các lệnh xem qr/stk/mã, tránh bắt nhầm lệnh đổi qr hay lệnh khác
-            const isBankAdminCmd = /^[!\.\/](?:doiqr|setqr|xoaqr|resetqr|setstk|ctk|doistk)\b/i.test(lowerContent);
-            if (!isBankAdminCmd && /^[!\.\/](?:qr|stk|bank|ma|vietqr|ck)\b/i.test(lowerContent)) {
-              isAskingQr = true;
-            }
-          } else {
-            // Tin nhắn văn bản thông thường: chuẩn hóa bỏ dấu tiếng Việt và ký tự đặc biệt
-            const cleanContent = lowerContent
+        if (!message.isSelf && !/^[!\.\/]/.test(lowerContent)) {
+          // Tin nhắn văn bản thông thường từ thành viên (KHÔNG CẦN CÓ DẤU .): nhận diện qr, mã, stk
+          const cleanContent = lowerContent
               .normalize('NFD')
               .replace(/[\u0300-\u036f]/g, '')
               .replace(/đ/g, 'd')
@@ -818,7 +1068,7 @@ class BotManager {
               .trim();
 
             if (cleanContent) {
-              // 1. Chứa từ viết tắt chuyên biệt: chính xác từ "qr" hoặc "stk" (không nhận diện qrrrr, stkkk...)
+              // 1. Chứa từ viết tắt chuyên biệt: chính xác từ "qr" hoặc "stk"
               if (/\b(?:qr|stk)\b/i.test(cleanContent)) {
                 isAskingQr = true;
               } else {
@@ -845,9 +1095,24 @@ class BotManager {
               }
             }
           }
-        }
 
         if (isAskingQr && !message.isSelf) {
+          if (threadType !== ThreadType.User) {
+            const boxStatus = boxService.isGroupActive(threadId);
+            if (!boxStatus.allowed) return; // Nhóm chưa kích hoạt -> Im lặng hoàn toàn, không gửi QR
+          }
+          const now = Date.now();
+          const userCooldownKey = `${threadId}_${senderId}`;
+
+          // Giãn cách cá nhân: nếu vẫn là người đó gõ lần 2 trong 45s -> Bot im lặng hoàn toàn, không rep
+          const lastUserTime = this.userQrCooldown.get(userCooldownKey) || 0;
+          if (now - lastUserTime < 45000) {
+            return;
+          }
+
+          // Cập nhật mốc thời gian gọi QR của người này (người khác nhắn vẫn được bot rep ngay không cần chờ)
+          this.userQrCooldown.set(userCooldownKey, now);
+
           const bankInfo = customService.getGroupBankInfo(threadId);
           const qrPath = (bankInfo.qrImage && fs.existsSync(bankInfo.qrImage))
             ? bankInfo.qrImage
@@ -1244,7 +1509,7 @@ class BotManager {
             if (!perm.allowed) return;
 
             const cleanInput = content.replace(/^@[^\s]+\s*/g, '').trim().toLowerCase();
-            const matchedTokens = cleanInput.match(/[1-7]|on|off|all|bat|tat/g);
+            const matchedTokens = cleanInput.match(/\d+|all|on|off|bat|tat/gi);
             if (matchedTokens && matchedTokens.length > 0) {
               for (const token of matchedTokens) {
                 customService.toggleGroupAntiOption(threadId, token);
@@ -1252,6 +1517,49 @@ class BotManager {
               const updatedAnti = customService.getGroupAnti(threadId);
               await this.api.sendMessage(
                 { msg: formatAntiMenu(updatedAnti), quote: message.data },
+                threadId,
+                threadType
+              );
+              return;
+            }
+          }
+
+          // F. Trả lời số 1 hoặc 2 khi trượt tin nhắn KÍCH HOẠT BOX MIỄN PHÍ
+          const isFreeBoxMenu = quotedMsg.includes('KÍCH HOẠT BOX MIỄN PHÍ') || quotedMsg.includes('Chọn phạm vi áp dụng:');
+          if (isFreeBoxMenu) {
+            const isSuperAdmin = this.isSuperAdmin(senderId, message);
+            if (!isSuperAdmin) {
+              await this.api.sendMessage(
+                { msg: '⚠️ Chỉ Admin Bot mới có quyền sử dụng lệnh này.', quote: message.data },
+                threadId,
+                threadType
+              );
+              return;
+            }
+
+            const cleanInput = content.replace(/^@[^\s]+\s*/g, '').trim();
+            const choiceMatch = cleanInput.match(/\b([12])\b/);
+            if (choiceMatch) {
+              const scope = parseInt(choiceMatch[1], 10);
+              const session = this.pendingFreeBoxRequests.get(threadId);
+              const days = session?.days || 1;
+              customService.setGroupFreeTrial(threadId, days, scope);
+              this.pendingFreeBoxRequests.delete(threadId);
+
+              const exp = new Date(Date.now() + (days * 86400000));
+              const expStr = `${String(exp.getDate()).padStart(2, '0')}/${String(exp.getMonth() + 1).padStart(2, '0')}/${exp.getFullYear()}`;
+              const scopeText = scope === 1 ? '1️⃣ Chỉ QTV box' : '2️⃣ Tất cả thành viên';
+
+              const successMsg = `╭──────────────⭓\n` +
+                                 `│ ✅ KÍCH HOẠT THÀNH CÔNG\n` +
+                                 `├──────────────⭓\n` +
+                                 `│ 🎁 Chế độ: Vô hạn lượt box\n` +
+                                 `│ 📅 Thời hạn: ${days} ngày (đến ${expStr})\n` +
+                                 `│ 👥 Phạm vi: ${scopeText}\n` +
+                                 `╰──────────────⭓`;
+
+              await this.api.sendMessage(
+                { msg: successMsg, quote: message.data },
                 threadId,
                 threadType
               );
@@ -1431,21 +1739,15 @@ class BotManager {
 
     // KIỂM TRA QUYỀN HOẠT ĐỘNG CỦA NHÓM (BOX ZALO) THEO DANH SÁCH QUẢN LÝ
     if (threadType !== ThreadType.User) {
-      const isSuper = this.isSuperAdmin(senderId, message);
-      if (!isSuper) {
-        const boxStatus = boxService.isGroupActive(threadId);
-        if (!boxStatus.allowed) {
-          if (boxStatus.reason === 'EXPIRED') {
-            await reply(`⚠️ 🤖 PQ BOT 🤖 đã HẾT HẠN hoạt động trong nhóm này!\n👉 Hạn dùng đã kết thúc ngày ${boxStatus.box?.formattedExpiry || ''}. Vui lòng liên hệ Admin để gia hạn thêm.`);
-            return;
-          } else if (boxStatus.reason === 'DISABLED') {
-            await reply(`⚠️ 🤖 PQ BOT 🤖 hiện đang TẠM NGƯNG hoạt động trong nhóm này theo cài đặt trên Bảng Quản Trị.`);
-            return;
-          } else {
-            await reply(`⚠️ 🤖 PQ BOT 🤖 chưa được kích hoạt trong nhóm này (ID Nhóm: ${threadId})!\n👉 Vui lòng thêm và kích hoạt nhóm trên Bảng Quản Trị để sử dụng Bot.`);
-            return;
-          }
+      const isGetIdCmd = ['id', 'boxid', 'idbox', 'getid'].includes(command);
+      const boxStatus = boxService.isGroupActive(threadId);
+
+      // Nếu nhóm chưa được cho phép / hết hạn -> IM LẶNG HOÀN TOÀN 100%, không gửi thông báo làm phiền nhóm
+      if (!boxStatus.allowed) {
+        if (isGetIdCmd) {
+          await reply(`🆔 ID Box Zalo này là: ${threadId}\n👤 ID người gửi: ${senderId}`);
         }
+        return; // Im lặng hoàn toàn!
       }
     }
 
@@ -1457,7 +1759,8 @@ class BotManager {
       'napluot', 'nap', 'luot',
       'checkkey', 'key',
       'help', 'huongdan', 'menu',
-      'qr', 'stk', 'bank', 'ma'
+      'qr', 'stk', 'bank', 'ma',
+      'id', 'boxid', 'idbox'
     ];
     const isKeyCommand = keyCommands.includes(command);
 
@@ -1471,6 +1774,15 @@ class BotManager {
     }
 
     switch (command) {
+      // Lấy ID Nhóm Zalo (để thêm vào Bảng Quản Trị)
+      case 'id':
+      case 'boxid':
+      case 'idbox':
+      case 'getid': {
+        await reply(`🆔 ID Nhóm Zalo này là: ${threadId}\n👤 ID người gửi: ${senderId}`);
+        return;
+      }
+
       // Lệnh tính điểm theo khung giờ (.td <UID> [KhungGiờ] [Ngày] [xoaN] [tên_key])
       case 'td':
       case 'tinhdiem': {
@@ -1538,16 +1850,23 @@ class BotManager {
           return;
         }
 
-        // Kiểm tra yêu cầu Key nếu không phải Admin
+        // Kiểm tra yêu cầu Key nếu không phải Admin và không thuộc box miễn phí
         const isSuperAdmin = this.isSuperAdmin(senderId, message);
-        if (!keyName && !isSuperAdmin) {
+        let isEligibleFreeTrial = false;
+        if (threadType !== ThreadType.User) {
+          const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
+          const isGroupAdmin = groupPerm.allowed && (groupPerm.role === 'admin' || groupPerm.role === 'deputy' || groupPerm.role === 'creator');
+          isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+        }
+
+        if (!keyName && !isSuperAdmin && !isEligibleFreeTrial) {
           const ownedKey = keyService.findKeyByOwner(senderId);
           if (ownedKey) {
             keyName = ownedKey.key;
           }
         }
 
-        if (!keyName && !isSuperAdmin) {
+        if (!keyName && !isSuperAdmin && !isEligibleFreeTrial) {
           await reply(
             `⚠️ Bạn cần có Key để sử dụng lệnh tính điểm .td!\n` +
             `👉 Cú pháp: .td [id] [tenkey]\n` +
@@ -1559,8 +1878,8 @@ class BotManager {
           return;
         }
 
-        // Nếu có key, kiểm tra quyền sở hữu và số dư lượt
-        if (keyName) {
+        // Nếu có key, kiểm tra quyền sở hữu và số dư lượt (miễn kiểm tra nếu box đang miễn phí)
+        if (keyName && !isEligibleFreeTrial) {
           const keyData = keyService.getKey(keyName);
           if (!keyData) {
             await reply(`❌ Key "${keyName}" không tồn tại trên hệ thống!\n👉 Vui lòng gõ .key tao ${keyName} để tạo key hoặc .napluot ${keyName} để nạp lượt.`);
@@ -1621,6 +1940,20 @@ class BotManager {
       case 'help':
       case 'huongdan':
       case 'menu': {
+        try {
+          const menuImgPath = await menuRenderService.renderMenuImage();
+          if (fs.existsSync(menuImgPath)) {
+            const sendPayload = {
+              msg: `📋 BẢNG MENU CÂU LỆNH BOT TÍNH ĐIỂM (17 LỆNH)`,
+              attachments: [menuImgPath]
+            };
+            if (message.data) sendPayload.quote = message.data;
+            await this.api.sendMessage(sendPayload, threadId, threadType);
+            break;
+          }
+        } catch (renderErr) {
+          console.error('Lỗi khi render ảnh menu từ HTML:', renderErr);
+        }
         await reply(formatHelp(this.prefixes[0]));
         break;
       }
@@ -1629,7 +1962,7 @@ class BotManager {
       case 'anti':
       case 'baove': {
         if (args.length > 0) {
-          const rawTokens = args.join(' ').match(/[1-7]|on|off|all|bat|tat/gi);
+          const rawTokens = args.join(' ').match(/\d+|all|on|off|bat|tat/gi);
           if (rawTokens && rawTokens.length > 0) {
             for (const token of rawTokens) {
               customService.toggleGroupAntiOption(threadId, token);
@@ -1681,6 +2014,103 @@ class BotManager {
         } else {
           await reply(`❌ [CẬP NHẬT THẤT BẠI]\nCookie vừa nhập không thể kết nối Garena: ${profile.error || 'Lỗi không xác định'}`);
         }
+        break;
+      }
+
+      // Lệnh kích hoạt box miễn phí / vô hạn lượt (.luotdung vohanbox <số_ngày>, .vohanbox <số_ngày>)
+      case 'luotdung':
+      case 'vohanbox': {
+        const isSuperAdmin = this.isSuperAdmin(senderId, message);
+        if (!isSuperAdmin) {
+          await reply('⚠️ Chỉ Admin Bot mới có quyền sử dụng lệnh này.');
+          return;
+        }
+
+        let targetSub = command === 'vohanbox' ? 'vohanbox' : (args[0] || '').toLowerCase();
+        let daysArg = command === 'vohanbox' ? args[0] : args[1];
+        let scopeArg = command === 'vohanbox' ? args[1] : args[2];
+
+        if (targetSub !== 'vohanbox') {
+          await reply(
+            `👉 Cú pháp kích hoạt box miễn phí:\n` +
+            `• .luotdung vohanbox <số_ngày> (vd: .luotdung vohanbox 1)\n` +
+            `• .luotdung vohanbox off (để tắt chế độ miễn phí)\n` +
+            `• .luotdung vohanbox check (để kiểm tra thời hạn)`
+          );
+          return;
+        }
+
+        // Tắt chế độ vô hạn box
+        if (daysArg === 'off' || daysArg === 'tat' || daysArg === 'huy') {
+          customService.cancelGroupFreeTrial(threadId);
+          await reply('✅ Đã tắt chế độ miễn phí / vô hạn lượt cho box này thành công!');
+          return;
+        }
+
+        // Kiểm tra trạng thái vô hạn box
+        if (daysArg === 'check' || daysArg === 'status') {
+          const trial = customService.getGroupFreeTrial(threadId);
+          if (trial) {
+            const exp = new Date(trial.expireAt);
+            const expStr = `${String(exp.getDate()).padStart(2, '0')}/${String(exp.getMonth() + 1).padStart(2, '0')}/${exp.getFullYear()} ${String(exp.getHours()).padStart(2, '0')}:${String(exp.getMinutes()).padStart(2, '0')}`;
+            const scopeText = trial.scope === 1 ? '1️⃣ Chỉ QTV box (Trưởng/Phó nhóm)' : '2️⃣ Tất cả thành viên trong box';
+            await reply(
+              `╭──────────────⭓\n` +
+              `│ 🎁 TRẠNG THÁI BOX MIỄN PHÍ\n` +
+              `├──────────────⭓\n` +
+              `│ 🟢 Trạng thái: Đang hoạt động\n` +
+              `│ 📅 Hạn dùng: Đến ${expStr}\n` +
+              `│ 👥 Phạm vi: ${scopeText}\n` +
+              `╰──────────────⭓`
+            );
+          } else {
+            await reply('ℹ️ Box này hiện chưa được kích hoạt chế độ vô hạn lượt / miễn phí.\n👉 Gõ .luotdung vohanbox <số_ngày> để kích hoạt.');
+          }
+          return;
+        }
+
+        const days = Math.max(1, parseInt(daysArg, 10) || 1);
+        const scope = parseInt(scopeArg, 10);
+
+        // Nếu admin gõ sẵn phạm vi: .luotdung vohanbox 1 2 hoặc .vohanbox 1 2
+        if (scope === 1 || scope === 2) {
+          customService.setGroupFreeTrial(threadId, days, scope);
+          this.pendingFreeBoxRequests.delete(threadId);
+          const exp = new Date(Date.now() + (days * 86400000));
+          const expStr = `${String(exp.getDate()).padStart(2, '0')}/${String(exp.getMonth() + 1).padStart(2, '0')}/${exp.getFullYear()}`;
+          const scopeText = scope === 1 ? '1️⃣ Chỉ QTV box' : '2️⃣ Tất cả thành viên';
+          await reply(
+            `╭──────────────⭓\n` +
+            `│ ✅ KÍCH HOẠT THÀNH CÔNG\n` +
+            `├──────────────⭓\n` +
+            `│ 🎁 Chế độ: Vô hạn lượt box\n` +
+            `│ 📅 Thời hạn: ${days} ngày (đến ${expStr})\n` +
+            `│ 👥 Phạm vi: ${scopeText}\n` +
+            `╰──────────────⭓`
+          );
+          return;
+        }
+
+        // Lưu session chờ reply số 1 hoặc 2
+        this.pendingFreeBoxRequests.set(threadId, {
+          days,
+          adminId: senderId,
+          createdAt: Date.now()
+        });
+
+        const cardMsg = `╭──────────────⭓\n` +
+                        `│ 🎁 KÍCH HOẠT BOX MIỄN PHÍ\n` +
+                        `├──────────────⭓\n` +
+                        `│ 📅 Thời hạn: ${days} ngày\n` +
+                        `│ \n` +
+                        `│ Chọn phạm vi áp dụng:\n` +
+                        `│ 1️⃣ Chỉ QTV box\n` +
+                        `│ 2️⃣ Tất cả thành viên\n` +
+                        `│ \n` +
+                        `│ 💬 Phản hồi (reply/quote) số để chọn\n` +
+                        `╰──────────────⭓`;
+
+        await reply(cardMsg);
         break;
       }
 
@@ -1986,48 +2416,62 @@ class BotManager {
 
 
 
-      // Lệnh tính điểm tổng hợp theo danh sách ID trận / UID (.bxh <ID1> <ID2>... [key])
-      // Dành cho các trận chưa tới giờ hoặc bắt đầu sớm ngoài khung giờ cố định
+      // Lệnh tính điểm tổng hợp theo danh sách ID trận đấu (.bxh <ID1> <ID2>... [key])
       case 'bxh':
       case 'bangxephang':
       case 'tongdiem': {
         let keyName = null;
         const candidateArgs = [...args];
 
-        // Kiểm tra xem argument cuối cùng có phải là tên key không
+        // 1. Kiểm tra xem argument cuối cùng có phải là tên key không
         if (candidateArgs.length > 0) {
           const lastArg = candidateArgs[candidateArgs.length - 1].toLowerCase().trim();
-          if (!/^\d{4,}$/.test(lastArg) || keyService.getKey(lastArg)) {
+          // Nếu không phải dãy số ID (từ 8 chữ số trở lên) hoặc là tên key có trong hệ thống
+          if (!/^\d{8,}$/.test(lastArg) || keyService.getKey(lastArg)) {
             keyName = lastArg;
             candidateArgs.pop();
           }
         }
 
         const isSuperAdmin = this.isSuperAdmin(senderId, message);
-        if (!keyName && !isSuperAdmin) {
+        let isEligibleFreeTrial = false;
+        if (threadType !== ThreadType.User) {
+          const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
+          const isGroupAdmin = groupPerm.allowed && (groupPerm.role === 'admin' || groupPerm.role === 'deputy' || groupPerm.role === 'creator');
+          isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+        }
+
+        if (!keyName && !isSuperAdmin && !isEligibleFreeTrial) {
           const ownedKey = keyService.findKeyByOwner(senderId);
           if (ownedKey) {
             keyName = ownedKey.key;
           }
         }
 
-        // Bóc tách toàn bộ ID trận / UID từ args và tin nhắn quote
+        // 2. Bóc tách toàn bộ ID trận từ args và tin nhắn quote (chuỗi số từ 6 đến 24 chữ số)
         const combinedText = `${candidateArgs.join(' ')} ${quotedMsg || ''}`;
-        const rawIds = combinedText.match(/\b\d{4,16}\b/g) || [];
-        const uniqueIds = Array.from(new Set(rawIds));
+        const rawIds = combinedText.match(/\b\d{6,24}\b/g) || [];
+        // Giữ nguyên đúng thứ tự các trận đấu mà người dùng nhập vào
+        const uniqueIds = [];
+        for (const id of rawIds) {
+          const cleanId = String(id).trim();
+          if (cleanId && !uniqueIds.includes(cleanId)) {
+            uniqueIds.push(cleanId);
+          }
+        }
 
         if (uniqueIds.length === 0) {
           await reply(
-            `⚠️ CÚ PHÁP LỆNH .bxh (GHÉP CÁC TRẬN ĐÁNH SỚM):\n` +
-            `👉 Cú pháp: .bxh <ID1> <ID2> [ID3]... [tên_key]\n` +
-            `💡 Ví dụ: .bxh 12345678 12345679 12345680 tenkey\n` +
-            `📌 Dành cho những trận bắt đầu sớm trước khung giờ quy định.`
+            `⚠️ CÚ PHÁP LỆNH .bxh (TÍNH ĐIỂM THEO DANH SÁCH ID TRẬN):\n` +
+            `👉 Cú pháp: .bxh <ID_Trận_1> <ID_Trận_2> [ID_Trận_3]... [tên_key]\n` +
+            `💡 Ví dụ: .bxh 2096072125441953792 2096077702004002816${keyName ? ' ' + keyName : ' tenkey'}\n` +
+            `📌 Tính điểm chính xác theo danh sách ID các trận đấu bạn nhập vào.`
           );
           return;
         }
 
         let keyData = null;
-        if (keyName) {
+        if (keyName && !isEligibleFreeTrial) {
           keyData = keyService.getKey(keyName);
           if (!keyData) {
             await reply(`❌ Key "${keyName}" không tồn tại trên hệ thống!\n👉 Vui lòng kiểm tra lại tên key hoặc nạp lượt (.napluot ${keyName}).`);
@@ -2037,7 +2481,7 @@ class BotManager {
             await reply(`⚠️ Key "${keyName}" đã HẾT LƯỢT dùng!\n👉 Vui lòng gõ .napluot ${keyName} để nạp thêm lượt (250đ/lượt).`);
             return;
           }
-        } else if (!isSuperAdmin) {
+        } else if (!isSuperAdmin && !isEligibleFreeTrial) {
           await reply(
             `⚠️ Vui lòng nhập kèm Tên Key để tính điểm!\n` +
             `👉 Cú pháp: .bxh ${uniqueIds.join(' ')} <tên_key>\n` +
@@ -2046,8 +2490,9 @@ class BotManager {
           return;
         }
 
-        await reply(`⏳ 🤖 PQ BOT 🤖 đang truy xuất dữ liệu ${uniqueIds.length} trận đấu từ máy chủ Garena...`);
+        await reply(`⏳ 🤖 PQ BOT 🤖 đang truy xuất dữ liệu ${uniqueIds.length} trận đấu theo đúng ID bạn yêu cầu...`);
 
+        // 3. Lấy chính xác dữ liệu từng trận đấu theo ID trận
         const validMatchIds = [];
         const validMatches = [];
         const failedIds = [];
@@ -2055,42 +2500,38 @@ class BotManager {
         for (const id of uniqueIds) {
           try {
             const res = await garenaService.getMatchDetail(id);
-            if (res.success && res.match && Array.isArray(res.match.ranks)) {
-              validMatchIds.push(String(res.match.id || res.match.matchId || id));
+            if (res.success && res.match && Array.isArray(res.match.ranks) && res.match.ranks.length > 0) {
+              const mId = String(res.match.id || res.match.matchId || id);
+              validMatchIds.push(mId);
               validMatches.push(res.match);
               continue;
             }
-          } catch (e) {}
-
-          try {
-            const playerRes = await garenaService.findMatchesByPlayer(id, 2);
-            if (playerRes.success && Array.isArray(playerRes.matches) && playerRes.matches.length > 0) {
-              const latest = playerRes.matches[0];
-              const matchId = String(latest.id || latest.matchId);
-              if (!validMatchIds.includes(matchId)) {
-                const detailRes = await garenaService.getMatchDetail(matchId);
-                if (detailRes.success && detailRes.match && Array.isArray(detailRes.match.ranks)) {
-                  validMatchIds.push(matchId);
-                  validMatches.push(detailRes.match);
-                  continue;
-                }
-              }
-            }
-          } catch (e) {}
-
+          } catch (e) {
+            console.error(`Lỗi khi lấy dữ liệu trận ID [${id}]:`, e?.message || e);
+          }
           failedIds.push(id);
         }
 
         if (validMatchIds.length === 0) {
           await reply(
             `❌ Không tìm thấy dữ liệu của trận nào trong các ID: [${uniqueIds.join(', ')}].\n` +
-            `⚠️ Vui lòng kiểm tra lại ID trận hoặc đảm bảo các trận đã kết thúc trên Garena!`
+            `⚠️ Vui lòng kiểm tra lại ID trận hoặc đảm bảo các trận đã kết thúc trên máy chủ Garena!`
           );
           return;
         }
 
         let keyInfo = null;
-        if (keyName) {
+        if (isEligibleFreeTrial) {
+          keyInfo = {
+            key: keyName || 'NNT',
+            remainingCredits: 'Vô hạn',
+            isFreeTrial: true,
+            template: this.getGroupTemplate(threadId)
+          };
+          if (keyName) {
+            webhookServer.recordKeyActivity(keyName, threadId, threadType);
+          }
+        } else if (keyName) {
           webhookServer.recordKeyActivity(keyName, threadId, threadType);
           const creditRes = keyService.useCredit(keyName, senderId, isSuperAdmin);
           if (!creditRes.success) {
@@ -2102,7 +2543,7 @@ class BotManager {
 
         const scoreRes = await garenaService.calculateTournamentScores(validMatchIds);
         if (!scoreRes.success || !scoreRes.aggregatedTeamRanks) {
-          if (keyInfo) keyService.addCredits(keyInfo.key, 1);
+          if (keyInfo && !keyInfo.isFreeTrial) keyService.addCredits(keyInfo.key, 1);
           await reply(`❌ Lỗi khi tính điểm tổng kết: ${scoreRes.error || 'Không thể tổng hợp điểm'}`);
           return;
         }
@@ -2118,12 +2559,21 @@ class BotManager {
             logoPath: fullKeyData?.logoPath || null
           });
 
-          let caption = `🤖 PQ BOT 🤖 - BẢNG XẾP HẠNG TỔNG KẾT\n🎮 Đã tính ${validMatchIds.length} trận (ID: ${validMatchIds.join(', ')})`;
+          let caption = `🤖 PQ BOT\n` +
+                        `📊 ID Trận: ${validMatchIds.join(', ')}\n` +
+                        `🎯 Số trận: ${validMatchIds.length}\n` +
+                        `⏳ Tổng kết ${validMatchIds.length} trận đấu theo ID`;
+
+          if (keyInfo?.isFreeTrial) {
+            caption += `\n🔑 Key: ${keyName ? keyName.toUpperCase() : 'NNT'}`;
+            caption += `\n🎟 Bạn còn lại: Vô hạn lượt sử dụng`;
+          } else if (keyInfo?.remainingCredits !== undefined) {
+            caption += `\n🔑 Key: ${keyInfo.key ? keyInfo.key.toUpperCase() : 'N/A'}`;
+            caption += `\n🎟 Bạn còn lại: ${keyInfo.remainingCredits} lượt sử dụng`;
+          }
+
           if (failedIds.length > 0) {
             caption += `\n⚠️ Bỏ qua ID không tìm thấy: ${failedIds.join(', ')}`;
-          }
-          if (keyInfo) {
-            caption += `\n🎫 Key [${keyInfo.key.toUpperCase()}]: -1 lượt (Còn lại: ${keyInfo.remainingCredits} lượt)`;
           }
 
           await this.api.sendMessage(
@@ -2146,10 +2596,218 @@ class BotManager {
           if (failedIds.length > 0) {
             textBxh += `\n⚠️ Bỏ qua ID không tìm thấy: ${failedIds.join(', ')}`;
           }
-          if (keyInfo) {
+          if (keyInfo?.isFreeTrial) {
+            textBxh += `\n🔑 Key: ${keyName ? keyName.toUpperCase() : 'NNT'}\n🎟 Bạn còn lại: Vô hạn lượt sử dụng`;
+          } else if (keyInfo?.remainingCredits !== undefined) {
             textBxh += `\n🎫 Key [${keyInfo.key.toUpperCase()}]: -1 lượt (Còn lại: ${keyInfo.remainingCredits} lượt)`;
           }
           await reply(textBxh);
+        }
+        break;
+      }
+
+      // Lệnh kick thành viên chỉ định theo @tag, trượt tin nhắn (quote), UID hoặc tên (.kick @ten)
+      case 'kick': {
+        if (threadType === ThreadType.User) {
+          await reply(`⚠️ Lệnh này chỉ có thể sử dụng trong Nhóm chat Zalo!`);
+          return;
+        }
+
+        const perm = await this.checkAdminPermission(threadId, threadType, senderId);
+        if (!perm.allowed) {
+          return;
+        }
+
+        try {
+          const res = await this.api.getGroupInfo(threadId);
+          const info = res?.gridInfoMap?.[threadId] || (res?.gridInfoMap ? Object.values(res.gridInfoMap)[0] : null);
+          if (!info) {
+            await reply(`❌ Không thể lấy thông tin nhóm chat từ Zalo. Vui lòng thử lại sau!`);
+            return;
+          }
+
+          const cleanId = (id) => String(id || '').split('_')[0].replace(/^0+/, '').trim();
+          const creatorId = cleanId(info.creatorId);
+          const adminIds = (info.adminIds || []).map(cleanId);
+          const botId = cleanId(this.api.getOwnId?.() || '');
+
+          // Kiểm tra xem tài khoản Bot có quyền quản trị (Trưởng nhóm hoặc Phó nhóm) trong nhóm không
+          const isBotAdmin = (creatorId && creatorId === botId) || adminIds.includes(botId);
+          if (!isBotAdmin) {
+            await reply(`❌ THẤT BẠI: Bot hiện tại KHÔNG PHẢI là Trưởng nhóm hoặc Phó nhóm!\n👉 Vui lòng thăng quyền Phó nhóm cho tài khoản Bot trên Zalo thì Bot mới có thể kick thành viên.`);
+            return;
+          }
+
+          // Lập bản đồ thành viên trong nhóm để tra cứu tên/UID
+          const memMap = new Map();
+          if (Array.isArray(info.currentMems)) {
+            for (const m of info.currentMems) {
+              const uid = cleanId(m?.id || m?.uid);
+              if (uid) {
+                memMap.set(uid, m.dName || m.zaloName || '');
+              }
+            }
+          }
+
+          const normalizeText = (str) =>
+            String(str || '')
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+              .toLowerCase()
+              .trim();
+
+          // Thu thập các UID cần kick từ 3 nguồn:
+          const targetMap = new Map(); // uid -> displayName
+
+          // 1. Mentions (@tag) từ tin nhắn
+          if (Array.isArray(message.data?.mentions) && message.data.mentions.length > 0) {
+            for (const m of message.data.mentions) {
+              const uid = cleanId(m.uid);
+              if (!uid || uid === '-1' || uid === '0' || m.type === 1) continue;
+              let name = '';
+              if (typeof m.pos === 'number' && typeof m.len === 'number' && m.len > 0) {
+                name = content.substring(m.pos, m.pos + m.len).replace(/^@+/, '').trim();
+              }
+              if (!name && memMap.has(uid)) name = memMap.get(uid);
+              targetMap.set(uid, name || uid);
+            }
+          }
+
+          // 2. Trượt tin nhắn (Quote reply) của người cần kick
+          if (quoteObj) {
+            const quoteUid = cleanId(quoteObj.ownerId || quoteObj.fromId || quoteObj.senderId || quoteObj.uidFrom);
+            if (quoteUid && quoteUid !== '0') {
+              const qName = (quoteObj.fromD || memMap.get(quoteUid) || quoteUid).trim();
+              if (!targetMap.has(quoteUid)) {
+                targetMap.set(quoteUid, qName);
+              }
+            }
+          }
+
+          // 3. Nhập UID dạng số hoặc tìm theo tên nếu chưa có mention metadata
+          if (args.length > 0) {
+            for (const arg of args) {
+              const cleanArg = cleanId(arg);
+              if (/^\d{8,22}$/.test(cleanArg)) {
+                if (!targetMap.has(cleanArg)) {
+                  targetMap.set(cleanArg, memMap.get(cleanArg) || cleanArg);
+                }
+              }
+            }
+
+            // Nếu vẫn chưa tìm thấy ai và có text sau .kick (vd: .kick @Nguyen Van A hoặc .kick Nguyen Van A)
+            if (targetMap.size === 0 && Array.isArray(info.currentMems)) {
+              const rawName = args.join(' ').replace(/^@+/, '').trim();
+              const normSearch = normalizeText(rawName);
+              if (normSearch.length >= 2) {
+                const matchedMem = info.currentMems.find((m) => {
+                  const dName = normalizeText(m.dName);
+                  const zName = normalizeText(m.zaloName);
+                  return (dName && (dName === normSearch || dName.includes(normSearch))) ||
+                         (zName && (zName === normSearch || zName.includes(normSearch)));
+                });
+                if (matchedMem) {
+                  const uid = cleanId(matchedMem.id || matchedMem.uid);
+                  if (uid) {
+                    targetMap.set(uid, matchedMem.dName || matchedMem.zaloName || uid);
+                  }
+                }
+              }
+            }
+          }
+
+          // Nếu không tìm thấy thành viên nào được chỉ định
+          if (targetMap.size === 0) {
+            await reply(
+              `👉 CÚ PHÁP KICK THÀNH VIÊN:\n` +
+              `• Cách 1: .kick @tên (tag 1 hoặc nhiều người trong nhóm)\n` +
+              `• Cách 2: Trượt tin nhắn của người cần kick và gõ .kick\n` +
+              `• Cách 3: .kick <UID>`
+            );
+            return;
+          }
+
+          // Danh sách ID miễn trừ tuyệt đối không được kick
+          const exemptIds = new Set([
+            creatorId,
+            botId,
+            cleanId(senderId),
+            ...adminIds,
+            ...(config.bot.adminWhitelist || []).map(cleanId)
+          ]);
+
+          // Lọc danh sách: tách người được phép kick và người bị miễn trừ
+          const toKickList = [];
+          const protectedList = [];
+
+          for (const [uid, name] of targetMap.entries()) {
+            const displayName = name || memMap.get(uid) || uid;
+            if (exemptIds.has(uid)) {
+              let reason = 'Được bảo vệ';
+              if (uid === creatorId) reason = 'Trưởng nhóm';
+              else if (adminIds.includes(uid)) reason = 'Phó nhóm';
+              else if (uid === botId) reason = 'Tài khoản Bot';
+              else if (uid === cleanId(senderId)) reason = 'Chính bạn';
+              protectedList.push({ uid, name: displayName, reason });
+            } else {
+              toKickList.push({ uid, name: displayName });
+            }
+          }
+
+          // Nếu tất cả người được chọn đều là người được bảo vệ
+          if (toKickList.length === 0) {
+            if (protectedList.length === 1) {
+              const p = protectedList[0];
+              await reply(`❌ Không thể kick [${p.name}] vì đây là ${p.reason.toUpperCase()}!`);
+            } else {
+              await reply(`❌ Không thể kick các thành viên đã chọn vì họ đều là Trưởng nhóm / Phó nhóm / Admin!`);
+            }
+            return;
+          }
+
+          // Tiến hành kick
+          const kickedNames = [];
+          const failedNames = [];
+
+          for (const target of toKickList) {
+            const ok = await this.kickMember(threadId, target.uid);
+            if (ok) {
+              kickedNames.push(target.name);
+            } else {
+              failedNames.push(target.name);
+            }
+            if (toKickList.length > 1) {
+              await new Promise((r) => setTimeout(r, 300));
+            }
+          }
+
+          // Xóa cache group info để cập nhật lại danh sách thành viên mới
+          this.groupInfoCache.delete(threadId);
+
+          // Phản hồi kết quả
+          let resultMsg = '';
+          if (kickedNames.length > 0) {
+            if (kickedNames.length === 1) {
+              resultMsg += `👞 Đã kick thành viên [${kickedNames[0]}] ra khỏi nhóm!`;
+            } else {
+              resultMsg += `👞 Đã kick thành công ${kickedNames.length} thành viên:\n` + kickedNames.map((n) => `• ${n}`).join('\n');
+            }
+          }
+
+          if (failedNames.length > 0) {
+            resultMsg += `\n⚠️ Thất bại (${failedNames.length}): ` + failedNames.join(', ');
+          }
+
+          if (protectedList.length > 0) {
+            resultMsg += `\n🛡️ Đã bỏ qua ${protectedList.length} người: ` + protectedList.map((p) => `${p.name} (${p.reason})`).join(', ');
+          }
+
+          await reply(resultMsg.trim());
+        } catch (kickErr) {
+          console.error('[KICK] Lỗi xử lý lệnh kick:', kickErr);
+          await reply(`❌ Đã xảy ra lỗi khi thực hiện lệnh kick: ${kickErr?.message || kickErr}`);
         }
         break;
       }
@@ -2346,29 +3004,6 @@ class BotManager {
         break;
       }
 
-      // Lệnh xem thông tin chuyển khoản & mã QR: .qr, .stk, .bank, .ma
-      case 'qr':
-      case 'stk':
-      case 'bank':
-      case 'ma': {
-        const bankInfo = customService.getGroupBankInfo(threadId);
-        const qrPath = (bankInfo.qrImage && fs.existsSync(bankInfo.qrImage))
-          ? bankInfo.qrImage
-          : path.resolve(__dirname, '../assets/qr_tpbank.png');
-
-        let qrMsg = `🏦 THÔNG TIN CHUYỂN KHOẢN (${(bankInfo.bankName || 'NGÂN HÀNG').toUpperCase()})\n`;
-        qrMsg += `👤 CTK: ${bankInfo.adminCtk}\n`;
-        qrMsg += `💳 STK: ${bankInfo.bankAccount}\n`;
-        qrMsg += `📝 ND: [Tên / Nội dung chuyển khoản]\n`;
-
-        if (fs.existsSync(qrPath)) {
-          await this.api.sendMessage({ msg: qrMsg, attachments: [qrPath] }, threadId, threadType);
-        } else {
-          await reply(qrMsg);
-        }
-        break;
-      }
-
       // Lệnh đổi mã QR riêng cho nhóm: .doiqr, .setqr
       case 'doiqr':
       case 'setqr': {
@@ -2518,9 +3153,27 @@ class BotManager {
 
     // 0. KIỂM TRA VÀ TRỪ LƯỢT KEY NẾU CÓ
     let keyInfo = null;
-    if (keyName) {
+    const isSuperAdmin = this.isSuperAdmin(senderId);
+    let isEligibleFreeTrial = false;
+
+    if (threadType !== ThreadType.User) {
+      const perm = await this.checkAdminPermission(threadId, threadType, senderId);
+      const isGroupAdmin = perm.allowed && (perm.role === 'admin' || perm.role === 'deputy' || perm.role === 'creator');
+      isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+    }
+
+    if (isEligibleFreeTrial) {
+      keyInfo = {
+        key: keyName || 'NNT',
+        remainingCredits: 'Vô hạn',
+        isFreeTrial: true,
+        template: this.getGroupTemplate(threadId)
+      };
+      if (keyName) {
+        webhookServer.recordKeyActivity(keyName, threadId, threadType);
+      }
+    } else if (keyName) {
       webhookServer.recordKeyActivity(keyName, threadId, threadType);
-      const isSuperAdmin = this.isSuperAdmin(senderId);
       const creditRes = keyService.useCredit(keyName, senderId, isSuperAdmin);
       if (!creditRes.success) {
         await this.api.sendMessage(
@@ -2539,7 +3192,7 @@ class BotManager {
     const matchRes = await garenaService.findMatchesByPlayer(accountId, startTime, endTime);
 
     if (!matchRes.success) {
-      if (keyInfo) {
+      if (keyInfo && !keyInfo.isFreeTrial) {
         keyService.addCredits(keyInfo.key, 1);
       }
       const errorMsg = typeof matchRes.error === 'object'
@@ -2557,7 +3210,7 @@ class BotManager {
 
     // Nếu không tìm thấy trận -> Gợi ý nhập ngày để tìm lại
     if (matches.length === 0) {
-      if (keyInfo) {
+      if (keyInfo && !keyInfo.isFreeTrial) {
         keyService.addCredits(keyInfo.key, 1);
       }
 
@@ -2611,7 +3264,7 @@ class BotManager {
     }
 
     if (matches.length === 0) {
-      if (keyInfo) {
+      if (keyInfo && !keyInfo.isFreeTrial) {
         keyService.addCredits(keyInfo.key, 1);
       }
       await this.api.sendMessage(
@@ -2638,12 +3291,24 @@ class BotManager {
           customTitle: fullKeyData?.customTitle || null,
           logoPath: fullKeyData?.logoPath || null
         });
-        let caption = `📊 BẢNG XẾP HẠNG KHUNG GIỜ [${slot.label}] - Ngày: ${dateLabel}\n👤 UID: ${accountId} | Tổng số trận: ${matchIds.length}`;
+
+        const slotLabel = `${String(slot.start[0]).padStart(2, '0')}:${String(slot.start[1]).padStart(2, '0')} → ${String(slot.end[0]).padStart(2, '0')}:${String(slot.end[1]).padStart(2, '0')}`;
+
+        let caption = `🤖 PQ BOT\n` +
+                      `📊 ID: ${accountId}\n` +
+                      `🎯 Số trận: ${matchIds.length}\n` +
+                      `⏳ Khung giờ: ${slotLabel} ${dateLabel}`;
+
+        if (keyInfo?.isFreeTrial) {
+          caption += `\n🔑 Key: ${keyName ? keyName.toUpperCase() : 'NNT'}`;
+          caption += `\n🎟 Bạn còn lại: Vô hạn lượt sử dụng`;
+        } else if (keyInfo?.remainingCredits !== undefined) {
+          caption += `\n🔑 Key: ${keyInfo.key ? keyInfo.key.toUpperCase() : 'N/A'}`;
+          caption += `\n🎟 Bạn còn lại: ${keyInfo.remainingCredits} lượt sử dụng`;
+        }
+
         if (removedMatchNote) {
           caption += removedMatchNote;
-        }
-        if (keyInfo) {
-          caption += `\n🎫 Key [${keyInfo.key.toUpperCase()}]: -1 lượt (Còn lại: ${keyInfo.remainingCredits} lượt)`;
         }
 
         await this.api.sendMessage(
@@ -2668,13 +3333,15 @@ class BotManager {
         if (removedMatchNote) {
           leaderboardText += removedMatchNote;
         }
-        if (keyInfo) {
+        if (keyInfo?.isFreeTrial) {
+          leaderboardText += `\n🔑 Key: ${keyName ? keyName.toUpperCase() : 'NNT'}\n🎟 Bạn còn lại: Vô hạn lượt sử dụng`;
+        } else if (keyInfo?.remainingCredits !== undefined) {
           leaderboardText += `\n🎫 Key [${keyInfo.key.toUpperCase()}]: -1 lượt (Còn lại: ${keyInfo.remainingCredits} lượt)`;
         }
         await this.api.sendMessage({ msg: leaderboardText, quote: activeQuote }, threadId, threadType);
       }
     } else {
-      if (keyInfo) {
+      if (keyInfo && !keyInfo.isFreeTrial) {
         keyService.addCredits(keyInfo.key, 1);
       }
       await this.api.sendMessage(

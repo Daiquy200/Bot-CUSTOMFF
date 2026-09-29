@@ -970,14 +970,14 @@ class WebhookServer {
       if (err.code === 'EADDRINUSE') {
         console.warn(`⚠️ [CẢNH BÁO] Cổng ${this.port} đang bị chiếm dụng bởi tiến trình khác. Thử lắng nghe cổng phụ ${this.port + 1}...`);
         this.port += 1;
-        this.server.listen(this.port);
+        this.server.listen(this.port, '0.0.0.0');
       } else {
         console.error('❌ Lỗi WebhookServer:', err);
       }
     });
 
-    this.server.listen(this.port, () => {
-      console.log(`🌐 [WEB DASHBOARD & WEBHOOK] Đang chạy tại: http://localhost:${this.port}`);
+    this.server.listen(this.port, '0.0.0.0', () => {
+      console.log(`🌐 [WEB DASHBOARD & WEBHOOK] Đang chạy tại: http://0.0.0.0:${this.port} (Cổng ${this.port})`);
       console.log(`🔑 [DASHBOARD] Mật khẩu truy cập: "${config.bot.dashboardPassword || 'admin123'}"`);
       this.startSepayPolling();
     });

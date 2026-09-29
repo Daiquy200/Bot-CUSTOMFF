@@ -80,8 +80,9 @@
 7. CÁC LỆNH TRA CỨU ĐIỂM & TIỆN ÍCH KHÁC
 --------------------------------------------------------------------------------
 !check                    : Kiểm tra trạng thái Cookie Garena (Chỉ Trưởng/Phó nhóm).
-!help / .help             : Xem bảng menu hướng dẫn tóm tắt.
-.qr / .stk / .bank        : Xem mã QR & thông tin chuyển khoản nhóm.
+!help / .help / .menu     : Xem ảnh Menu danh sách 17 câu lệnh hoạt động của Bot.
+8. CÀI ĐẶT BẢO VỆ NHÓM & QUẢN TRỊ
+--------------------------------------------------------------------------------
 .doiqr / .setqr           : Đổi ảnh mã QR riêng cho nhóm (Chỉ Trưởng/Phó nhóm).
 .setstk <STK> <NgânHàng>  : Đổi STK & ngân hàng nhóm (Chỉ Trưởng/Phó nhóm).
 .ctk <Tên_CTK>            : Đổi tên Chủ tài khoản nhận tiền (Chỉ Trưởng/Phó nhóm).
@@ -89,20 +90,29 @@
 .anti / .baove            : Mở menu cài đặt Bảo Vệ Nhóm (Chỉ Trưởng/Phó nhóm).
 
 
-9. TỰ ĐỘNG GỬI QR NGÂN HÀNG & CẤU HÌNH TÀI KHOẢN
+9. TỰ ĐỘNG GỬI QR NGÂN HÀNG & CHỐNG SPAM TRÔI CHAT
 --------------------------------------------------------------------------------
-- Xin mã QR             : Nhắn "xin qr", "mã qr", "stk", "chuyển khoản", hoặc gõ .qr, .stk
-                           -> Bot tự gửi ảnh VietQR TPBank (1000 2610 909 - LE DAI QUY).
-- Đổi ảnh QR nhóm       : Gửi ảnh lên nhóm kèm caption .doiqr (hoặc reply ảnh gõ .doiqr).
-- Đổi STK & Ngân hàng   : .setstk <STK> <Tên_Ngân_Hàng> [Tên_CTK]
-- Đổi tên Chủ tài khoản : .ctk <Tên_Chủ_Tài_Khoản>
-- Hủy QR riêng          : .xoaqr (quay về mã QR TPBank mặc định).
+- Xem mã QR                 : Nhắn tự do "qr", "mã", "stk" (không dùng dấu chấm)
+                              -> Bot tự gửi ảnh VietQR ngân hàng kèm STK.
+- Cơ chế bảo vệ chống spam  :
+    + Người đó gõ lần 1: Bot gửi ngay ảnh QR.
+    + Nếu vẫn là người đó gõ lần 2: Bot im lặng hoàn toàn trong 45s (không làm trôi chat).
+    + Nếu người khác nhắn "qr", "mã", "stk": Bot gửi ngay bình thường, không cần chờ gì cả.
+- Đổi ảnh QR nhóm           : Gửi ảnh lên nhóm kèm caption .doiqr (hoặc reply ảnh gõ .doiqr).
+- Đổi STK & Ngân hàng       : .setstk <STK> <Tên_Ngân_Hàng> [Tên_CTK]
+- Đổi tên Chủ tài khoản     : .ctk <Tên_Chủ_Tài_Khoản>
+- Hủy QR riêng              : .xoaqr (quay về mã QR TPBank mặc định).
 
 
-10. LỆNH LỌC THÀNH VIÊN (KICKALL)
+10. LỆNH KICK THÀNH VIÊN (.kick & .kickall)
 --------------------------------------------------------------------------------
-- Cú pháp: .kickall (hoặc !kickall, .locnhom, .clearall)
-- Chức năng: Kick toàn bộ thành viên thường ra khỏi nhóm để chuẩn bị cho giải mới.
+- Kick 1 hoặc nhiều người:
+    .kick @tên               (Tag 1 hoặc nhiều người trong nhóm)
+    Trượt tin nhắn + .kick   (Quẹt phải tin nhắn người cần kick và gõ .kick)
+    .kick <UID>              (Kick trực tiếp theo UID)
+- Kick toàn bộ thành viên thường:
+    .kickall (hoặc !kickall, .locnhom, .clearall)
+    Cần 2 Trưởng/Phó nhóm khác nhau gõ xác nhận trong 2 phút.
 - BẢO VỆ TUYỆT ĐỐI: Trưởng nhóm, các Phó nhóm, tài khoản Bot, người gõ lệnh.
 - Điều kiện: Bot phải được thăng quyền Phó nhóm trên Zalo.
 
