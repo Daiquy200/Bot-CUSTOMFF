@@ -1855,7 +1855,7 @@ class BotManager {
         let isEligibleFreeTrial = false;
         if (threadType !== ThreadType.User) {
           const boxStatus = boxService.isGroupActive(threadId);
-          if (boxStatus.allowed && boxStatus.box && boxStatus.box.unlimitedCredits !== false) {
+          if (boxStatus.allowed && boxStatus.box && (boxStatus.isUnlimited || boxService.isBoxUnlimited(boxStatus.box))) {
             isEligibleFreeTrial = true;
           } else {
             const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
@@ -2048,6 +2048,7 @@ class BotManager {
         // Tắt chế độ vô hạn box
         if (daysArg === 'off' || daysArg === 'tat' || daysArg === 'huy') {
           customService.cancelGroupFreeTrial(threadId);
+          try { boxService.setUnlimitedDays(threadId, 0); } catch (e) {}
           await reply('✅ Đã tắt chế độ miễn phí / vô hạn lượt cho box này thành công!');
           return;
         }
@@ -2080,6 +2081,7 @@ class BotManager {
         // Nếu admin gõ sẵn phạm vi: .luotdung vohanbox 1 2 hoặc .vohanbox 1 2
         if (scope === 1 || scope === 2) {
           customService.setGroupFreeTrial(threadId, days, scope);
+          try { boxService.setUnlimitedDays(threadId, days); } catch (e) {}
           this.pendingFreeBoxRequests.delete(threadId);
           const exp = new Date(Date.now() + (days * 86400000));
           const expStr = `${String(exp.getDate()).padStart(2, '0')}/${String(exp.getMonth() + 1).padStart(2, '0')}/${exp.getFullYear()}`;
@@ -2442,7 +2444,7 @@ class BotManager {
         let isEligibleFreeTrial = false;
         if (threadType !== ThreadType.User) {
           const boxStatus = boxService.isGroupActive(threadId);
-          if (boxStatus.allowed && boxStatus.box && boxStatus.box.unlimitedCredits !== false) {
+          if (boxStatus.allowed && boxStatus.box && (boxStatus.isUnlimited || boxService.isBoxUnlimited(boxStatus.box))) {
             isEligibleFreeTrial = true;
           } else {
             const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
@@ -3168,7 +3170,7 @@ class BotManager {
 
     if (threadType !== ThreadType.User) {
       const boxStatus = boxService.isGroupActive(threadId);
-      if (boxStatus.allowed && boxStatus.box && boxStatus.box.unlimitedCredits !== false) {
+      if (boxStatus.allowed && boxStatus.box && (boxStatus.isUnlimited || boxService.isBoxUnlimited(boxStatus.box))) {
         isEligibleFreeTrial = true;
       } else {
         const perm = await this.checkAdminPermission(threadId, threadType, senderId);

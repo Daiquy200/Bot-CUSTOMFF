@@ -917,19 +917,33 @@
             </div>
           </div>
 
-          <div style="margin-top: 8px; margin-bottom: 14px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-            <div>
-              <div style="font-weight: 600; color: #34d399; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                <span>✨</span> Dùng Vô Hạn Lượt & Miễn Cần Key
+          <div style="margin-top: 8px; margin-bottom: 14px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <div>
+                <div style="font-weight: 600; color: #34d399; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                  <span>✨</span> Dùng Vô Hạn Lượt & Miễn Cần Key
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">
+                  Thành viên trong box này được tự do tính điểm .td / .bxh không cần tạo key, không đòi key và không bị trừ lượt.
+                </div>
               </div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">
-                Thành viên trong box này được tự do tính điểm .td / .bxh không cần tạo key, không đòi key và không bị trừ lượt.
+              <label style="position: relative; display: inline-block; width: 44px; height: 24px; margin: 0; cursor: pointer;">
+                <input type="checkbox" id="newBoxUnlimited" checked style="opacity: 0; width: 0; height: 0;" onchange="document.getElementById('newBoxUnlimitedDaysBox').style.display = this.checked ? 'block' : 'none'">
+                <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .3s; border-radius: 24px;"></span>
+              </label>
+            </div>
+            <div id="newBoxUnlimitedDaysBox" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(52, 211, 153, 0.3);">
+              <label style="font-size: 12px; color: #34d399; font-weight: 600; display: block; margin-bottom: 4px;">
+                🎁 Số Ngày Miễn Phí (Để trống = Miễn phí toàn bộ thời hạn box):
+              </label>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <input type="number" id="newBoxUnlimitedDays" placeholder="Ví dụ: 3 (cho dùng thử 3 ngày), 7, 30..." min="1" style="flex: 1; min-width: 140px; font-size: 12px; padding: 6px 10px;">
+                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 3">3 ngày</button>
+                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 7">7 ngày</button>
+                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 30">30 ngày</button>
+                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = ''">Toàn Box</button>
               </div>
             </div>
-            <label style="position: relative; display: inline-block; width: 44px; height: 24px; margin: 0; cursor: pointer;">
-              <input type="checkbox" id="newBoxUnlimited" checked style="opacity: 0; width: 0; height: 0;">
-              <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .3s; border-radius: 24px;"></span>
-            </label>
           </div>
 
           <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
@@ -1635,10 +1649,17 @@
             ? '<span class="badge badge-success" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', true)">🟢 Đang Chạy</span>'
             : '<span class="badge badge-danger" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', false)">🔴 Đã Tắt</span>';
 
-          const isUnlimited = box.unlimitedCredits !== false;
-          const unlimitedBadge = isUnlimited
-            ? '<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="toggleBoxUnlimited(\'' + box.groupId + '\', false)" title="Bấm để chuyển sang yêu cầu Key riêng">✨ Vô Hạn (Miễn Key)</span>'
-            : '<span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); cursor: pointer;" onclick="toggleBoxUnlimited(\'' + box.groupId + '\', true)" title="Bấm để bật Vô hạn lượt">🔑 Cần Key Riêng</span>';
+          const isUnlimited = box.isUnlimited || (box.unlimitedCredits !== false && (!box.unlimitedRemainingDays || box.unlimitedRemainingDays > 0));
+          let unlimitedBadge = '';
+          if (isUnlimited) {
+            if (box.unlimitedExpiryDate && box.unlimitedRemainingDays) {
+              unlimitedBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', ${box.unlimitedRemainingDays})" title="Bấm để chỉnh sửa số ngày miễn phí">✨ MP Còn ${box.unlimitedRemainingDays}N</span>`;
+            } else {
+              unlimitedBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', 7)" title="Bấm để chỉnh sửa số ngày miễn phí">✨ Vô Hạn (Toàn Box)</span>`;
+            }
+          } else {
+            unlimitedBadge = `<span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', 7)" title="Bấm để set số ngày miễn phí">🔑 Cần Key Riêng</span>`;
+          }
 
           const memberDisplay = (box.memberCount && Number(box.memberCount) > 0)
             ? `<span style="font-weight: 600; color: #38bdf8;">👥 ${box.memberCount} TV</span>`
@@ -1654,7 +1675,8 @@
             <td style="padding: 12px;">${statusBadge}</td>
             <td style="padding: 12px; color: var(--text-muted); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(box.note || '-')}</td>
             <td style="padding: 12px; text-align: right;">
-              <div style="display: flex; gap: 6px; justify-content: flex-end;">
+              <div style="display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap;">
+                <button class="btn" style="padding: 4px 8px; font-size: 11px; background: rgba(52, 211, 153, 0.15); color: #34d399;" onclick="promptSetUnlimitedDays('${box.groupId}', ${box.unlimitedRemainingDays || 7})" title="Cài đặt số ngày miễn phí cho Box này">🎁 Set Ngày MP</button>
                 <button class="btn" style="padding: 4px 8px; font-size: 11px; background: rgba(0, 242, 254, 0.15); color: var(--primary);" onclick="notifyBoxNow('${box.groupId}')" title="Gửi thông báo thời hạn hoạt động vào Box này">🔔 Bắn Thông Báo</button>
                 <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 30)" title="Gia hạn thêm 30 ngày">+30 ngày</button>
                 <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 7)" title="Gia hạn thêm 7 ngày">+7 ngày</button>
@@ -1666,6 +1688,41 @@
         });
       } catch (e) {
         tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--danger);">Lỗi: ${e.message}</td></tr>`;
+      }
+    }
+
+    async function promptSetUnlimitedDays(groupId, currentDays = 7) {
+      const input = prompt(
+        `Nhập SỐ NGÀY MIỄN PHÍ (Vô Hạn Lượt & Không Cần Key) cho Box [${groupId}]:\n` +
+        `• Nhập số ngày (Ví dụ: 3, 7, 15, 30...)\n` +
+        `• Nhập 0 để TẮT chế độ miễn phí (bắt buộc dùng key riêng)`,
+        currentDays > 0 ? currentDays : 7
+      );
+      if (input === null) return;
+      const days = parseInt(input, 10);
+      if (isNaN(days) || days < 0) {
+        showToast('Số ngày không hợp lệ!', 'error');
+        return;
+      }
+
+      try {
+        const res = await apiRequest('/api/admin/boxes/set-unlimited-days', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId, days })
+        });
+        if (res && res.success) {
+          if (days > 0) {
+            showToast(`Đã set MIỄN PHÍ ${days} ngày cho Box thành công!`);
+          } else {
+            showToast('Đã TẮT chế độ miễn phí, Box chuyển sang CẦN KEY RIÊNG.');
+          }
+          loadBoxes();
+        } else {
+          showToast(res?.message || 'Lỗi thiết lập ngày miễn phí!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối: ' + err.message, 'error');
       }
     }
 
@@ -1694,6 +1751,8 @@
       const days = parseInt(document.getElementById('newBoxDays').value, 10) || 30;
       const note = document.getElementById('newBoxNote').value.trim();
       const unlimitedCredits = document.getElementById('newBoxUnlimited')?.checked !== false;
+      const unlimitedDaysVal = document.getElementById('newBoxUnlimitedDays')?.value.trim();
+      const unlimitedDays = (unlimitedCredits && unlimitedDaysVal) ? parseInt(unlimitedDaysVal, 10) : null;
 
       if (!groupId) {
         showToast('Vui lòng nhập ID nhóm Zalo!', 'error');
@@ -1704,13 +1763,14 @@
         const res = await apiRequest('/api/admin/boxes/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ groupId, name, days, note, enabled: true, unlimitedCredits })
+          body: JSON.stringify({ groupId, name, days, note, enabled: true, unlimitedCredits, unlimitedDays })
         });
         if (res && res.success) {
           showToast(`Đã thêm và kích hoạt Box [${name || groupId}] thành công (${days} ngày)!`);
           document.getElementById('newBoxId').value = '';
           document.getElementById('newBoxName').value = '';
           document.getElementById('newBoxNote').value = '';
+          document.getElementById('newBoxUnlimitedDays').value = '';
           loadBoxes();
         } else {
           showToast(res?.message || 'Không thể thêm box!', 'error');

@@ -38,6 +38,7 @@ class BoxService {
                 name: data.name || `Box ${id}`,
                 enabled: data.enabled !== false,
                 unlimitedCredits: data.unlimitedCredits !== false,
+                unlimitedExpiryDate: data.unlimitedExpiryDate || null,
                 memberCount: Number(data.memberCount || 0),
                 daysTotal: Number(data.daysTotal || 30),
                 expiryDate: data.expiryDate || new Date(Date.now() + 30 * 86400000).toISOString(),
@@ -64,6 +65,28 @@ class BoxService {
     } catch (err) {
       console.error('Lỗi khi lưu allowed_boxes.json:', err.message);
     }
+  }
+
+  /**
+   * Kiểm tra xem box có đang trong thời hạn miễn phí (vô hạn lượt) hay không
+   */
+  isBoxUnlimited(box) {
+    if (!box || box.unlimitedCredits === false) return false;
+    if (box.unlimitedExpiryDate) {
+      return new Date(box.unlimitedExpiryDate).getTime() > Date.now();
+    }
+    return true; // Mặc định miễn phí theo thời hạn của box
+  }
+
+  /**
+   * Tính số ngày miễn phí còn lại của Box
+   */
+  getUnlimitedRemainingDays(box) {
+    if (!box || !this.isBoxUnlimited(box)) return 0;
+    if (!box.unlimitedExpiryDate) return this.getRemainingDays(box);
+    const diffMs = new Date(box.unlimitedExpiryDate).getTime() - Date.now();
+    if (diffMs <= 0) return 0;
+    return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
   }
 
   /**
@@ -100,9 +123,14 @@ class BoxService {
     const list = [];
     for (const box of this.boxes.values()) {
       const remainingDays = this.getRemainingDays(box);
+      const isUnlimited = this.isBoxUnlimited(box);
+      const unlimitedRemainingDays = this.getUnlimitedRemainingDays(box);
       list.push({
         ...box,
-        unlimitedCredits: box.unlimitedCredits !== false,
+        unlimitedCredits: isUnlimited,
+        isUnlimited,
+        unlimitedRemainingDays,
+        formattedUnlimitedExpiry: box.unlimitedExpiryDate ? this.formatDate(box.unlimitedExpiryDate) : null,
         memberCount: Number(box.memberCount || 0),
         remainingDays,
         isExpired: remainingDays <= 0,
@@ -154,9 +182,14 @@ class BoxService {
     const box = this.boxes.get(cleanId);
     if (!box) return null;
     const remainingDays = this.getRemainingDays(box);
+    const isUnlimited = this.isBoxUnlimited(box);
+    const unlimitedRemainingDays = this.getUnlimitedRemainingDays(box);
     return {
       ...box,
-      unlimitedCredits: box.unlimitedCredits !== false,
+      unlimitedCredits: isUnlimited,
+      isUnlimited,
+      unlimitedRemainingDays,
+      formattedUnlimitedExpiry: box.unlimitedExpiryDate ? this.formatDate(box.unlimitedExpiryDate) : null,
       memberCount: Number(box.memberCount || 0),
       remainingDays,
       isExpired: remainingDays <= 0,
@@ -167,18 +200,28 @@ class BoxService {
   /**
    * Thêm mới box cho phép hoạt động
    */
-  addBox({ groupId, name, days = 30, note = '', enabled = true, unlimitedCredits = true }) {
+  addBox({ groupId, name, days = 30, note = '', enabled = true, unlimitedCredits = true, unlimitedDays = null }) {
     const cleanId = String(groupId || '').trim();
     if (!cleanId) throw new Error('ID Box không được để trống!');
 
     const numDays = Math.max(1, parseInt(days, 10) || 30);
     const expiryDate = new Date(Date.now() + (numDays * 86400000)).toISOString();
 
+    let isUnlimited = unlimitedCredits !== false;
+    let unlimitedExpiryDate = null;
+    if (isUnlimited && unlimitedDays !== null && unlimitedDays !== undefined) {
+      const uDays = parseInt(unlimitedDays, 10);
+      if (!isNaN(uDays) && uDays > 0) {
+        unlimitedExpiryDate = new Date(Date.now() + (uDays * 86400000)).toISOString();
+      }
+    }
+
     const boxData = {
       groupId: cleanId,
       name: (name || `Box ${cleanId}`).trim(),
       enabled: enabled !== false,
-      unlimitedCredits: unlimitedCredits !== false,
+      unlimitedCredits: isUnlimited,
+      unlimitedExpiryDate,
       memberCount: 0,
       daysTotal: numDays,
       expiryDate,
@@ -194,7 +237,7 @@ class BoxService {
   /**
    * Cập nhật thông tin box
    */
-  updateBox(groupId, { name, days, note, enabled, unlimitedCredits }) {
+  updateBox(groupId, { name, days, note, enabled, unlimitedCredits, unlimitedDays }) {
     const cleanId = String(groupId || '').trim();
     const existing = this.boxes.get(cleanId);
     if (!existing) throw new Error('Không tìm thấy Box trong danh sách!');
@@ -203,6 +246,17 @@ class BoxService {
     if (note !== undefined) existing.note = String(note).trim();
     if (enabled !== undefined) existing.enabled = !!enabled;
     if (unlimitedCredits !== undefined) existing.unlimitedCredits = !!unlimitedCredits;
+
+    if (unlimitedDays !== undefined) {
+      const uDays = parseInt(unlimitedDays, 10);
+      if (!isNaN(uDays) && uDays > 0) {
+        existing.unlimitedCredits = true;
+        existing.unlimitedExpiryDate = new Date(Date.now() + (uDays * 86400000)).toISOString();
+      } else {
+        existing.unlimitedCredits = false;
+        existing.unlimitedExpiryDate = null;
+      }
+    }
 
     if (days !== undefined && !isNaN(parseInt(days, 10))) {
       const numDays = parseInt(days, 10);
@@ -215,16 +269,46 @@ class BoxService {
   }
 
   /**
-   * Bật/tắt chế độ vô hạn lượt (miễn key) cho box
+   * Thiết lập số ngày miễn phí (vô hạn lượt & miễn key) cho box
+   * @param {string} groupId 
+   * @param {number} days (Nếu <= 0 thì tắt chế độ miễn phí)
    */
-  toggleUnlimited(groupId, status = null) {
+  setUnlimitedDays(groupId, days) {
     const cleanId = String(groupId || '').trim();
     const existing = this.boxes.get(cleanId);
     if (!existing) throw new Error('Không tìm thấy Box trong danh sách!');
+
+    const numDays = parseInt(days, 10);
+    if (isNaN(numDays) || numDays <= 0) {
+      existing.unlimitedCredits = false;
+      existing.unlimitedExpiryDate = null;
+    } else {
+      existing.unlimitedCredits = true;
+      existing.unlimitedExpiryDate = new Date(Date.now() + (numDays * 86400000)).toISOString();
+    }
+
+    this.saveBoxes();
+    return this.getBox(cleanId);
+  }
+
+  /**
+   * Bật/tắt chế độ vô hạn lượt (miễn key) cho box
+   */
+  toggleUnlimited(groupId, status = null, days = null) {
+    const cleanId = String(groupId || '').trim();
+    const existing = this.boxes.get(cleanId);
+    if (!existing) throw new Error('Không tìm thấy Box trong danh sách!');
+
+    if (days !== null && days !== undefined && parseInt(days, 10) > 0) {
+      return this.setUnlimitedDays(cleanId, days);
+    }
+
     if (status !== null && status !== undefined) {
       existing.unlimitedCredits = !!status;
+      if (!existing.unlimitedCredits) existing.unlimitedExpiryDate = null;
     } else {
-      existing.unlimitedCredits = existing.unlimitedCredits === false ? true : false;
+      existing.unlimitedCredits = !this.isBoxUnlimited(existing);
+      if (!existing.unlimitedCredits) existing.unlimitedExpiryDate = null;
     }
     this.saveBoxes();
     return this.getBox(cleanId);
@@ -283,10 +367,16 @@ class BoxService {
 
     const remainingDays = this.getRemainingDays(box);
     if (remainingDays <= 0) {
-      return { allowed: false, reason: 'EXPIRED', box, remainingDays: 0 };
+      return { allowed: false, reason: 'EXPIRED', box, remainingDays: 0, isUnlimited: false };
     }
 
-    return { allowed: true, box, remainingDays };
+    return {
+      allowed: true,
+      box,
+      remainingDays,
+      isUnlimited: this.isBoxUnlimited(box),
+      unlimitedRemainingDays: this.getUnlimitedRemainingDays(box)
+    };
   }
 
   /**

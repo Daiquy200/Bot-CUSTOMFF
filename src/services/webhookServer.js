@@ -627,7 +627,26 @@ class WebhookServer {
 
         const payload = await readJsonBody();
         try {
-          const updated = boxService.toggleUnlimited(payload.groupId, payload.status);
+          const updated = boxService.toggleUnlimited(payload.groupId, payload.status, payload.days);
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: true, box: updated }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: err.message }));
+        }
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/api/admin/boxes/set-unlimited-days') {
+        if (!this.isAuthorized(req)) {
+          res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: 'Chưa đăng nhập' }));
+          return;
+        }
+
+        const payload = await readJsonBody();
+        try {
+          const updated = boxService.setUnlimitedDays(payload.groupId, payload.days);
           res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
           res.end(JSON.stringify({ success: true, box: updated }));
         } catch (err) {
