@@ -178,41 +178,104 @@
     }
     .badge-warning .badge-dot { background: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
 
-    /* NAVIGATION TABS */
+    /* NAVIGATION TABS (STICKY) */
     .tabs-bar {
       display: flex;
       gap: 8px;
-      padding: 12px 24px 0 24px;
+      padding: 10px 24px;
       border-bottom: 1px solid var(--border);
-      background: rgba(10, 13, 20, 0.5);
+      background: rgba(10, 13, 20, 0.88);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 70px;
+      z-index: 45;
       overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .tabs-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .tabs-bar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
     }
 
     .tab-btn {
-      padding: 10px 18px;
-      border-radius: 8px 8px 0 0;
-      border: none;
-      background: transparent;
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.02);
       color: var(--text-muted);
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
-      border-bottom: 2px solid transparent;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
     }
 
     .tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
     }
 
     .tab-btn.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
-      background: rgba(0, 242, 254, 0.05);
+      color: #00f2fe;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(79, 172, 254, 0.06));
+      border-color: rgba(0, 242, 254, 0.4);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.2);
+    }
+
+    .tab-pill-badge {
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .tab-btn.active .tab-pill-badge {
+      background: rgba(0, 242, 254, 0.25);
+      color: #00f2fe;
+    }
+
+    /* ACTION BUTTONS */
+    .btn-action-green {
+      background: rgba(16, 185, 129, 0.15) !important;
+      color: #34d399 !important;
+      border-color: rgba(16, 185, 129, 0.3) !important;
+    }
+    .btn-action-green:hover {
+      background: rgba(16, 185, 129, 0.3) !important;
+      color: #fff !important;
+      border-color: #10b981 !important;
+    }
+
+    .btn-action-cyan {
+      background: rgba(0, 242, 254, 0.12) !important;
+      color: var(--primary) !important;
+      border-color: rgba(0, 242, 254, 0.25) !important;
+    }
+    .btn-action-cyan:hover {
+      background: rgba(0, 242, 254, 0.25) !important;
+      color: #fff !important;
+      border-color: var(--primary) !important;
+    }
+
+    .btn-action-dark {
+      background: rgba(255, 255, 255, 0.04) !important;
+      color: var(--text-main) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .btn-action-dark:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
     }
 
     /* CONTAINER */
@@ -525,15 +588,29 @@
     </div>
   </header>
 
-  <!-- NAVIGATION TABS -->
+  <!-- NAVIGATION TABS (STICKY) -->
   <div class="tabs-bar">
-    <button class="tab-btn active" onclick="switchTab('overview')">📊 Tổng Quan</button>
-    <button class="tab-btn" onclick="switchTab('cookie')">🍪 Garena & Cookie</button>
-    <button class="tab-btn" onclick="switchTab('zalo')">📱 Zalo Bot & Quét QR</button>
-    <button class="tab-btn" onclick="switchTab('boxes')">📦 Box Cho Phép</button>
-    <button class="tab-btn" onclick="switchTab('terminal')">🖥️ Terminal Logs Live</button>
-    <button class="tab-btn" onclick="switchTab('keys')">🔑 Quản Lý Key & Lượt</button>
-    <button class="tab-btn" onclick="switchTab('announcement')">📢 Thông Báo Tự Động</button>
+    <button class="tab-btn active" onclick="switchTab('overview')">
+      📊 Tổng Quan
+    </button>
+    <button class="tab-btn" onclick="switchTab('boxes')">
+      📦 Box Cho Phép <span id="tabBoxBadge" class="tab-pill-badge">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('keys')">
+      🔑 Quản Lý Key & Lượt <span id="tabKeyBadge" class="tab-pill-badge">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('cookie')">
+      🍪 Garena Cookie
+    </button>
+    <button class="tab-btn" onclick="switchTab('zalo')">
+      📱 Zalo Bot (QR)
+    </button>
+    <button class="tab-btn" onclick="switchTab('announcement')">
+      📢 Thông Báo Tự Động
+    </button>
+    <button class="tab-btn" onclick="switchTab('terminal')">
+      🖥️ Terminal Logs Live
+    </button>
   </div>
 
   <!-- MAIN CONTAINER -->
@@ -622,6 +699,31 @@
         </div>
       </div>
 
+      <!-- Thống kê nhanh Lối Tắt Box & Key -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0;">
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.25);" onclick="switchTab('boxes')">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 46px; height: 46px; border-radius: 12px; background: rgba(56, 189, 248, 0.15); display: flex; align-items: center; justify-content: center; font-size: 24px;">📦</div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Box Zalo Cấp Phép</div>
+              <div style="font-size: 18px; font-weight: 800; color: #fff;"><span id="overviewBoxCount">0</span> Box Đang Chạy</div>
+            </div>
+          </div>
+          <button class="btn btn-action-cyan" style="padding: 6px 14px; font-size: 12px;">Quản Lý Box ➜</button>
+        </div>
+
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; border: 1px solid rgba(52, 211, 153, 0.25);" onclick="switchTab('keys')">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 46px; height: 46px; border-radius: 12px; background: rgba(52, 211, 153, 0.15); display: flex; align-items: center; justify-content: center; font-size: 24px;">🔑</div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Hệ Thống Key & Lượt</div>
+              <div style="font-size: 18px; font-weight: 800; color: #fff;"><span id="overviewKeyCount">0</span> Key Hoạt Động</div>
+            </div>
+          </div>
+          <button class="btn btn-action-green" style="padding: 6px 14px; font-size: 12px;">Quản Lý Key ➜</button>
+        </div>
+      </div>
+
       <!-- Khung thông tin nhanh -->
       <div class="card">
         <div class="card-header">
@@ -635,7 +737,209 @@
       </div>
     </div>
 
-    <!-- TAB 2: GARENA & COOKIE -->
+    <!-- TAB 2: QUẢN LÝ BOX ZALO CHO PHÉP -->
+    <div id="tab-boxes" class="tab-content">
+      <!-- FORM THÊM BOX -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div class="card-title">➕ Kích Hoạt & Cấp Phép Box Zalo Mới</div>
+          <span class="badge badge-primary">⚡ Quản Lý Tự Động</span>
+        </div>
+        
+        <form onsubmit="handleAddBox(event)">
+          <!-- KHỐI QUÉT LINK ZALO TỰ ĐỘNG -->
+          <div style="background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(79, 172, 254, 0.02)); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+            <label style="font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; font-size: 13px; text-transform: none; margin-bottom: 8px;">
+              <span>🔗</span> Dán Link Box Zalo (Tự động lấy Tên nhóm & ID Box)
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="boxLinkInput" placeholder="Dán link nhóm Zalo vào đây (ví dụ: https://zalo.me/g/abcdef...)" style="flex: 1;" onpaste="setTimeout(resolveBoxLink, 100)" onkeydown="if(event.key==='Enter'){event.preventDefault();resolveBoxLink();}">
+              <button type="button" class="btn btn-primary" onclick="resolveBoxLink()" id="btnResolveLink" style="padding: 9px 18px; white-space: nowrap;">
+                ⚡ Quét Link Box
+              </button>
+            </div>
+            <div id="resolveLinkStatus" style="font-size: 12px; margin-top: 8px; color: var(--text-muted); display: none;"></div>
+          </div>
+
+          <!-- GRID 2 CỘT THÔNG TIN VÀ CẤU HÌNH -->
+          <div class="grid-2" style="margin-bottom: 12px;">
+            <!-- Cột 1: Thông tin nhóm -->
+            <div>
+              <div class="form-group">
+                <label>ID Nhóm Zalo (Tự điền khi quét link)</label>
+                <input type="text" id="newBoxId" placeholder="ID nhóm Zalo" required style="font-family: var(--font-mono);">
+                <div style="display: flex; gap: 6px; align-items: center; margin-top: 6px;">
+                  <span style="font-size: 11px; color: var(--text-muted);">Hoặc chọn nhóm bot đã vào:</span>
+                  <select id="quickGroupSelect" onchange="onQuickGroupSelect(this.value)" style="flex: 1; padding: 5px 8px; font-size: 12px;">
+                    <option value="">-- Chọn nhóm Zalo đã tham gia --</option>
+                  </select>
+                  <button type="button" class="btn" style="padding: 5px 8px; font-size: 12px;" onclick="loadZaloGroups()" title="Làm mới danh sách nhóm">🔄</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Tên Box / Tên Nhóm</label>
+                <input type="text" id="newBoxName" placeholder="Tên nhóm Zalo" required>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Ghi Chú (Tùy chọn)</label>
+                <input type="text" id="newBoxNote" placeholder="Ví dụ: Khách thuê box theo tháng, liên hệ qua Zalo...">
+              </div>
+            </div>
+
+            <!-- Cột 2: Thời hạn & Chế độ lượt -->
+            <div>
+              <div class="form-group">
+                <label>Thời Gian Hoạt Động (Số Ngày)</label>
+                <div style="display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap;">
+                  <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickBoxDays(7)">7N</button>
+                  <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickBoxDays(15)">15N</button>
+                  <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickBoxDays(30)">30N (1 tháng)</button>
+                  <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickBoxDays(60)">60N</button>
+                  <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickBoxDays(365)">365N</button>
+                </div>
+                <input type="number" id="newBoxDays" min="1" value="30" placeholder="30" required>
+              </div>
+
+              <!-- Cấu hình Vô hạn lượt & Số ngày miễn phí -->
+              <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                  <div>
+                    <div style="font-weight: 700; color: #34d399; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                      <span>✨</span> Chế Độ Vô Hạn Lượt (Miễn Key)
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                      Thành viên tính điểm .td / .bxh không cần key, không bị trừ lượt.
+                    </div>
+                  </div>
+                  <label style="position: relative; display: inline-block; width: 44px; height: 24px; margin: 0; cursor: pointer;">
+                    <input type="checkbox" id="newBoxUnlimited" checked style="opacity: 0; width: 0; height: 0;" onchange="document.getElementById('newBoxUnlimitedDaysBox').style.display = this.checked ? 'block' : 'none'">
+                    <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .3s; border-radius: 24px;"></span>
+                  </label>
+                </div>
+                <div id="newBoxUnlimitedDaysBox" style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(16, 185, 129, 0.25);">
+                  <label style="font-size: 11px; color: #34d399; font-weight: 600; display: block; margin-bottom: 4px; text-transform: none;">
+                    🎁 Số ngày miễn phí (Để trống = Miễn phí toàn bộ thời hạn box):
+                  </label>
+                  <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                    <input type="number" id="newBoxUnlimitedDays" placeholder="Ví dụ: 3 (dùng thử), 7, 30..." min="1" style="flex: 1; min-width: 120px; font-size: 12px; padding: 6px 10px;">
+                    <button type="button" class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 3">3N</button>
+                    <button type="button" class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 7">7N</button>
+                    <button type="button" class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 30">30N</button>
+                    <button type="button" class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = ''">Toàn Box</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px; font-weight: 700; width: 100%; justify-content: center; box-shadow: 0 4px 20px var(--primary-glow);">
+              ➕ KÍCH HOẠT BOX ZALO NGAY
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- BẢNG DANH SÁCH BOX -->
+      <div class="card">
+        <div class="card-header" style="flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="card-title">📋 Danh Sách Box Zalo Cho Phép</div>
+            <span id="boxCountBadge" class="badge badge-success">0 Box</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; flex: 1; max-width: 420px; margin-left: auto;">
+            <input type="text" id="boxSearchInput" oninput="filterBoxes()" placeholder="🔍 Tìm nhanh Tên Box hoặc ID..." style="padding: 7px 12px; font-size: 12px;">
+            <button class="btn" style="padding: 7px 12px; font-size: 12px; white-space: nowrap;" onclick="loadBoxes()">🔄 Tải Lại</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="min-width: 220px;">TÊN BOX & ID NHÓM</th>
+                <th style="text-align: center; width: 130px;">👥 THÀNH VIÊN</th>
+                <th style="text-align: center; width: 180px;">⚡ CHẾ ĐỘ LƯỢT</th>
+                <th style="text-align: center; width: 150px;">⏳ THỜI HẠN</th>
+                <th style="text-align: center; width: 120px;">TRẠNG THÁI</th>
+                <th style="text-align: right; min-width: 280px;">HÀNH ĐỘNG</th>
+              </tr>
+            </thead>
+            <tbody id="boxesTableBody">
+              <tr>
+                <td colspan="6" style="padding: 24px; text-align: center; color: var(--text-muted);">Đang tải danh sách box...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: QUẢN LÝ KEY & LƯỢT -->
+    <div id="tab-keys" class="tab-content">
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div class="card-title">🎮 Tạo Key Mới & Điều Khiển Lượt Dùng</div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <input type="text" id="newKeyName" placeholder="Tên Key (vd: ldp, ldq, vip...)" style="flex: 1; min-width: 160px;">
+          <input type="number" id="newKeyCredits" placeholder="Số lượt" style="width: 120px;" value="10">
+          <button class="btn btn-primary" onclick="adjustCreditsFromForm('add')">
+            ➕ Cộng Lượt
+          </button>
+          <button class="btn" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="adjustCreditsFromForm('deduct')">
+            ➖ Trừ Lượt
+          </button>
+          <button class="btn" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);" onclick="adjustCreditsFromForm('set')">
+            🎯 Đặt Lại Số Lượt
+          </button>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
+          <span style="font-size: 12px; color: var(--text-muted);">⚡ Chọn nhanh số lượt:</span>
+          <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickKeyCredits(10)">10 lượt</button>
+          <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickKeyCredits(50)">50 lượt</button>
+          <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickKeyCredits(100)">100 lượt</button>
+          <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickKeyCredits(500)">500 lượt</button>
+          <button type="button" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="setQuickKeyCredits(1000)">1.000 lượt</button>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+          💡 Nhập tên key và số lượt. Nếu key chưa tồn tại, bấm <b>Cộng Lượt</b> sẽ tự động tạo key mới vào hệ thống!
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-header" style="flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="card-title">📋 Danh Sách Tất Cả Key Đang Hoạt Động</div>
+            <span id="keyCountBadge" class="badge badge-success">0 Key</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; flex: 1; max-width: 420px; margin-left: auto;">
+            <input type="text" id="keySearchInput" oninput="filterKeys()" placeholder="🔍 Tìm nhanh Tên Key hoặc Chủ sở hữu..." style="padding: 7px 12px; font-size: 12px;">
+            <button class="btn" style="padding: 7px 12px; font-size: 12px; white-space: nowrap;" onclick="loadKeys()">🔄 Tải Lại</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="min-width: 160px;">TÊN KEY</th>
+                <th style="min-width: 140px;">CHỦ SỞ HỮU</th>
+                <th style="text-align: center; width: 140px;">SỐ LƯỢT CÒN</th>
+                <th style="text-align: center; width: 140px;">TỔNG NẠP</th>
+                <th style="text-align: right; min-width: 250px;">ĐIỀU KHIỂN & THAO TÁC</th>
+              </tr>
+            </thead>
+            <tbody id="keysTableBody">
+              <tr><td colspan="5" style="text-align: center; padding: 24px; color: var(--text-muted);">Đang tải danh sách key...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: GARENA & COOKIE -->
     <div id="tab-cookie" class="tab-content">
       <div class="card" style="max-width: 800px; margin: 0 auto;">
         <div class="card-header">
@@ -711,81 +1015,6 @@
       </div>
     </div>
 
-    <!-- TAB 4: TERMINAL LOGS LIVE -->
-    <div id="tab-terminal" class="tab-content">
-      <div class="terminal-box">
-        <div class="terminal-header">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="terminal-dots">
-              <span class="dot dot-red"></span>
-              <span class="dot dot-yellow"></span>
-              <span class="dot dot-green"></span>
-            </div>
-            <span style="font-size: 13px; font-weight: 600; color: #fff; font-family: var(--font-mono);">
-              VPS Live Console Output (Terminal)
-            </span>
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="toggleAutoScroll()">
-              <span id="scrollStatus">Cuộn: BẬT</span>
-            </button>
-            <button class="btn btn-danger" style="padding: 4px 10px; font-size: 11px;" onclick="clearLogs()">
-              🗑️ Xóa Log
-            </button>
-          </div>
-        </div>
-        <div class="terminal-body" id="terminalOutput">Đang kết nối luồng logs từ VPS...</div>
-      </div>
-    </div>
-
-    <!-- TAB 5: QUẢN LÝ KEY & LƯỢT -->
-    <div id="tab-keys" class="tab-content">
-      <div class="card" style="margin-bottom: 24px;">
-        <div class="card-header">
-          <div class="card-title">🎮 Bảng Điều Khiển Lượt Dùng & Tạo Key Mới</div>
-        </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-          <input type="text" id="newKeyName" placeholder="Tên Key (vd: ldp, ldq, vip)" style="flex: 1; min-width: 160px;">
-          <input type="number" id="newKeyCredits" placeholder="Số lượt" style="width: 120px;" value="10">
-          <button class="btn btn-primary" onclick="adjustCreditsFromForm('add')">
-            ➕ Cộng Lượt
-          </button>
-          <button class="btn" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="adjustCreditsFromForm('deduct')">
-            ➖ Trừ Lượt
-          </button>
-          <button class="btn" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);" onclick="adjustCreditsFromForm('set')">
-            🎯 Đặt Lại Số Lượt
-          </button>
-        </div>
-        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
-          💡 Nhập tên key và số lượt để điều khiển. Nếu key chưa có, bấm <b>Cộng Lượt</b> sẽ tự động tạo mới!
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">📋 Danh Sách Tất Cả Các Key Đang Hoạt Động</div>
-          <button class="btn" onclick="loadKeys()">🔄 Làm mới</button>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>TÊN KEY</th>
-                <th>CHỦ SỞ HỮU</th>
-                <th>SỐ LƯỢT HIỆN CÒN</th>
-                <th>TỔNG NẠP</th>
-                <th style="text-align: center;">ĐIỀU KHIỂN LƯỢT & THAO TÁC</th>
-              </tr>
-            </thead>
-            <tbody id="keysTableBody">
-              <tr><td colspan="5" style="text-align: center;">Đang tải danh sách key...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
     <!-- TAB 6: THÔNG BÁO TỰ ĐỘNG -->
     <div id="tab-announcement" class="tab-content">
       <div class="card" style="margin-bottom: 24px;">
@@ -854,137 +1083,30 @@
       </div>
     </div>
 
-    <!-- TAB: QUẢN LÝ BOX ZALO CHO PHÉP -->
-    <div id="tab-boxes" class="tab-content">
-      <div class="card" style="margin-bottom: 24px;">
-        <div class="card-header">
-          <div class="card-title">➕ Thêm Box Zalo Cho Phép Hoạt Động</div>
-          <span class="badge badge-primary">Quản Lý Theo Ngày</span>
-        </div>
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-          💡 Bot chỉ nhận lệnh tính điểm và hoạt động trong các Box được thêm tại đây. Hàng ngày lúc <b>00:05</b>, bot sẽ tự động thông báo thời gian hoạt động còn lại vào từng Box.
-        </p>
-        <form onsubmit="handleAddBox(event)">
-          <!-- KHỐI TRA CỨU LINK ZALO TỰ ĐỘNG -->
-          <div style="background: rgba(0, 242, 254, 0.06); border: 1px dashed var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 18px;">
-            <label style="font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; font-size: 14px;">
-              <span>🔗</span> Dán Link Box Zalo (Tự Động Tải Tên & ID Box)
-            </label>
-            <div style="display: flex; gap: 8px; margin-top: 8px;">
-              <input type="text" id="boxLinkInput" placeholder="Dán link nhóm Zalo vào đây (ví dụ: https://zalo.me/g/abcdef...)" style="flex: 1;" onpaste="setTimeout(resolveBoxLink, 100)" onkeydown="if(event.key==='Enter'){event.preventDefault();resolveBoxLink();}">
-              <button type="button" class="btn btn-primary" onclick="resolveBoxLink()" id="btnResolveLink" style="padding: 10px 18px; white-space: nowrap;">
-                ⚡ Tải Tên & ID Box
-              </button>
+    <!-- TAB 7: TERMINAL LOGS LIVE -->
+    <div id="tab-terminal" class="tab-content">
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
             </div>
-            <div id="resolveLinkStatus" style="font-size: 12px; margin-top: 8px; color: var(--text-muted); display: none;"></div>
+            <span style="font-size: 13px; font-weight: 600; color: #fff; font-family: var(--font-mono);">
+              VPS Live Console Output (Terminal)
+            </span>
           </div>
-
-          <div class="grid-2">
-            <div class="form-group">
-              <label>ID Nhóm Zalo (Tự điền khi dán link)</label>
-              <input type="text" id="newBoxId" placeholder="ID nhóm (Tự động điền sau khi quét link)" required style="font-family: var(--font-mono);">
-              <div style="display: flex; gap: 6px; align-items: center; margin-top: 6px;">
-                <span style="font-size: 11px; color: var(--text-muted);">Hoặc chọn nhóm bot đã vào:</span>
-                <select id="quickGroupSelect" onchange="onQuickGroupSelect(this.value)" style="flex: 1; padding: 6px 10px; font-size: 12px;">
-                  <option value="">-- Chọn nhóm Zalo đã tham gia --</option>
-                </select>
-                <button type="button" class="btn" style="padding: 6px 10px; font-size: 12px;" onclick="loadZaloGroups()" title="Làm mới danh sách nhóm">🔄</button>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Tên Box / Tên Nhóm (Tự điền khi dán link)</label>
-              <input type="text" id="newBoxName" placeholder="Tên nhóm Zalo" required>
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <div class="form-group">
-              <label>Thời Gian Hoạt Động (Số Ngày)</label>
-              <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
-                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(7)">7 ngày</button>
-                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(15)">15 ngày</button>
-                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(30)">30 ngày (1 tháng)</button>
-                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(60)">60 ngày</button>
-                <button type="button" class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="setQuickBoxDays(365)">365 ngày</button>
-              </div>
-              <input type="number" id="newBoxDays" min="1" value="30" placeholder="30" required>
-            </div>
-
-            <div class="form-group">
-              <label>Ghi Chú (Tùy chọn)</label>
-              <input type="text" id="newBoxNote" placeholder="Ví dụ: Khách thuê box theo tháng, liên hệ qua Zalo...">
-            </div>
-          </div>
-
-          <div style="margin-top: 8px; margin-bottom: 14px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 8px; padding: 12px 14px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-              <div>
-                <div style="font-weight: 600; color: #34d399; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                  <span>✨</span> Dùng Vô Hạn Lượt & Miễn Cần Key
-                </div>
-                <div style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">
-                  Thành viên trong box này được tự do tính điểm .td / .bxh không cần tạo key, không đòi key và không bị trừ lượt.
-                </div>
-              </div>
-              <label style="position: relative; display: inline-block; width: 44px; height: 24px; margin: 0; cursor: pointer;">
-                <input type="checkbox" id="newBoxUnlimited" checked style="opacity: 0; width: 0; height: 0;" onchange="document.getElementById('newBoxUnlimitedDaysBox').style.display = this.checked ? 'block' : 'none'">
-                <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .3s; border-radius: 24px;"></span>
-              </label>
-            </div>
-            <div id="newBoxUnlimitedDaysBox" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(52, 211, 153, 0.3);">
-              <label style="font-size: 12px; color: #34d399; font-weight: 600; display: block; margin-bottom: 4px;">
-                🎁 Số Ngày Miễn Phí (Để trống = Miễn phí toàn bộ thời hạn box):
-              </label>
-              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <input type="number" id="newBoxUnlimitedDays" placeholder="Ví dụ: 3 (cho dùng thử 3 ngày), 7, 30..." min="1" style="flex: 1; min-width: 140px; font-size: 12px; padding: 6px 10px;">
-                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 3">3 ngày</button>
-                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 7">7 ngày</button>
-                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = 30">30 ngày</button>
-                <button type="button" class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="document.getElementById('newBoxUnlimitedDays').value = ''">Toàn Box</button>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
-            <button type="submit" class="btn btn-primary" style="padding: 10px 24px;">
-              ➕ Kích Hoạt Box Zalo
+          <div style="display: flex; gap: 8px;">
+            <button class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="toggleAutoScroll()">
+              <span id="scrollStatus">Cuộn: BẬT</span>
+            </button>
+            <button class="btn btn-danger" style="padding: 4px 10px; font-size: 11px;" onclick="clearLogs()">
+              🗑️ Xóa Log
             </button>
           </div>
-        </form>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">📋 Danh Sách Box Zalo Cho Phép</div>
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <span id="boxCountBadge" class="badge badge-success">0 Box</span>
-            <button class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="loadBoxes()">🔄 Tải Lại</button>
-          </div>
         </div>
-
-        <div style="overflow-x: auto;">
-          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
-                <th style="padding: 10px;">Tên Box</th>
-                <th style="padding: 10px;">ID Nhóm Zalo</th>
-                <th style="padding: 10px;">👥 Thành Viên</th>
-                <th style="padding: 10px;">⚡ Chế Độ Lượt</th>
-                <th style="padding: 10px;">Thời Hạn Còn Lại</th>
-                <th style="padding: 10px;">Hạn Dùng Đến</th>
-                <th style="padding: 10px;">Trạng Thái</th>
-                <th style="padding: 10px;">Ghi Chú</th>
-                <th style="padding: 10px; text-align: right;">Hành Động</th>
-              </tr>
-            </thead>
-            <tbody id="boxesTableBody">
-              <tr>
-                <td colspan="9" style="padding: 20px; text-align: center; color: var(--text-muted);">Đang tải danh sách box...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="terminal-body" id="terminalOutput">Đang kết nối luồng logs từ VPS...</div>
       </div>
     </div>
 
@@ -1328,46 +1450,95 @@
         .replace(/>/g, '&gt;');
     }
 
+    let allKeysData = [];
+
+    function setQuickKeyCredits(val) {
+      document.getElementById('newKeyCredits').value = val;
+    }
+
     // Manage Keys
     async function loadKeys() {
+      const tbody = document.getElementById('keysTableBody');
       try {
         const res = await apiRequest('/api/admin/keys');
-        const tbody = document.getElementById('keysTableBody');
-        tbody.innerHTML = '';
-
-        if (!res || !res.keys || res.keys.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Chưa có Key nào được tạo.</td></tr>';
+        if (!res || !res.keys) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 24px;">Không thể tải danh sách Key.</td></tr>';
           return;
         }
 
-        for (const k of res.keys) {
-          const tr = document.createElement('tr');
-          const totalChargedFormatted = Number(k.totalCharged || 0).toLocaleString('vi-VN') + ' đ';
-          tr.innerHTML = `
-            <td style="font-weight: 700; color: var(--primary); font-family: var(--font-mono); font-size: 15px;">${escapeHtml(k.key)}</td>
-            <td style="color: var(--text-main); font-weight: 500;">${escapeHtml(k.ownerName || 'Chưa gán')}</td>
-            <td><span style="font-weight: 700; color: #34d399; font-size: 15px; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">${k.credits} lượt</span></td>
-            <td style="color: var(--text-muted); font-size: 13px;">${totalChargedFormatted}</td>
-            <td style="text-align: center;">
-              <div style="display: inline-flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center;">
-                <button class="btn" style="padding: 4px 10px; font-size: 12px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);" onclick="quickAddCredits('${escapeHtml(k.key)}')">
-                  ➕ Cộng
-                </button>
-                <button class="btn" style="padding: 4px 10px; font-size: 12px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);" onclick="quickDeductCredits('${escapeHtml(k.key)}')">
-                  ➖ Trừ
-                </button>
-                <button class="btn" style="padding: 4px 10px; font-size: 12px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);" onclick="quickSetCredits('${escapeHtml(k.key)}')">
-                  🎯 Đặt lại
-                </button>
-                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteKey('${escapeHtml(k.key)}')">
-                  🗑️ Xóa
-                </button>
-              </div>
-            </td>
-          `;
-          tbody.appendChild(tr);
+        allKeysData = res.keys;
+        const count = allKeysData.length;
+        if (document.getElementById('keyCountBadge')) {
+          document.getElementById('keyCountBadge').textContent = `${count} Key`;
         }
-      } catch (e) {}
+        if (document.getElementById('tabKeyBadge')) {
+          document.getElementById('tabKeyBadge').textContent = count;
+        }
+        if (document.getElementById('overviewKeyCount')) {
+          document.getElementById('overviewKeyCount').textContent = count;
+        }
+
+        filterKeys();
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 24px;">Lỗi: ${e.message}</td></tr>`;
+      }
+    }
+
+    function filterKeys() {
+      const q = (document.getElementById('keySearchInput')?.value || '').trim().toLowerCase();
+      const filtered = q
+        ? allKeysData.filter(k => 
+            (k.key && k.key.toLowerCase().includes(q)) || 
+            (k.ownerName && k.ownerName.toLowerCase().includes(q))
+          )
+        : allKeysData;
+      renderKeysTable(filtered);
+    }
+
+    function renderKeysTable(keys) {
+      const tbody = document.getElementById('keysTableBody');
+      if (!tbody) return;
+
+      if (!keys || keys.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">🔍 Không tìm thấy Key nào phù hợp!</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      for (const k of keys) {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+        const totalChargedFormatted = Number(k.totalCharged || 0).toLocaleString('vi-VN') + ' đ';
+
+        tr.innerHTML = `
+          <td style="padding: 12px 14px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 700; color: var(--primary); font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.5px;">${escapeHtml(k.key)}</span>
+              <button onclick="copyText('${escapeHtml(k.key)}', 'Đã chép Tên Key!')" style="background: transparent; border: none; cursor: pointer; padding: 0 4px; font-size: 12px;" title="Sao chép tên Key">📋</button>
+            </div>
+          </td>
+          <td style="padding: 12px; color: var(--text-main); font-weight: 500;">
+            ${escapeHtml(k.ownerName || 'Chưa gán')}
+          </td>
+          <td style="padding: 12px; text-align: center;">
+            <span style="font-weight: 700; color: #34d399; font-size: 14px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 12px; border-radius: 20px; display: inline-block;">
+              ⚡ ${k.credits} lượt
+            </span>
+          </td>
+          <td style="padding: 12px; text-align: center; color: #94a3b8; font-size: 13px; font-family: var(--font-mono);">
+            ${totalChargedFormatted}
+          </td>
+          <td style="padding: 12px 14px; text-align: right;">
+            <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center; flex-wrap: nowrap;">
+              <button class="btn btn-action-green" onclick="quickAddCredits('${escapeHtml(k.key)}')" title="Cộng thêm lượt">➕ Cộng</button>
+              <button class="btn" style="padding: 4px 8px; font-size: 11px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);" onclick="quickDeductCredits('${escapeHtml(k.key)}')" title="Trừ lượt">➖ Trừ</button>
+              <button class="btn btn-action-cyan" onclick="quickSetCredits('${escapeHtml(k.key)}')" title="Đặt lại số lượt">🎯 Đặt lại</button>
+              <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteKey('${escapeHtml(k.key)}')" title="Xóa Key">🗑️</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
     }
 
     async function quickAddCredits(key) {
@@ -1613,82 +1784,135 @@
       document.getElementById('newBoxDays').value = days;
     }
 
+    let allBoxesData = [];
+
     async function loadBoxes() {
       const tbody = document.getElementById('boxesTableBody');
       try {
         const res = await apiRequest('/api/admin/boxes');
         if (!res || !res.success || !Array.isArray(res.boxes)) {
-          tbody.innerHTML = '<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--danger);">Không thể tải danh sách Box</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" style="padding: 24px; text-align: center; color: var(--danger);">Không thể tải danh sách Box</td></tr>';
           return;
         }
 
-        const boxes = res.boxes;
-        document.getElementById('boxCountBadge').textContent = `${boxes.length} Box`;
-
-        if (boxes.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--text-muted);">Chưa có Box Zalo nào trong danh sách. Hãy thêm box ở trên!</td></tr>';
-          return;
+        allBoxesData = res.boxes;
+        const count = allBoxesData.length;
+        if (document.getElementById('boxCountBadge')) {
+          document.getElementById('boxCountBadge').textContent = `${count} Box`;
+        }
+        if (document.getElementById('tabBoxBadge')) {
+          document.getElementById('tabBoxBadge').textContent = count;
+        }
+        if (document.getElementById('overviewBoxCount')) {
+          document.getElementById('overviewBoxCount').textContent = count;
         }
 
-        tbody.innerHTML = '';
-        boxes.forEach(box => {
-          const tr = document.createElement('tr');
-          tr.style.borderBottom = '1px solid var(--border)';
-
-          let badgeColor = 'badge-success';
-          let badgeText = `${box.remainingDays} ngày`;
-          if (box.isExpired) {
-            badgeColor = 'badge-danger';
-            badgeText = 'HẾT HẠN';
-          } else if (box.remainingDays <= 3) {
-            badgeColor = 'badge-warning';
-            badgeText = `Sắp hết (${box.remainingDays} ngày)`;
-          }
-
-          const statusBadge = box.enabled
-            ? '<span class="badge badge-success" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', true)">🟢 Đang Chạy</span>'
-            : '<span class="badge badge-danger" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', false)">🔴 Đã Tắt</span>';
-
-          const isUnlimited = box.isUnlimited || (box.unlimitedCredits !== false && (!box.unlimitedRemainingDays || box.unlimitedRemainingDays > 0));
-          let unlimitedBadge = '';
-          if (isUnlimited) {
-            if (box.unlimitedExpiryDate && box.unlimitedRemainingDays) {
-              unlimitedBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', ${box.unlimitedRemainingDays})" title="Bấm để chỉnh sửa số ngày miễn phí">✨ MP Còn ${box.unlimitedRemainingDays}N</span>`;
-            } else {
-              unlimitedBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', 7)" title="Bấm để chỉnh sửa số ngày miễn phí">✨ Vô Hạn (Toàn Box)</span>`;
-            }
-          } else {
-            unlimitedBadge = `<span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', 7)" title="Bấm để set số ngày miễn phí">🔑 Cần Key Riêng</span>`;
-          }
-
-          const memberDisplay = (box.memberCount && Number(box.memberCount) > 0)
-            ? `<span style="font-weight: 600; color: #38bdf8;">👥 ${box.memberCount} TV</span>`
-            : '<span style="color: var(--text-muted);">Đang đếm...</span>';
-
-          tr.innerHTML = `
-            <td style="padding: 12px; font-weight: 600; color: var(--primary);">${escapeHtml(box.name || box.groupId)}</td>
-            <td style="padding: 12px; font-family: var(--font-mono);">${box.groupId}</td>
-            <td style="padding: 12px;">${memberDisplay}</td>
-            <td style="padding: 12px;">${unlimitedBadge}</td>
-            <td style="padding: 12px;"><span class="badge ${badgeColor}">${badgeText}</span></td>
-            <td style="padding: 12px; color: var(--text-muted);">${box.formattedExpiry || '-'}</td>
-            <td style="padding: 12px;">${statusBadge}</td>
-            <td style="padding: 12px; color: var(--text-muted); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(box.note || '-')}</td>
-            <td style="padding: 12px; text-align: right;">
-              <div style="display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap;">
-                <button class="btn" style="padding: 4px 8px; font-size: 11px; background: rgba(52, 211, 153, 0.15); color: #34d399;" onclick="promptSetUnlimitedDays('${box.groupId}', ${box.unlimitedRemainingDays || 7})" title="Cài đặt số ngày miễn phí cho Box này">🎁 Set Ngày MP</button>
-                <button class="btn" style="padding: 4px 8px; font-size: 11px; background: rgba(0, 242, 254, 0.15); color: var(--primary);" onclick="notifyBoxNow('${box.groupId}')" title="Gửi thông báo thời hạn hoạt động vào Box này">🔔 Bắn Thông Báo</button>
-                <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 30)" title="Gia hạn thêm 30 ngày">+30 ngày</button>
-                <button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="extendBoxPrompt('${box.groupId}', 7)" title="Gia hạn thêm 7 ngày">+7 ngày</button>
-                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteBoxConfirm('${box.groupId}')" title="Xóa box">🗑️</button>
-              </div>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
+        filterBoxes();
       } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--danger);">Lỗi: ${e.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="padding: 24px; text-align: center; color: var(--danger);">Lỗi: ${e.message}</td></tr>`;
       }
+    }
+
+    function filterBoxes() {
+      const q = (document.getElementById('boxSearchInput')?.value || '').trim().toLowerCase();
+      const filtered = q
+        ? allBoxesData.filter(b => 
+            (b.name && b.name.toLowerCase().includes(q)) || 
+            (b.groupId && b.groupId.toLowerCase().includes(q)) ||
+            (b.note && b.note.toLowerCase().includes(q))
+          )
+        : allBoxesData;
+      renderBoxesTable(filtered);
+    }
+
+    function copyText(text, msg = 'Đã sao chép vào bộ nhớ tạm!') {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => promptCopy(text));
+      } else {
+        promptCopy(text);
+      }
+    }
+
+    function promptCopy(text) {
+      window.prompt('Sao chép chuỗi này:', text);
+    }
+
+    function renderBoxesTable(boxes) {
+      const tbody = document.getElementById('boxesTableBody');
+      if (!tbody) return;
+
+      if (!boxes || boxes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="padding: 30px; text-align: center; color: var(--text-muted); font-size: 13px;">🔍 Không tìm thấy Box Zalo nào phù hợp!</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      boxes.forEach(box => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+
+        let badgeColor = 'badge-success';
+        let badgeText = `${box.remainingDays} ngày`;
+        if (box.isExpired) {
+          badgeColor = 'badge-danger';
+          badgeText = 'HẾT HẠN';
+        } else if (box.remainingDays <= 3) {
+          badgeColor = 'badge-warning';
+          badgeText = `Sắp hết (${box.remainingDays}N)`;
+        }
+
+        const statusBadge = box.enabled
+          ? `<span class="badge badge-success" style="cursor: pointer;" onclick="toggleBoxStatus('${box.groupId}', true)" title="Bấm để Tắt Box này">🟢 Đang Chạy</span>`
+          : `<span class="badge badge-danger" style="cursor: pointer;" onclick="toggleBoxStatus('${box.groupId}', false)" title="Bấm để Bật lại Box này">🔴 Đã Tắt</span>`;
+
+        const isUnlimited = box.isUnlimited || (box.unlimitedCredits !== false && (!box.unlimitedRemainingDays || box.unlimitedRemainingDays > 0));
+        let unlimitedBadge = '';
+        if (isUnlimited) {
+          if (box.unlimitedExpiryDate && box.unlimitedRemainingDays) {
+            unlimitedBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', ${box.unlimitedRemainingDays})" title="Bấm để chỉnh sửa số ngày miễn phí">✨ MP Còn ${box.unlimitedRemainingDays}N</span>`;
+          } else {
+            unlimitedBadge = `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', 7)" title="Bấm để chỉnh sửa số ngày miễn phí">✨ Vô Hạn (Toàn Box)</span>`;
+          }
+        } else {
+          unlimitedBadge = `<span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); cursor: pointer;" onclick="promptSetUnlimitedDays('${box.groupId}', 7)" title="Bấm để set số ngày miễn phí">🔑 Cần Key Riêng</span>`;
+        }
+
+        const memberDisplay = (box.memberCount && Number(box.memberCount) > 0)
+          ? `<span class="badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700;">👥 ${box.memberCount} TV</span>`
+          : '<span style="color: var(--text-muted); font-size: 12px;">Đang đếm...</span>';
+
+        const noteSnippet = box.note 
+          ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 3px; font-style: italic; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">📝 ${escapeHtml(box.note)}</div>` 
+          : '';
+
+        tr.innerHTML = `
+          <td style="padding: 12px 14px;">
+            <div style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 2px;">${escapeHtml(box.name || 'Box Zalo')}</div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: #94a3b8;">${box.groupId}</span>
+              <button onclick="copyText('${box.groupId}', 'Đã chép ID Box!')" style="background: transparent; border: none; cursor: pointer; padding: 0 4px; font-size: 12px;" title="Sao chép ID nhóm">📋</button>
+            </div>
+            ${noteSnippet}
+          </td>
+          <td style="padding: 12px; text-align: center;">${memberDisplay}</td>
+          <td style="padding: 12px; text-align: center;">${unlimitedBadge}</td>
+          <td style="padding: 12px; text-align: center;">
+            <span class="badge ${badgeColor}">${badgeText}</span>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Đến: ${box.formattedExpiry || '-'}</div>
+          </td>
+          <td style="padding: 12px; text-align: center;">${statusBadge}</td>
+          <td style="padding: 12px 14px; text-align: right;">
+            <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center; flex-wrap: nowrap;">
+              <button class="btn btn-action-green" onclick="promptSetUnlimitedDays('${box.groupId}', ${box.unlimitedRemainingDays || 7})" title="Cài đặt số ngày miễn phí cho Box này">🎁 Set MP</button>
+              <button class="btn btn-action-cyan" onclick="notifyBoxNow('${box.groupId}')" title="Gửi thông báo thời hạn hoạt động vào Box này">🔔 Bắn Tin</button>
+              <button class="btn btn-action-dark" onclick="extendBoxPrompt('${box.groupId}', 30)" title="Gia hạn thêm 30 ngày">+30N</button>
+              <button class="btn btn-action-dark" onclick="extendBoxPrompt('${box.groupId}', 7)" title="Gia hạn thêm 7 ngày">+7N</button>
+              <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteBoxConfirm('${box.groupId}')" title="Xóa Box">🗑️</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
     async function promptSetUnlimitedDays(groupId, currentDays = 7) {
@@ -1911,6 +2135,8 @@
     function initDashboard() {
       loadStatus();
       loadLogs();
+      loadBoxes();
+      loadKeys();
       if (pollTimer) clearInterval(pollTimer);
       pollTimer = setInterval(() => {
         loadStatus();
