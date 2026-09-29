@@ -612,9 +612,28 @@ class WebhookServer {
           return;
         }
 
-        const boxes = boxService.getAllBoxes();
+        const boxes = await boxService.getAllBoxesWithMembers(this.bot);
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(JSON.stringify({ success: true, boxes }));
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/api/admin/boxes/toggle-unlimited') {
+        if (!this.isAuthorized(req)) {
+          res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: 'Chưa đăng nhập' }));
+          return;
+        }
+
+        const payload = await readJsonBody();
+        try {
+          const updated = boxService.toggleUnlimited(payload.groupId, payload.status);
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: true, box: updated }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, message: err.message }));
+        }
         return;
       }
 

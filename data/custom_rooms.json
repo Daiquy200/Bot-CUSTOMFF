@@ -5,13 +5,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2542340226912335505": {
     "template": "bxhconan",
@@ -19,13 +32,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2812643649236577965": {
     "template": "bxhconan",
@@ -33,13 +59,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "9121024945636010801": {
     "template": "bxhconan",
@@ -47,13 +86,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "508667843211495850": {
     "template": "bxhconan",
@@ -61,13 +113,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "3789088867703463984": {
     "template": "bxhconan",
@@ -75,13 +140,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2890472303677551800": {
     "template": "bxhconan",
@@ -89,27 +167,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
-  },
-  "test_group_123": {
-    "template": "bxhconan",
-    "adminCtk": "LE DAI QUY",
-    "bankAccount": "1000 2610 909",
-    "bankName": "TPBank",
-    "qrImage": "",
-    "anti": {
-      "control": false,
-      "spam": false,
-      "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "9067816248077658994": {
     "template": "bxhconan",
@@ -117,13 +194,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "6229679648635954129": {
     "template": "bxhconan",
@@ -131,13 +221,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5218937100850832584": {
     "template": "bxhconan",
@@ -145,13 +248,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "3681439024083248562": {
     "template": "bxhconan",
@@ -159,13 +275,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5555592650350548412": {
     "template": "bxhconan",
@@ -173,13 +302,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "3095159700670996305": {
     "template": "bxhconan",
@@ -187,13 +329,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "9158733350256338111": {
     "template": "bxhconan",
@@ -201,13 +356,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "8193828224328025619": {
     "template": "bxhconan",
@@ -215,13 +383,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "7721839566357020196": {
     "template": "bxhconan",
@@ -229,13 +410,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "6675531202870445225": {
     "template": "bxhconan",
@@ -243,13 +437,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "9079204625127735026": {
     "template": "bxhconan",
@@ -257,13 +464,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5622580309558703370": {
     "template": "bxhconan",
@@ -271,13 +491,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2362760759983544007": {
     "template": "bxhconan",
@@ -285,13 +518,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "281778458737710820": {
     "template": "bxhconan",
@@ -299,13 +545,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "8834051699974413973": {
     "template": "bxhconan",
@@ -313,13 +572,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "7789252153175443477": {
     "template": "bxhconan",
@@ -327,13 +599,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "709919636077359063": {
     "template": "bxhconan",
@@ -341,13 +626,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2404373588960936787": {
     "template": "bxhconan",
@@ -355,13 +653,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "8709380291578517968": {
     "template": "bxhconan",
@@ -369,13 +680,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5552772705821933058": {
     "template": "bxhconan",
@@ -383,13 +707,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2280660561691297195": {
     "template": "bxhconan",
@@ -397,13 +734,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "4081439432423661737": {
     "template": "bxhconan",
@@ -411,13 +761,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "1971488477716757329": {
     "template": "bxhconan",
@@ -425,13 +788,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2899261870133700657": {
     "template": "bxhconan",
@@ -439,13 +815,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "7440788933609937231": {
     "template": "bxhconan",
@@ -453,13 +842,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2035920453045068108": {
     "template": "bxhconan",
@@ -467,13 +869,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "3796010245073692323": {
     "template": "bxhconan",
@@ -481,13 +896,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "3922248675652936803": {
     "template": "bxhconan",
@@ -495,13 +923,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "test_group_temp": {
     "template": "bxhconan",
@@ -509,13 +950,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "96992546069947733": {
     "template": "bxhconan",
@@ -523,13 +977,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "2385835725051233942": {
     "template": "bxhconan",
@@ -537,13 +1004,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "D:\\CODE_DuAn\\botTinhDIem - Copy\\assets\\qrs\\qr_2385835725051233942.png",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": true,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "672329553724892894": {
     "template": "bxhconan",
@@ -551,13 +1031,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": true,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5825195273509649501": {
     "template": "bxhconan",
@@ -565,13 +1058,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "D:\\CODE_DuAn\\botTinhDIem - Copy\\assets\\qrs\\qr_5825195273509649501.png",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5723482788499331559": {
     "template": "bxhconan",
@@ -579,13 +1085,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "8766652690907458339": {
     "template": "bxhconan",
@@ -593,13 +1112,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "4309992207017627738": {
     "template": "bxhconan",
@@ -607,13 +1139,26 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   },
   "5665350742413994517": {
     "template": "bxhconan",
@@ -621,12 +1166,25 @@
     "bankAccount": "1000 2610 909",
     "bankName": "TPBank",
     "qrImage": "",
+    "qrAutoListen": false,
     "anti": {
-      "control": false,
       "spam": false,
+      "tagAll": false,
       "link": false,
-      "zalo": false,
-      "bankQr": false
-    }
+      "linkZalo": false,
+      "qrZalo": false,
+      "qrMess": false,
+      "bankQr": false,
+      "allQr": false,
+      "antiUndo": false,
+      "changeName": false,
+      "changeAvatar": false,
+      "sexyAvatar": false,
+      "nsfw": false,
+      "voice": false,
+      "card": false,
+      "image": false
+    },
+    "freeTrial": null
   }
 }

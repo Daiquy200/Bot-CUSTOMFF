@@ -917,6 +917,21 @@
             </div>
           </div>
 
+          <div style="margin-top: 8px; margin-bottom: 14px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+            <div>
+              <div style="font-weight: 600; color: #34d399; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                <span>✨</span> Dùng Vô Hạn Lượt & Miễn Cần Key
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">
+                Thành viên trong box này được tự do tính điểm .td / .bxh không cần tạo key, không đòi key và không bị trừ lượt.
+              </div>
+            </div>
+            <label style="position: relative; display: inline-block; width: 44px; height: 24px; margin: 0; cursor: pointer;">
+              <input type="checkbox" id="newBoxUnlimited" checked style="opacity: 0; width: 0; height: 0;">
+              <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .3s; border-radius: 24px;"></span>
+            </label>
+          </div>
+
           <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
             <button type="submit" class="btn btn-primary" style="padding: 10px 24px;">
               ➕ Kích Hoạt Box Zalo
@@ -940,6 +955,8 @@
               <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted);">
                 <th style="padding: 10px;">Tên Box</th>
                 <th style="padding: 10px;">ID Nhóm Zalo</th>
+                <th style="padding: 10px;">👥 Thành Viên</th>
+                <th style="padding: 10px;">⚡ Chế Độ Lượt</th>
                 <th style="padding: 10px;">Thời Hạn Còn Lại</th>
                 <th style="padding: 10px;">Hạn Dùng Đến</th>
                 <th style="padding: 10px;">Trạng Thái</th>
@@ -949,7 +966,7 @@
             </thead>
             <tbody id="boxesTableBody">
               <tr>
-                <td colspan="7" style="padding: 20px; text-align: center; color: var(--text-muted);">Đang tải danh sách box...</td>
+                <td colspan="9" style="padding: 20px; text-align: center; color: var(--text-muted);">Đang tải danh sách box...</td>
               </tr>
             </tbody>
           </table>
@@ -1587,7 +1604,7 @@
       try {
         const res = await apiRequest('/api/admin/boxes');
         if (!res || !res.success || !Array.isArray(res.boxes)) {
-          tbody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: var(--danger);">Không thể tải danh sách Box</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--danger);">Không thể tải danh sách Box</td></tr>';
           return;
         }
 
@@ -1595,7 +1612,7 @@
         document.getElementById('boxCountBadge').textContent = `${boxes.length} Box`;
 
         if (boxes.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: var(--text-muted);">Chưa có Box Zalo nào trong danh sách. Hãy thêm box ở trên!</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--text-muted);">Chưa có Box Zalo nào trong danh sách. Hãy thêm box ở trên!</td></tr>';
           return;
         }
 
@@ -1618,9 +1635,20 @@
             ? '<span class="badge badge-success" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', true)">🟢 Đang Chạy</span>'
             : '<span class="badge badge-danger" style="cursor: pointer;" onclick="toggleBoxStatus(\'' + box.groupId + '\', false)">🔴 Đã Tắt</span>';
 
+          const isUnlimited = box.unlimitedCredits !== false;
+          const unlimitedBadge = isUnlimited
+            ? '<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); cursor: pointer;" onclick="toggleBoxUnlimited(\'' + box.groupId + '\', false)" title="Bấm để chuyển sang yêu cầu Key riêng">✨ Vô Hạn (Miễn Key)</span>'
+            : '<span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); cursor: pointer;" onclick="toggleBoxUnlimited(\'' + box.groupId + '\', true)" title="Bấm để bật Vô hạn lượt">🔑 Cần Key Riêng</span>';
+
+          const memberDisplay = (box.memberCount && Number(box.memberCount) > 0)
+            ? `<span style="font-weight: 600; color: #38bdf8;">👥 ${box.memberCount} TV</span>`
+            : '<span style="color: var(--text-muted);">Đang đếm...</span>';
+
           tr.innerHTML = `
             <td style="padding: 12px; font-weight: 600; color: var(--primary);">${escapeHtml(box.name || box.groupId)}</td>
             <td style="padding: 12px; font-family: var(--font-mono);">${box.groupId}</td>
+            <td style="padding: 12px;">${memberDisplay}</td>
+            <td style="padding: 12px;">${unlimitedBadge}</td>
             <td style="padding: 12px;"><span class="badge ${badgeColor}">${badgeText}</span></td>
             <td style="padding: 12px; color: var(--text-muted);">${box.formattedExpiry || '-'}</td>
             <td style="padding: 12px;">${statusBadge}</td>
@@ -1637,7 +1665,25 @@
           tbody.appendChild(tr);
         });
       } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="7" style="padding: 20px; text-align: center; color: var(--danger);">Lỗi: ${e.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: var(--danger);">Lỗi: ${e.message}</td></tr>`;
+      }
+    }
+
+    async function toggleBoxUnlimited(groupId, newStatus) {
+      try {
+        const res = await apiRequest('/api/admin/boxes/toggle-unlimited', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groupId, status: newStatus })
+        });
+        if (res && res.success) {
+          showToast(`Đã đổi Box sang: ${newStatus ? '✨ VÔ HẠN LƯỢT (Miễn Key)' : '🔑 CẦN KEY RIÊNG'}!`);
+          loadBoxes();
+        } else {
+          showToast(res?.message || 'Lỗi cập nhật chế độ!', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối: ' + err.message, 'error');
       }
     }
 
@@ -1647,6 +1693,7 @@
       const name = document.getElementById('newBoxName').value.trim();
       const days = parseInt(document.getElementById('newBoxDays').value, 10) || 30;
       const note = document.getElementById('newBoxNote').value.trim();
+      const unlimitedCredits = document.getElementById('newBoxUnlimited')?.checked !== false;
 
       if (!groupId) {
         showToast('Vui lòng nhập ID nhóm Zalo!', 'error');
@@ -1657,7 +1704,7 @@
         const res = await apiRequest('/api/admin/boxes/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ groupId, name, days, note, enabled: true })
+          body: JSON.stringify({ groupId, name, days, note, enabled: true, unlimitedCredits })
         });
         if (res && res.success) {
           showToast(`Đã thêm và kích hoạt Box [${name || groupId}] thành công (${days} ngày)!`);

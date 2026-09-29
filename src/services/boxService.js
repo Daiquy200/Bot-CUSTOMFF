@@ -37,6 +37,8 @@ class BoxService {
                 groupId: String(id),
                 name: data.name || `Box ${id}`,
                 enabled: data.enabled !== false,
+                unlimitedCredits: data.unlimitedCredits !== false,
+                memberCount: Number(data.memberCount || 0),
                 daysTotal: Number(data.daysTotal || 30),
                 expiryDate: data.expiryDate || new Date(Date.now() + 30 * 86400000).toISOString(),
                 createdAt: data.createdAt || new Date().toISOString(),
@@ -100,11 +102,47 @@ class BoxService {
       const remainingDays = this.getRemainingDays(box);
       list.push({
         ...box,
+        unlimitedCredits: box.unlimitedCredits !== false,
+        memberCount: Number(box.memberCount || 0),
         remainingDays,
         isExpired: remainingDays <= 0,
         formattedExpiry: this.formatDate(box.expiryDate)
       });
     }
+    return list;
+  }
+
+  /**
+   * Lấy danh sách box đồng thời cập nhật số lượng thành viên thực tế từ Zalo Bot
+   */
+  async getAllBoxesWithMembers(bot = null) {
+    const list = this.getAllBoxes();
+    if (!bot?.api) return list;
+
+    let hasChange = false;
+    for (const b of list) {
+      try {
+        if (!b.groupId) continue;
+        const res = await bot.api.getGroupInfo(b.groupId);
+        const info = res?.gridInfoMap?.[b.groupId] || (res?.gridInfoMap ? Object.values(res.gridInfoMap)[0] : null);
+        if (info) {
+          const count = Number(info.totalMember || (Array.isArray(info.memberIds) ? info.memberIds.length : (Array.isArray(info.members) ? info.members.length : 0))) || 0;
+          if (count > 0 && b.memberCount !== count) {
+            b.memberCount = count;
+            const existing = this.boxes.get(b.groupId);
+            if (existing) existing.memberCount = count;
+            hasChange = true;
+          }
+          if (info.name && info.name.trim() && (!b.name || b.name.startsWith('Box '))) {
+            b.name = info.name.trim();
+            const existing = this.boxes.get(b.groupId);
+            if (existing) existing.name = info.name.trim();
+            hasChange = true;
+          }
+        }
+      } catch (e) {}
+    }
+    if (hasChange) this.saveBoxes();
     return list;
   }
 
@@ -118,6 +156,8 @@ class BoxService {
     const remainingDays = this.getRemainingDays(box);
     return {
       ...box,
+      unlimitedCredits: box.unlimitedCredits !== false,
+      memberCount: Number(box.memberCount || 0),
       remainingDays,
       isExpired: remainingDays <= 0,
       formattedExpiry: this.formatDate(box.expiryDate)
@@ -127,7 +167,7 @@ class BoxService {
   /**
    * Thêm mới box cho phép hoạt động
    */
-  addBox({ groupId, name, days = 30, note = '', enabled = true }) {
+  addBox({ groupId, name, days = 30, note = '', enabled = true, unlimitedCredits = true }) {
     const cleanId = String(groupId || '').trim();
     if (!cleanId) throw new Error('ID Box không được để trống!');
 
@@ -138,6 +178,8 @@ class BoxService {
       groupId: cleanId,
       name: (name || `Box ${cleanId}`).trim(),
       enabled: enabled !== false,
+      unlimitedCredits: unlimitedCredits !== false,
+      memberCount: 0,
       daysTotal: numDays,
       expiryDate,
       createdAt: new Date().toISOString(),
@@ -152,7 +194,7 @@ class BoxService {
   /**
    * Cập nhật thông tin box
    */
-  updateBox(groupId, { name, days, note, enabled }) {
+  updateBox(groupId, { name, days, note, enabled, unlimitedCredits }) {
     const cleanId = String(groupId || '').trim();
     const existing = this.boxes.get(cleanId);
     if (!existing) throw new Error('Không tìm thấy Box trong danh sách!');
@@ -160,6 +202,7 @@ class BoxService {
     if (name !== undefined) existing.name = String(name).trim();
     if (note !== undefined) existing.note = String(note).trim();
     if (enabled !== undefined) existing.enabled = !!enabled;
+    if (unlimitedCredits !== undefined) existing.unlimitedCredits = !!unlimitedCredits;
 
     if (days !== undefined && !isNaN(parseInt(days, 10))) {
       const numDays = parseInt(days, 10);
@@ -167,6 +210,22 @@ class BoxService {
       existing.expiryDate = new Date(Date.now() + (numDays * 86400000)).toISOString();
     }
 
+    this.saveBoxes();
+    return this.getBox(cleanId);
+  }
+
+  /**
+   * Bật/tắt chế độ vô hạn lượt (miễn key) cho box
+   */
+  toggleUnlimited(groupId, status = null) {
+    const cleanId = String(groupId || '').trim();
+    const existing = this.boxes.get(cleanId);
+    if (!existing) throw new Error('Không tìm thấy Box trong danh sách!');
+    if (status !== null && status !== undefined) {
+      existing.unlimitedCredits = !!status;
+    } else {
+      existing.unlimitedCredits = existing.unlimitedCredits === false ? true : false;
+    }
     this.saveBoxes();
     return this.getBox(cleanId);
   }

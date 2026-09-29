@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "intervalHours": 3,
+  "customMessage": "BOX .td free theo lượt và anti 20k 1 tháng ib.",
+  "knownGroups": [
+    "2385835725051233942",
+    "5825195273509649501"
+  ]
+}

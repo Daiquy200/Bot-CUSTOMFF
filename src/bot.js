@@ -1854,9 +1854,14 @@ class BotManager {
         const isSuperAdmin = this.isSuperAdmin(senderId, message);
         let isEligibleFreeTrial = false;
         if (threadType !== ThreadType.User) {
-          const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
-          const isGroupAdmin = groupPerm.allowed && (groupPerm.role === 'admin' || groupPerm.role === 'deputy' || groupPerm.role === 'creator');
-          isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+          const boxStatus = boxService.isGroupActive(threadId);
+          if (boxStatus.allowed && boxStatus.box && boxStatus.box.unlimitedCredits !== false) {
+            isEligibleFreeTrial = true;
+          } else {
+            const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
+            const isGroupAdmin = groupPerm.allowed && (groupPerm.role === 'admin' || groupPerm.role === 'deputy' || groupPerm.role === 'creator');
+            isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+          }
         }
 
         if (!keyName && !isSuperAdmin && !isEligibleFreeTrial) {
@@ -2436,9 +2441,14 @@ class BotManager {
         const isSuperAdmin = this.isSuperAdmin(senderId, message);
         let isEligibleFreeTrial = false;
         if (threadType !== ThreadType.User) {
-          const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
-          const isGroupAdmin = groupPerm.allowed && (groupPerm.role === 'admin' || groupPerm.role === 'deputy' || groupPerm.role === 'creator');
-          isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+          const boxStatus = boxService.isGroupActive(threadId);
+          if (boxStatus.allowed && boxStatus.box && boxStatus.box.unlimitedCredits !== false) {
+            isEligibleFreeTrial = true;
+          } else {
+            const groupPerm = await this.checkAdminPermission(threadId, threadType, senderId);
+            const isGroupAdmin = groupPerm.allowed && (groupPerm.role === 'admin' || groupPerm.role === 'deputy' || groupPerm.role === 'creator');
+            isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+          }
         }
 
         if (!keyName && !isSuperAdmin && !isEligibleFreeTrial) {
@@ -3157,9 +3167,14 @@ class BotManager {
     let isEligibleFreeTrial = false;
 
     if (threadType !== ThreadType.User) {
-      const perm = await this.checkAdminPermission(threadId, threadType, senderId);
-      const isGroupAdmin = perm.allowed && (perm.role === 'admin' || perm.role === 'deputy' || perm.role === 'creator');
-      isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+      const boxStatus = boxService.isGroupActive(threadId);
+      if (boxStatus.allowed && boxStatus.box && boxStatus.box.unlimitedCredits !== false) {
+        isEligibleFreeTrial = true;
+      } else {
+        const perm = await this.checkAdminPermission(threadId, threadType, senderId);
+        const isGroupAdmin = perm.allowed && (perm.role === 'admin' || perm.role === 'deputy' || perm.role === 'creator');
+        isEligibleFreeTrial = customService.isUserEligibleForFreeTrial(threadId, senderId, isGroupAdmin || isSuperAdmin);
+      }
     }
 
     if (isEligibleFreeTrial) {
