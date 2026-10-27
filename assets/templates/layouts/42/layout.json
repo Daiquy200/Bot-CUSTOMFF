@@ -1,0 +1,850 @@
+{
+  "limit": 12,
+  "header": {
+    "customName": {
+      "x": 10000,
+      "y": 300,
+      "color": "#B3125A",
+      "size": 30,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "customName2": {
+      "x": 10000,
+      "y": 300,
+      "color": "#B3125A",
+      "size": 30,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "customTime": {
+      "x": 10000,
+      "y": 300,
+      "color": "#B3125A",
+      "size": 30,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "logos": [
+      {
+        "top": "1",
+        "x": 121,
+        "y": 452,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "2",
+        "x": 121,
+        "y": 500,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "3",
+        "x": 121,
+        "y": 548.5,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "4",
+        "x": 121,
+        "y": 597.5,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "5",
+        "x": 121,
+        "y": 645.8,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "6",
+        "x": 121,
+        "y": 694,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "7",
+        "x": 121,
+        "y": 742.5,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "8",
+        "x": 121,
+        "y": 791,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "9",
+        "x": 121,
+        "y": 839.8,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "10",
+        "x": 121,
+        "y": 887.8,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "11",
+        "x": 121,
+        "y": 936,
+        "w": 38,
+        "h": 38
+      },
+      {
+        "top": "12",
+        "x": 121,
+        "y": 985,
+        "w": 38,
+        "h": 38
+      }
+    ]
+  },
+  "BooyahGames": {
+    "Game1": {
+      "x": 967,
+      "y": 497,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#6B0F3A",
+      "strokeWidth": 3
+    },
+    "Game2": {
+      "x": 967,
+      "y": 647,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#6B0F3A",
+      "strokeWidth": 3
+    },
+    "Game3": {
+      "x": 967,
+      "y": 812,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#6B0F3A",
+      "strokeWidth": 3
+    },
+    "Game4": {
+      "x": 967,
+      "y": 962,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#6B0F3A",
+      "strokeWidth": 3
+    },
+    "Game5": {
+      "x": 10000,
+      "y": 680,
+      "size": 22,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "Game6": {
+      "x": 10000,
+      "y": 680,
+      "size": 22,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "LogosBooyah": [
+      {
+        "game": 1,
+        "x": 925,
+        "y": 472,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 2,
+        "x": 925,
+        "y": 622,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 3,
+        "x": 925,
+        "y": 787,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 4,
+        "x": 925,
+        "y": 937,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 5,
+        "x": 50000,
+        "y": 680,
+        "w": 40,
+        "h": 40
+      },
+      {
+        "game": 6,
+        "x": 50000,
+        "y": 680,
+        "w": 40,
+        "h": 40
+      }
+    ]
+  },
+  "Top1": {
+    "Top": {
+      "x": 10000,
+      "y": 481.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 479.6,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 481.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 481.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 481.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top2": {
+    "Top": {
+      "x": 10000,
+      "y": 529.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 527.6,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 529.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 529.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 529.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top3": {
+    "Top": {
+      "x": 10000,
+      "y": 577.6,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 576.1,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 577.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 577.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 577.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top4": {
+    "Top": {
+      "x": 10000,
+      "y": 626.6,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 625.1,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 626.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 626.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 626.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top5": {
+    "Top": {
+      "x": 10000,
+      "y": 674.9,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 673.4,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 674.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 674.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 674.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top6": {
+    "Top": {
+      "x": 10000,
+      "y": 723.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 721.6,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 723.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 723.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 723.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top7": {
+    "Top": {
+      "x": 10000,
+      "y": 771.6,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 770.1,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 771.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 771.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 771.6,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top8": {
+    "Top": {
+      "x": 10000,
+      "y": 820.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 818.6,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 820.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 820.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 820.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top9": {
+    "Top": {
+      "x": 10000,
+      "y": 868.9,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 867.4,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 868.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 868.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 868.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top10": {
+    "Top": {
+      "x": 10000,
+      "y": 916.9,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 915.4,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 916.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 916.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 916.9,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top11": {
+    "Top": {
+      "x": 10000,
+      "y": 965.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 963.6,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 965.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 965.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 965.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top12": {
+    "Top": {
+      "x": 10000,
+      "y": 1014.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 1012.6,
+      "color": "#6B0F3A",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 625.8,
+      "y": 1014.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 502.5,
+      "y": 1014.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 749.5,
+      "y": 1014.1,
+      "color": "#6B0F3A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  }
+}

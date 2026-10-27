@@ -1,0 +1,1106 @@
+{
+  "limit": 12,
+  "header": {
+    "customName": {
+      "x": 10000,
+      "y": 300,
+      "color": "#B3125A",
+      "size": 30,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "customName2": {
+      "x": 10000,
+      "y": 300,
+      "color": "#B3125A",
+      "size": 30,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "customTime": {
+      "x": 10000,
+      "y": 300,
+      "color": "#B3125A",
+      "size": 30,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "logos": [
+      {
+        "top": "1",
+        "x": 124,
+        "y": 478,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "2",
+        "x": 124,
+        "y": 525,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "3",
+        "x": 124,
+        "y": 573.5,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "4",
+        "x": 124,
+        "y": 622,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "5",
+        "x": 124,
+        "y": 670,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "6",
+        "x": 124,
+        "y": 719,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "7",
+        "x": 124,
+        "y": 767.5,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "8",
+        "x": 124,
+        "y": 815,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "9",
+        "x": 124,
+        "y": 863,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "10",
+        "x": 124,
+        "y": 913,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "11",
+        "x": 124,
+        "y": 962,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "top": "12",
+        "x": 124,
+        "y": 1012,
+        "w": 36,
+        "h": 36
+      }
+    ]
+  },
+  "BooyahGames": {
+    "Game1": {
+      "x": 960,
+      "y": 517,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#1A0A4A",
+      "strokeWidth": 3
+    },
+    "Game2": {
+      "x": 960,
+      "y": 672,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#1A0A4A",
+      "strokeWidth": 3
+    },
+    "Game3": {
+      "x": 960,
+      "y": 845,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#1A0A4A",
+      "strokeWidth": 3
+    },
+    "Game4": {
+      "x": 960,
+      "y": 1004,
+      "size": 19,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "stroke": "#1A0A4A",
+      "strokeWidth": 3
+    },
+    "Game5": {
+      "x": 10000,
+      "y": 680,
+      "size": 22,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "Game6": {
+      "x": 10000,
+      "y": 680,
+      "size": 22,
+      "color": "#FFFFFF",
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left"
+    },
+    "LogosBooyah": [
+      {
+        "game": 1,
+        "x": 918,
+        "y": 492,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 2,
+        "x": 918,
+        "y": 647,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 3,
+        "x": 918,
+        "y": 820,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 4,
+        "x": 918,
+        "y": 979,
+        "w": 36,
+        "h": 36
+      },
+      {
+        "game": 5,
+        "x": 50000,
+        "y": 680,
+        "w": 40,
+        "h": 40
+      },
+      {
+        "game": 6,
+        "x": 50000,
+        "y": 680,
+        "w": 40,
+        "h": 40
+      }
+    ]
+  },
+  "Top1": {
+    "Top": {
+      "x": 10000,
+      "y": 506.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 504.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 506.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 506.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 506.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top2": {
+    "Top": {
+      "x": 10000,
+      "y": 553.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 551.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 553.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 553.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 553.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top3": {
+    "Top": {
+      "x": 10000,
+      "y": 601.6,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 600.1,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 601.6,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 601.6,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 601.6,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top4": {
+    "Top": {
+      "x": 10000,
+      "y": 650.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 648.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 650.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 650.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 650.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top5": {
+    "Top": {
+      "x": 10000,
+      "y": 698.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 696.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 698.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 698.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 698.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top6": {
+    "Top": {
+      "x": 10000,
+      "y": 747.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 745.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 747.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 747.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 747.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top7": {
+    "Top": {
+      "x": 10000,
+      "y": 795.6,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 794.1,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 795.6,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 795.6,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 795.6,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top8": {
+    "Top": {
+      "x": 10000,
+      "y": 843.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 841.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 843.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 843.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 843.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top9": {
+    "Top": {
+      "x": 10000,
+      "y": 891.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 889.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 891.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 891.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 891.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top10": {
+    "Top": {
+      "x": 10000,
+      "y": 941.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 939.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 941.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 941.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 941.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top11": {
+    "Top": {
+      "x": 10000,
+      "y": 990.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 988.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 990.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 990.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 990.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "Top12": {
+    "Top": {
+      "x": 10000,
+      "y": 1040.1,
+      "color": "#B3125A",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Name": {
+      "x": 168,
+      "y": 1038.6,
+      "color": "#FFFFFF",
+      "size": 24,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "left",
+      "lineHeight": 50
+    },
+    "Booyah": {
+      "x": 623.3,
+      "y": 1040.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Kill": {
+      "x": 500,
+      "y": 1040.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    },
+    "Score": {
+      "x": 746,
+      "y": 1040.1,
+      "color": "#FFFFFF",
+      "size": 28,
+      "font": "Montserrat",
+      "bold": true,
+      "align": "center",
+      "lineHeight": 50
+    }
+  },
+  "TimeSlots": {
+    "style": {
+      "closePath": true,
+      "lineJoin": "round",
+      "layers": [
+        {
+          "width": 14,
+          "color": "#B6FF00",
+          "alpha": 0.35,
+          "blur": 10
+        },
+        {
+          "width": 7,
+          "color": "#B6FF00",
+          "alpha": 0.8,
+          "blur": 4
+        },
+        {
+          "width": 3,
+          "color": "#B6FF00",
+          "alpha": 1,
+          "blur": 0
+        },
+        {
+          "width": 1.5,
+          "color": "#FFFFFF",
+          "alpha": 1,
+          "blur": 0
+        }
+      ]
+    },
+    "slots": [
+      {
+        "time": "10:00",
+        "points": [
+          [
+            63,
+            337
+          ],
+          [
+            226,
+            337
+          ],
+          [
+            235,
+            347
+          ],
+          [
+            225,
+            388
+          ],
+          [
+            214,
+            399.5
+          ],
+          [
+            57.5,
+            399.5
+          ],
+          [
+            46,
+            388
+          ],
+          [
+            53.5,
+            350
+          ]
+        ]
+      },
+      {
+        "time": "13:00",
+        "points": [
+          [
+            260,
+            337
+          ],
+          [
+            414.5,
+            337
+          ],
+          [
+            423.5,
+            347
+          ],
+          [
+            413,
+            388
+          ],
+          [
+            402.5,
+            399.5
+          ],
+          [
+            244.5,
+            399.5
+          ],
+          [
+            234,
+            388
+          ],
+          [
+            243,
+            350
+          ]
+        ]
+      },
+      {
+        "time": "15:00",
+        "points": [
+          [
+            442.5,
+            337
+          ],
+          [
+            595.5,
+            337
+          ],
+          [
+            603.5,
+            347
+          ],
+          [
+            593.5,
+            388
+          ],
+          [
+            582.5,
+            399.5
+          ],
+          [
+            433.5,
+            399.5
+          ],
+          [
+            423,
+            388
+          ],
+          [
+            432,
+            350
+          ]
+        ]
+      },
+      {
+        "time": "20:00",
+        "points": [
+          [
+            627,
+            337
+          ],
+          [
+            773.5,
+            337
+          ],
+          [
+            784,
+            347
+          ],
+          [
+            774.5,
+            388
+          ],
+          [
+            764.5,
+            399.5
+          ],
+          [
+            612.5,
+            399.5
+          ],
+          [
+            602,
+            388
+          ],
+          [
+            611.5,
+            350
+          ]
+        ]
+      },
+      {
+        "time": "21:40",
+        "points": [
+          [
+            803.5,
+            337
+          ],
+          [
+            961.5,
+            337
+          ],
+          [
+            972,
+            347
+          ],
+          [
+            962,
+            388
+          ],
+          [
+            951.5,
+            399.5
+          ],
+          [
+            793,
+            399.5
+          ],
+          [
+            783,
+            388
+          ],
+          [
+            791.5,
+            350
+          ]
+        ]
+      },
+      {
+        "time": "23:30",
+        "points": [
+          [
+            994.5,
+            337
+          ],
+          [
+            1156.5,
+            337
+          ],
+          [
+            1168.5,
+            347
+          ],
+          [
+            1158.5,
+            388
+          ],
+          [
+            1147.5,
+            399.5
+          ],
+          [
+            981.5,
+            399.5
+          ],
+          [
+            971.5,
+            388
+          ],
+          [
+            980,
+            350
+          ]
+        ]
+      }
+    ]
+  }
+}
